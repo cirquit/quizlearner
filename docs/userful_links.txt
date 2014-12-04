@@ -9,4 +9,7 @@ http://www.yesodweb.com/
 http://yannesposito.com/Scratch/en/blog/Yesod-tutorial-for-newbies/ 
 
 http://www.yesodweb.com/book/forms
+
 http://yannesposito.com/Scratch/en/blog/Haskell-the-Hard-Way/
+
+https://www.fpcomplete.com/school/advanced-haskell/building-a-file-hosting-service-in-yesod
