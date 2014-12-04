@@ -1,0 +1,12 @@
+Haskell:
+
+http://projects.haskell.org/style-scanner/
+
+Yesod:
+
+http://www.yesodweb.com/
+
+http://yannesposito.com/Scratch/en/blog/Yesod-tutorial-for-newbies/ 
+
+http://www.yesodweb.com/book/forms
+http://yannesposito.com/Scratch/en/blog/Haskell-the-Hard-Way/
