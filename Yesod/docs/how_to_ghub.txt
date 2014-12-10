@@ -1,0 +1,60 @@
+Git Tutorials by Youtube (watch at least )
+
+Part 0 : http://www.youtube.com/watch?v=vaNGbk6HN9Y&list=UU3pzbTVgo01qT-maRchkbIg
+Part 1 : http://www.youtube.com/watch?v=DQUcmNO4diQ
+Part 2 : http://www.youtube.com/watch?v=Y7qPI9Nx3nc&list=UU3pzbTVgo01qT-maRchkbIg
+Part 3 : http://www.youtube.com/watch?v=3nSoTC3GHn8&list=UU3pzbTVgo01qT-maRchkbIg
+Part 3.5 : http://www.youtube.com/watch?v=7RrP9kbHFnc&list=UU3pzbTVgo01qT-maRchkbIg (not necessary)
+Part 4 : http://www.youtube.com/watch?v=4De86_igTTk&list=UU3pzbTVgo01qT-maRchkbIg (necessary mergeconflicts)
+Part 5: http://www.youtube.com/watch?v=nUuOitvzFrQ&list=UU3pzbTVgo01qT-maRchkbIg  (necessary mergeconflicts)
+
+Tutorials:
+
+https://help.github.com/articles/set-up-git/
+
+https://www.codeschool.com/courses/try-git
+
+
+
+Important commands:
+
+git add . 
+    - adds everyhing in the current repository
+git commit -m "sample text"
+    - commits everything you added with a message "sample text"
+git status
+    - gives you all the information, what has been commited/changed/added
+gitk
+    - a nice gui where you can lookup all of your commits and restore by hand
+git reflog
+    - a formatted log file where you can see the commits | for non formatted log type: git log
+git reset --hard 0x341454
+    - travel in time to the point of 0x341454 (from the reflog command)
+git push --force
+    - to push the back-in-tigit confime code, use the force ;D
+git rm --cached FILENAME
+    - the opposite of git add => removing the file from the to-commit-list
+git config color.ui true
+    - the status of the files is now colored
+git mergetool --tool=vim
+    - if you have a merge conflict, use this to let git know whose code is more important
+git branch BRANCHNAME
+    - copy everything to a brach named BRANCHNAME
+git checkout BRANCHNAME
+    - switch the actual working space to the branch named BRANCHNAME
+git merge BRANCHNAME
+    - use checkout to go in the maste branch again and then merge
+git branch -d BRANCHNAME
+    - delete the unused branch after merging
+
+
+How to ignore files:
+
+1. vim .gitignore
+    FULLFILENAME \n
+    ORREGEX <=> *.txt \n
+2. git rm --cached FILENAME 
+    - only if you already added it by mistake
+3. git commit -m "added .gitignore for FILENAME"
+4. git push
+5. The file is now ignored even if you update it
