@@ -3,7 +3,7 @@
 {-# LANGUAGE TemplateHaskell       #-}
 {-# LANGUAGE TypeFamilies          #-}
 import           Yesod
-
+import Import (widgetFile)
 data HelloWorld = HelloWorld
 
 mkYesod "HelloWorld" [parseRoutes|
@@ -12,8 +12,16 @@ mkYesod "HelloWorld" [parseRoutes|
 
 instance Yesod HelloWorld
 
+test1 :: String 
+test1 = "JOHNY"
+
+test2 :: String 
+test2 = "GILBERT"
+
 getHomeR :: Handler Html
-getHomeR = defaultLayout [whamlet|Hello World!|]
+getHomeR = defaultLayout $ do
+	$(widgetFile "helloworld")
 
 main :: IO ()
 main = warp 3000 HelloWorld
+
