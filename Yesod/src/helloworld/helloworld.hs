@@ -20,9 +20,9 @@ test2 = "GILBERT"
 
 getHomeR :: Handler Html
 getHomeR = defaultLayout $ do
+	setTitle "HelloWorld"
 	$(widgetFile "helloworld")
 
 
 main :: IO ()
-main = warp 3000 HelloWorld
-
+main = warp 3001 HelloWorld

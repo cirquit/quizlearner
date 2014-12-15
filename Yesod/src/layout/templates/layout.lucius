@@ -1,0 +1,78 @@
+body {
+	background-color: #CCC;
+}
+
+.answer {
+	float: right;
+	width: 750px;
+	word-wrap: break-word;
+}
+
+.front {
+  margin:2px;
+  background-color: #2B2B2B;
+  }
+
+table {
+	margin: 16px;
+	border-spacing: 20px;
+}
+
+th {
+	font-family: Helvetica, Arial;
+	font-size: 24px;
+	text-align: left;
+	color:#CCC;
+}
+
+tr {
+	text-align: left;
+	font-family: Helvetica, Arial;
+	font-size: 16px;
+	color:#CCC;
+}
+
+#title {
+	font-size: 72px;
+	font-family: Helvetica, Arial;
+	font-weight: 900;
+	color: #EEE;
+	display: inline-block;
+	margin-top: 32px;
+	margin-left: 60px;
+}
+
+#wrapper {
+	width: 1200px;
+	height: 800px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top:50px;
+	overflow: hidden;
+}
+
+#top {
+	height: 20%;
+	width: 1196px;
+	clear: both;
+}
+
+#left {
+	float: left;
+	height: 80%;
+	width: 25%;
+}
+
+
+#question {
+	float: right;
+	width: 892px;
+	height: 60%;
+}
+
+#buttons {
+	float: right;
+	height: 20%;
+	width: 892px;
+}
+

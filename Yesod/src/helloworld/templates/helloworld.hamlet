@@ -1,2 +1,4 @@
-<p class=test1>Hallo das ist ein #{test1}
-<p class=test2>Aloha das ist ein #{test2}
+<p id=test>Das ist ein Test
+<input id=inputText type=text>
+<input type=button value="Button">
+<p id=showMe>Das ist kein Test

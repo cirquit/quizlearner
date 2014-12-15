@@ -1,2 +1,2 @@
-.test1 {font-size:72px; color:red; font-weight:bold}
-.test2 {font-size:72px; color:blue; font-weight:bold; font-family:Arial}
+#test {font-size:72px; color:red; font-weight:bold}
+#showMe {font-size:72px; color:blue; font-weight:bold; font-family:Arial}

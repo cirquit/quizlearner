@@ -1,0 +1,38 @@
+<html>
+ <head>
+ <body>
+  <div id=wrapper>
+   <div id=top class=front>
+    <span id=title>QuizLearner
+   <div id=left class=front>
+   <div id=question class=front>
+    <table>
+     <tr>
+      <th colspan=2>Frage 1
+     <tr>
+      <th colspan=2>Wieviel ist 2+3?
+     <tr>
+      <td>
+       <input type=checkbox unchecked>
+      <td>
+       <div class=answer>Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung Keine Ahnung 
+     <tr>
+      <td>
+       <input type=checkbox unchecked>
+      <td>
+       <div class=answer>Vielleicht ist es 6? Vielleicht aber auch nicht. Vielleicht ist es 6? Vielleicht aber auch nicht. Vielleicht ist es 6? Vielleicht aber auch nicht. Vielleicht ist es 6? Vielleicht aber auch nicht.
+     <tr>
+      <td>
+       <input type=checkbox unchecked>
+      <td>
+       <div class=answer>4
+     <tr>
+      <td>
+       <input type=checkbox unchecked>
+      <td>
+       <div class=answer>5
+
+
+
+
+   <div id=buttons class=front>
