@@ -14,8 +14,9 @@ body {
   }
 
 table {
-	margin: 16px;
-	border-spacing: 20px;
+	margin: 20px;
+	border-spacing: 10px;
+	border-collapse: separate;
 }
 
 th {
@@ -26,7 +27,6 @@ th {
 }
 
 tr {
-	text-align: left;
 	font-family: Helvetica, Arial;
 	font-size: 16px;
 	color:#CCC;
