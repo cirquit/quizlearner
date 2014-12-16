@@ -1,0 +1,20 @@
+Default: &defaults
+  database: develTest.sqlite3
+  poolsize: 10
+
+Development:
+  <<: *defaults
+
+Testing:
+  database: develTest_test.sqlite3
+  <<: *defaults
+
+Staging:
+  database: develTest_staging.sqlite3
+  poolsize: 100
+  <<: *defaults
+
+Production:
+  database: develTest_production.sqlite3
+  poolsize: 100
+  <<: *defaults
