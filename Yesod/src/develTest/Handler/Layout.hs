@@ -1,16 +1,17 @@
-{-# LANGUAGE ForeignFunctionInterface #-}
-
 module Handler.Layout where
 
-import Data.List ((!!))
-import Data.Text
+import Data.List ((!!), length)
+import Data.Text hiding (length)
 import Import hiding (length)
 import System.Random
 
 
 data Test = Test
-    {  
-
+    {   title :: Text
+      , score :: Integer        --in points
+      , time  :: Integer        --in minutes
+      , passing_score :: Double --in %
+      , questions :: [Question] --
     }
 
 data Question = Question
@@ -25,11 +26,11 @@ data Answer = Answer
      , hint    :: Text
     }
 
---shuffle_as :: [Answer] -> IO ([Answer])
---shuffle_as list = do
---                     let n = length list
---                     seed <- getStdRandom (randomR (0, product [1..n]))
---                     return $ permutations l !! seed
+shuffle_as :: [Answer] -> IO ([Answer])
+shuffle_as list = do
+                     let n = length list
+                     seed <- getStdRandom (randomR (0, product [1..n]))
+                     return $ permutations list !! seed
 
 
 
@@ -55,4 +56,5 @@ fst_a4 = Answer {answer="5", correct=True, hint="This is hint"}
 getLayoutR :: Handler Html
 getLayoutR = defaultLayout $ do
   setTitle "Basic Layout"
+  test <- liftIO $ shuffle_as $ answers fst_q
   $(widgetFile "layout")

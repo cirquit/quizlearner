@@ -12,7 +12,7 @@
      <tr>
         <th colspan=2> #{question fst_q}
 
-          $forall a <- (answers fst_q)
+          $forall a <- test
              <tr>
                <td>
                  <input type=checkbox unchecked>
