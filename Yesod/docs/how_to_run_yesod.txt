@@ -1,0 +1,31 @@
+How to install yesod on ubuntu-based-systems:
+
+1. DELETE EVERYTHING BASED ON HASKELL
+  -- sudo apt-get --purge remove PKGNAME
+      i. alex
+      ii. happy
+      iii. yesod / yesod-bin
+      iv. haskell-platform / ghc
+
+2. Do this
+  -- https://github.com/fpco/stackage/wiki/Preparing-your-system-to-use-Stackage#ubuntu
+  Nr.8:
+    - copy the remote-repo path from the config.cabal file to your ~/.cabal/config file
+
+3. Get root with sudo -s
+
+4. Dont forget to export the $PATH
+   It should look like this:
+   /home/rewrite/.cabal/bin:/opt/cabal/1.20/bin:/opt/ghc/7.8.3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
+
+5. With root
+  -- cabal install alex happy yesod-bin
+  -- if it can't find zlib.h => sudo apt-get install zlib-devel
+
+6. After happly installing everything -> yesod init (with root)
+
+7. Copy the config.cabal to the project folder and follow the rules
+
+8. GL
+
+

@@ -1,4 +1,0 @@
-<p id=test>Das ist ein Test
-<input id=inputText type=text>
-<input type=button value="Button">
-<p id=showMe>Das ist kein Test
