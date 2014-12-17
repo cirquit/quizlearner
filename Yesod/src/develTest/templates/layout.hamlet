@@ -1,3 +1,4 @@
+$doctype 5
 <html>
  <head>
  <body>
@@ -6,19 +7,17 @@
     <span id=title>QuizLearner
    <div id=left class=front>
    <div id=question class=front>
-    <table>
-     <tr>
-        <th colspan=2>Frage #{number fst_q}
-     <tr>
-        <th colspan=2> #{question fst_q}
+      <table>
+        <tr>
+           <th colspan=2>Frage #{question_id fst_q}
+        <tr>
+           <th colspan=2> #{question_content fst_q}
 
-          $forall a <- test
-             <tr>
-               <td>
-                 <input type=checkbox unchecked>
-               <td>
-                 <div class=answer> #{answer a}
-
-
-
+            $forall answer <- shuffled_answers
+               <tr>
+                 <td>
+                   <input id=#{answer_id answer} type=checkbox unchecked>
+                 <td>
+                   <div class=answer> #{answer_content answer}
+      <input id=submit_button type=button value="Submit!">
    <div id=buttons class=front>

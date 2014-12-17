@@ -76,3 +76,6 @@ tr {
 	width: 892px;
 }
 
+#submit_button {
+	margin: 20px;
+}
