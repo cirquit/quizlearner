@@ -18,14 +18,15 @@ data Question = Question
     {  question_id      :: Integer
      , question_content :: Text
      , answer_list      :: [Answer]
+     , max_score        :: Integer
     }
 
 data Answer = Answer
     {  answer_id       :: Integer
      , answer_content  :: Text
      , is_correct      :: Bool
-     , answer_hint     :: Text
      , is_checked      :: Bool
+     , answer_hint     :: Text
     }
 
 shuffle_answers :: [Answer] -> IO ([Answer])
@@ -60,3 +61,4 @@ getLayoutR = defaultLayout $ do
   setTitle "Basic Layout"
   shuffled_answers <- liftIO $ shuffle_answers $ answer_list fst_q
   $(widgetFile "layout")
+

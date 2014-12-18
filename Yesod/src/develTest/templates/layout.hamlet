@@ -4,20 +4,21 @@ $doctype 5
  <body>
   <div id=wrapper>
    <div id=top class=front>
-    <span id=title>QuizLearner
+     <span id=title>QuizLearner
    <div id=left class=front>
    <div id=question class=front>
-      <table>
-        <tr>
-           <th colspan=2>Frage #{question_id fst_q}
-        <tr>
-           <th colspan=2> #{question_content fst_q}
+       <table>
+           <tr>
+               <th colspan=2>Frage #{question_id fst_q}
+           <tr>
+               <th colspan=2> #{question_content fst_q}
 
-            $forall answer <- shuffled_answers
-               <tr>
-                 <td>
-                   <input id=#{answer_id answer} type=checkbox unchecked>
-                 <td>
-                   <div class=answer> #{answer_content answer}
-      <input id=submit_button type=button value="Submit!">
+             $forall answer <- shuffled_answers
+                <tr>
+                    <td>
+                        <input id=#{answer_id answer} type=checkbox :(is_checked answer):unchecked>
+                    <td>
+                        <div class=answer> #{answer_content answer}
+       <input id=submit_button type=button value="Submit!">
    <div id=buttons class=front>
+
