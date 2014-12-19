@@ -44,7 +44,7 @@ getHomeR :: Handler Html
 getHomeR = do
     let userId = UserId 5 -- again, see the authentication chapter
     ((res, widget), enctype) <- runFormPost $ form userId
-    defaultLayout
+    defaultLayout $ do
         [whamlet|
             <p>Previous result: #{show res}
             <form method=post action=@{HomeR} enctype=#{enctype}>

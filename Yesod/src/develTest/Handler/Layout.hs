@@ -6,12 +6,12 @@ import Import
 import System.Random
 
 
-data Test = Test
-    {   test_title      :: Text
-      , test_max_score  :: Integer --in points
-      , test_max_time   :: Integer --in minutes
+data Exam = Exam
+    {   exam_title      :: Text
+      , exam_max_score  :: Integer --in points
+      , exam_max_time   :: Integer --in minutes
       , passing_score   :: Double  --in %
-      , test_questions  :: [Question]
+      , exam_questions  :: [Question]
     }
 
 data Question = Question
@@ -35,11 +35,20 @@ shuffle_answers list = do
     seed <- getStdRandom (randomR (0, (product [1..n]) - 1))
     return $ permutations list !! seed
 
+exams :: [Exam]
+exams =[exam_1, exam_2]
 
+exam_1 :: Exam
+exam_1 = Exam {exam_title="Lineare Algebra", exam_max_score=50, exam_max_time=120, passing_score=45.0, exam_questions=[fst_q]}
+
+
+exam_2:: Exam
+exam_2 = Exam {exam_title="FFP", exam_max_score=40, exam_max_time=180, passing_score=30.0, exam_questions=[fst_q]}
 
 fst_q :: Question
-fst_q = Question {question_id=1, question_content="Wieviel ist 2+3?", answer_list=fst_qas}
+fst_q = Question {question_id=1, question_content="Wieviel ist 2+3?", answer_list=fst_qas, max_score=4}
 
+fst_qas :: [Answer]
 fst_qas = [fst_a1, fst_a2, fst_a3, fst_a4]
 
 fst_a1 :: Answer

@@ -3,22 +3,26 @@ $doctype 5
  <head>
  <body>
   <div id=wrapper>
-   <div id=top class=front>
-     <span id=title>QuizLearner
-   <div id=left class=front>
-   <div id=question class=front>
-       <table>
-           <tr>
-               <th colspan=2>Frage #{question_id fst_q}
-           <tr>
-               <th colspan=2> #{question_content fst_q}
+     <div id=top class=front>
+         <span id=title>QuizLearner
+     <div id=left class=front>
+         <ul id=exam_list>
+             <li> <a id=exam_title href=@{LayoutR}> Exams </a>
+             $forall single_exam <- exams
+                 <li><a class=button href=@{LineareAlgebraR}> #{exam_title single_exam} </a>
+     <div id=question class=front>
+         <table>
+             <tr>
+                 <th colspan=2>Question #{question_id fst_q}
+             <tr>
+                 <th colspan=2> #{question_content fst_q}
 
-             $forall answer <- shuffled_answers
-                <tr>
-                    <td>
-                        <input id=#{answer_id answer} type=checkbox :(is_checked answer):unchecked>
-                    <td>
-                        <div class=answer> #{answer_content answer}
-       <input id=submit_button type=button value="Submit!">
+               $forall answer <- shuffled_answers
+                  <tr>
+                      <td>
+                          <input id=#{answer_id answer} type=checkbox :is_checked answer:checked>
+                      <td>
+                          <div class=answer> #{answer_content answer}
+         <input id=submit_button type=button value="Submit!">
    <div id=buttons class=front>
 
