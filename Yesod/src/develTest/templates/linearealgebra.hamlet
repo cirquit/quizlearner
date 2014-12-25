@@ -11,17 +11,21 @@ $doctype 5
              $forall single_exam <- exams
                  <li><a class=button href=@{LineareAlgebraR}> #{exam_title single_exam} </a>
      <div id=question class=front>
-         <table>
-             <tr>
-                 <th colspan=2>Question #{question_id snd_q}
-             <tr>
-                 <th colspan=2> #{question_content snd_q}
-
-               $forall answer <- shuffled_answers
-                  <tr>
-                      <td>
+        <ul class="tabs">
+            $forall quest <- exam_questions exam_1
+                <li>
+                  <input type="radio" name="tabs" id="tab#{question_id quest}">
+                  <label for="tab#{question_id quest}">Question #{question_id quest}</label>
+                  <div id="tab-content1" class="tab-content animated fadeIn">
+                    <table>
+                       <tr>
+                           <th colspan=2>Question #{question_id quest}
+                       <tr>
+                           <th colspan=2> #{question_content quest}
+                      $forall answer <- answer_list quest
+                       <tr>
+                         <td>
                           <input id=#{answer_id answer} type=checkbox :is_checked answer:checked>
-                      <td>
+                         <td>
                           <div class=answer> #{answer_content answer}
-         <input id=submit_button type=button value="Submit!">
    <div id=buttons class=front>
