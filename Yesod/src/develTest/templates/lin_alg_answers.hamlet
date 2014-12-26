@@ -1,0 +1,19 @@
+$doctype 5
+<html>
+ <head>
+ <body>
+  <div id=wrapper>
+     <!-- Upper Div-->
+     <div id=top class=front>
+         <span id=title>QuizLearner
+     <!-- Left Div-->
+     <div id=left class=front>
+         <ul id=exam_list>
+             <li> <a id=exam_title href=@{LayoutR}> Exams </a>
+             $forall single_exam <- exams
+                 <li><a class=button href=@{LineareAlgebraR}> #{exam_title single_exam} </a>
+     <!-- Middle Div-->
+     <div id=question class=front>
+        <p> #{show test_answers}
+     <!-- Lower Div-->
+   <div id=buttons class=front>

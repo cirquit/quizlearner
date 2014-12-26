@@ -25,11 +25,9 @@ $doctype 5
                            <th colspan=2>Question #{question_id quest}
                        <tr>
                            <th colspan=2> #{question_content quest}
-                      $forall answer <- answer_list quest
                        <tr>
-                         <td>
-                          <input id=#{answer_id answer} type=checkbox :is_checked answer:checked>
-                         <td>
-                          <div class=answer> #{answer_content answer}
+                       <form method=post action=@{LayoutR} enctype=#{enctype}>
+                         ^{widget}
+                         <button> Submit!
      <!-- Lower Div-->
      <div id=buttons class=front>

@@ -1,5 +1,4 @@
-body {
-  background-color: #CCC;
+ background-color: #CCC;
 }
 
 #startScreen {

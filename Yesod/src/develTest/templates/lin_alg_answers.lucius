@@ -4,6 +4,10 @@ body {
 
 #startScreen {
   margin: 64px;
+  font-size: 48px;
+  font-weight: 900;
+  font-family: Helvetica, Arial;
+  color: #CCC;
 }
 
 .answer {
@@ -129,10 +133,10 @@ tr {
           display: block;
           padding: 10px 20px;
           border-radius: 2px 2px 0 0;
-          color: #CCC;
+          color: #08C;
           font-size: 24px;
           font-weight: normal;
-          font-family: Helvetica, Arial;
+          font-family: 'Lily Script One', helveti;
           background: rgba(255,255,255,0.2);
           cursor: pointer;
           position: relative;
@@ -148,8 +152,8 @@ tr {
       }
 
       [id^=tab]:checked + label {
-        background: #555;
-        color: #FFA500;
+        background: #08C;
+        color: white;
         top: 0;
       }
 
@@ -164,7 +168,7 @@ tr {
         font-size: 20px;
         line-height: 140%;
         padding-top: 10px;
-        background: #555;
+        background: #08C;
         padding: 15px;
         color: white;
         position: absolute;

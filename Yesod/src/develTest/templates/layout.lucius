@@ -150,13 +150,13 @@ tr {
         background: rgba(255,255,255,0.5);
         top: 0;
       }
-       
+
       [id^=tab]:checked + label {
         background: #08C;
         color: white;
         top: 0;
       }
-       
+
       [id^=tab]:checked ~ [id^=tab-content] {
           display: block;
       }

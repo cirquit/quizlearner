@@ -22,6 +22,7 @@ library
                      Handler.Home
                      Handler.Layout
                      Handler.LineareAlgebra
+                     TemporaryLibrary
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT
