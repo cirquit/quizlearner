@@ -2,7 +2,6 @@ body {
  background-color: #CCC;
 }
 
-
 #startScreen {
   margin: 64px;
 }
@@ -108,8 +107,15 @@ tr {
 }
 
 #submit_button {
-  margin: 20px;
+  float: right;
+  color: #CCC;
+  font-size: 20px;
+  border: none;
+  background-color: #2B2B2B;
+  font-family: Helvetica, Arial;
 }
+
+
 
 .tabs input[type=radio] {
           position: absolute;

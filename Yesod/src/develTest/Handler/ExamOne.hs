@@ -8,7 +8,7 @@ getExamOneR = do
     (widget, enctype) <- generateFormPost answer_form
     defaultLayout $
      $(widgetFile "exam_form")
- 
+
 
 postExamOneR :: Handler Html
 postExamOneR = do

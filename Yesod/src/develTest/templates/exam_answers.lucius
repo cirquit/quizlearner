@@ -118,6 +118,9 @@ tr {
 
 #submit_button {
   margin: 20px;
+  font-size: 26px;
+  font-family: Helvetica, Arial;
+  color: #000000;
 }
 
 .tabs input[type=radio] {

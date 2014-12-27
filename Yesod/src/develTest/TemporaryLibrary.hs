@@ -11,10 +11,10 @@ data Test_Answer = Test_Answer
     }
 
 instance Show Test_Answer where
-  show (Test_Answer a b c d) = "Box 1 = " ++ (show a) ++ "\n\r" ++
-                               "Box 2 = " ++ (show b) ++ "\n\r" ++
-                               "Box 3 = " ++ (show c) ++ "\n\r" ++
-                               "Box 4 = " ++ (show d) ++ "\n\r"
+  show (Test_Answer a b c d) = "Box 1 = " ++ (show a) ++ "|" ++
+                               "Box 2 = " ++ (show b) ++ "|" ++
+                               "Box 3 = " ++ (show c) ++ "|" ++
+                               "Box 4 = " ++ (show d) ++ "|"
 data Exam = Exam
     {   exam_title      :: Text
       , exam_max_score  :: Integer --in points

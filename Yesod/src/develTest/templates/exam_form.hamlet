@@ -28,6 +28,6 @@ $doctype 5
                        <tr>
                        <form method=post action=@{ExamOneR} enctype=#{enctype}>
                          ^{widget}
-                          <button> Submit!
+                         <button id=submit_button> Submit!
      <!-- Lower Div-->
      <div id=buttons class=front>
