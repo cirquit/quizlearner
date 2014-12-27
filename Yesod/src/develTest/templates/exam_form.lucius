@@ -1,5 +1,7 @@
+body {
  background-color: #CCC;
 }
+
 
 #startScreen {
   margin: 64px;

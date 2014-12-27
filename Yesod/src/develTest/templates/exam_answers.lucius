@@ -10,6 +10,12 @@ body {
   color: #CCC;
 }
 
+#evaluation {
+  font-size: 26px;
+  font-family: Helvetica, Arial;
+  color: #EEE;
+}
+
 .answer {
   float: right;
   width: 750px;

@@ -11,7 +11,7 @@ $doctype 5
          <ul id=exam_list>
              <li> <a id=exam_title href=@{LayoutR}> Exams </a>
              $forall single_exam <- exams
-                 <li><a class=button href=@{LineareAlgebraR}> #{exam_title single_exam} </a>
+                 <li><a class=button href=@{ExamOneR}> #{exam_title single_exam} </a>
      <!-- Middle Div-->
      <div id=question class=front>
         <p id=startScreen>Click on an exam to start!

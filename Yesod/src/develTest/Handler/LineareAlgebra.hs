@@ -4,9 +4,9 @@ import Import
 --import Data.List as L ((!!), length)
 --import Data.Text
 --import System.Random
-import TemporaryLibrary
+--import TemporaryLibrary
 
-
+--type Form a = Html -> MForm Handler (FormResult a, Widget)
 
 --shuffle_answers :: [Answer] -> IO ([Answer])
 --shuffle_answers list = do
@@ -16,31 +16,9 @@ import TemporaryLibrary
 --
 --    shuffled_answers <- liftIO $ shuffle_answers $ answer_list snd_q
 
-test_answer_AForm :: AForm Handler Test_Answer
-test_answer_AForm = Test_Answer
-  <$> areq checkBoxField "Testing...1" Nothing
-  <*> areq checkBoxField "Testing...2" Nothing
-  <*> areq checkBoxField "Testing...3" Nothing
-  <*> areq checkBoxField "Testing...4" Nothing
-
-answer_form :: Html -> MForm Handler (FormResult Test_Answer, Widget)
-answer_form = renderTable test_answer_AForm
-
-
 getLineareAlgebraR :: Handler Html
-getLineareAlgebraR = do
-    (widget, enctype) <- generateFormPost answer_form
-    defaultLayout $
-     $(widgetFile "lin_alg_form")
+getLineareAlgebraR = error "GET for LineareAlgebraR has to be defined"
 
 
 postLineareAlgebraR :: Handler Html
-postLineareAlgebraR = do
-  ((result, widget), enctype) <- runFormPost answer_form
-  case result of
-    FormSuccess test_answers -> defaultLayout $
-          $(widgetFile "lin_alg_answers")
-    _ -> defaultLayout $ [whamlet|
-                          <p> Error! You dun goofed...
-                          <a id=exam_title href=@{LayoutR}> Get back!>
-                         |]
+postLineareAlgebraR = error "POST for LineareAlgebraR has to be defined"
