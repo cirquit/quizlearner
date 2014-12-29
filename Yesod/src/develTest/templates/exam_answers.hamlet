@@ -14,6 +14,6 @@ $doctype 5
                  <li><a class=button href=@{ExamOneR}> #{exam_title single_exam} </a>
      <!-- Middle Div-->
      <div id=question class=front>
-        <span id=evaluation> #{show test_answers}
+        <span id=evaluation> #{show result}
      <!-- Lower Div-->
    <div id=buttons class=front>
