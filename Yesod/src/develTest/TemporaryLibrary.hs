@@ -2,6 +2,7 @@ module TemporaryLibrary where
 
 import Import
 import Data.List ((!!))
+import Data.Maybe (fromJust)
 
 
 data Test_Answer = Test_Answer
@@ -52,6 +53,7 @@ instance Show Returned_Answers where
                                                     " | Q3 >> a1=" ++ hip i ++ " | a2= " ++ hip j ++ " | a3= " ++ hip k ++ " | a4=" ++ hip l
 
 
+fromJust' (Just x) = x
 
 -- Temporary Exams
 exams :: [Exam]
