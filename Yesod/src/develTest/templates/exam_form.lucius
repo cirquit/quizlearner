@@ -107,15 +107,17 @@ tr {
 }
 
 #submit_button {
-  float: right;
   color: #CCC;
   font-size: 20px;
-  border: none;
-  background-color: #2B2B2B;
+  background-color: #463E3F;
   font-family: Helvetica, Arial;
 }
 
-
+#answers {
+  color: white;
+  font-style: 20px;
+  font-family: Helvetica, Arial;
+}
 
 .tabs input[type=radio] {
           position: absolute;

@@ -5,15 +5,12 @@ $doctype 5
   <div id=wrapper>
      <!-- Upper Div-->
      <div id=top class=front>
-         <span id=title>QuizLearner
+      ^{titleWidget}
      <!-- Left Div-->
      <div id=left class=front>
-         <ul id=exam_list>
-             <li> <a id=exam_title href=@{LayoutR}> Exams </a>
-             $forall single_exam <- exams
-                 <li><a class=button href=@{ExamOneR}> #{exam_title single_exam} </a>
+      ^{leftWidget}
      <!-- Middle Div-->
      <div id=question class=front>
-        <span id=evaluation> #{show result}
+      ^{middleWidget_POST}
      <!-- Lower Div-->
    <div id=buttons class=front>

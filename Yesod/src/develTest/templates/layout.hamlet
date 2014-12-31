@@ -4,12 +4,14 @@ $doctype 5
  <body>
   <div id=wrapper>
      <!-- Upper Div-->
+     <div id=top class=front>
       ^{titleWidget}
      <!-- Left Div-->
      <div id=left class=front>
       ^{leftWidget}
      <!-- Middle Div-->
      <div id=question class=front>
-        <p id=startScreen>Click on an exam to start!
+      ^{middleWidget}
      <!-- Lower Div-->
-   <div id=buttons class=front>
+     <div id=buttons class=front>
+ <footer> This is our footer

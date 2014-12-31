@@ -5,32 +5,12 @@ $doctype 5
    <div id=wrapper>
       <!-- Upper Div-->
       <div id=top class=front>
-          <span id=title>QuizLearner
+       ^{titleWidget}
       <!-- Left Div-->
       <div id=left class=front>
-          <ul id=exam_list>
-              <li> <a id=exam_title href=@{LayoutR}> Exams </a>
-              $forall single_exam <- exams
-                  <li><a class=button href=@{ExamOneR}> #{exam_title single_exam} </a>
+       ^{leftWidget}
       <!-- Middle Div-->
       <div id=question class=front>
-        <form method=post action=@{ExamOneR} >
-         <ul class="tabs">
-             $forall quest <- exam_questions exam_1
-                 <li>
-                   <input type="radio" name="tabs" id="tab#{question_id quest}">
-                   <label for="tab#{question_id quest}">Question #{question_id quest}</label>
-                   <div id="tab-content1" class="tab-content animated fadeIn">
-                     <table>
-                        <tr>
-                            <th colspan=2>Question #{question_id quest}
-                        <tr>
-                            <th colspan=2> #{question_content quest}
-                        <tr>
-                              <input type=checkbox name=#{(answer_id ((answer_list quest) !! 0))}> #{show (answer_content ((answer_list quest) !! 0))}
-                              <input type=checkbox name=#{(answer_id ((answer_list quest) !! 1))}> #{show (answer_content ((answer_list quest) !! 1))}
-                              <input type=checkbox name=#{(answer_id ((answer_list quest) !! 2))}> #{show (answer_content ((answer_list quest) !! 2))}
-                              <input type=checkbox name=#{(answer_id ((answer_list quest) !! 3))}> #{show (answer_content ((answer_list quest) !! 3))}
-         <input type=submit id=submit_button value="Submit!">
+       ^{middleWidget_GET}
       <!-- Lower Div-->
       <div id=buttons class=front>
