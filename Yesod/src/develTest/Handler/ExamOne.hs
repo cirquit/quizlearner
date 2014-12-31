@@ -80,24 +80,27 @@ validate_answers quest = do
             m_answers <- lookupSession (question_id quest)
             case (m_answers) of
                 (Just (T.unpack -> [x1,x2,x3,x4])) -> toWidget [hamlet|
-                          <span id=evaluation> Question#{question_id quest} #{question_content quest} should be:
-                          <span id=evaluation> #{show_right_answers quest} <br>
-                          <span id=evaluation> You said that A1 := #{answer_content ((answer_list quest) !! 0)} == #{cookie_to_textbool x1} <br>
-                          <span id=evaluation> You said that A2 := #{answer_content ((answer_list quest) !! 1)} == #{cookie_to_textbool x2} <br>
-                          <span id=evaluation> You said that A3 := #{answer_content ((answer_list quest) !! 2)} == #{cookie_to_textbool x3} <br>
-                          <span id=evaluation> You said that A4 := #{answer_content ((answer_list quest) !! 3)} == #{cookie_to_textbool x4} <br>
+                          <span class=evaluation> Question#{question_id quest} #{question_content quest} should be:
+                          <span class=evaluation> #{show_right_answers quest} <br>
+                          <span class=evaluation> You said that A1 := #{answer_content ((answer_list quest) !! 0)} == #{cookie_to_textbool x1} <br>
+                          <span class=evaluation> You said that A2 := #{answer_content ((answer_list quest) !! 1)} == #{cookie_to_textbool x2} <br>
+                          <span class=evaluation> You said that A3 := #{answer_content ((answer_list quest) !! 2)} == #{cookie_to_textbool x3} <br>
+                          <span class=evaluation> You said that A4 := #{answer_content ((answer_list quest) !! 3)} == #{cookie_to_textbool x4} <br>
                           |]
-                _                                  -> toWidget[hamlet| <span id=evaluation> There are no current answers submitted|]
+                _                                  -> toWidget[hamlet| <span class=evaluation> There are no current answers submitted|]
 
 middleWidget_POST :: Widget
 middleWidget_POST = do
             save_cur_answers fst_q -- this must be done for every question
             save_cur_answers snd_q
             save_cur_answers trd_q
-            [whamlet| <span id=evaluation> I hopefully saved all of your answers! <br>
+            [whamlet| <span class=evaluation> I hopefully saved all of your answers! <br>
                         ^{validate_answers fst_q}   <!-- this must be done for every question -->
                         ^{validate_answers snd_q}
-                      <span id=evaluation> <a href=@{ExamOneR}> Get back! </a>
+                        ^{validate_answers trd_q}
+                        ^{validate_answers snd_q}
+                        ^{validate_answers trd_q}
+                      <span class=evaluation> <a href=@{ExamOneR}> Get back! </a>
                      |]
 
 -- ###############################################################################

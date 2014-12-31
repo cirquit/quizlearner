@@ -1,17 +1,10 @@
-$doctype 5
-<html>
- <head>
- <body>
   <div id=wrapper>
      <!-- Upper Div-->
      <div id=top class=front>
       ^{titleWidget}
      <!-- Left Div-->
-     <div id=left class=front>
+     <div id=left class=front align=center>
       ^{leftWidget}
      <!-- Middle Div-->
      <div id=question class=front>
       ^{middleWidget}
-     <!-- Lower Div-->
-     <div id=buttons class=front>
- <footer> This is our footer

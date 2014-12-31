@@ -1,56 +1,40 @@
 body {
-  background-color: #CCC;
+ background-color: #CCC;
 }
 
-#startScreen {
-  margin: 64px;
-  font-size: 48px;
-  font-weight: 900;
-  font-family: Helvetica, Arial;
-  color: #CCC;
-}
-
-#evaluation {
-  font-size: 26px;
-  font-family: Helvetica, Arial;
-  color: #EEE;
-}
-
-.answer {
-  float: right;
-  width: 750px;
-  word-wrap: break-word;
-}
 
 .front {
-  margin:2px;
   background-color: #2B2B2B;
   }
 
-.button{
-  padding: 0;
-  border: none;
-  background:none;
-  text-indent: 0;
-}
 
 #exam_list{
-  margin-top:30px;
   list-style-type: none;
 }
 
 
 #exam_list li{
   font-family: Helvetica, Arial;
-  font-size: 24px;
-  margin:10px;
+  font-size: 20px;
   text-align: left;
-  color:#CCC;
+}
+
+#exam_list li a{
+  text-decoration: none;
+  color: #EEE;
+}
+
+#exam_list li a:hover{
+  text-decoration: none;
+  color: #FFA500;
 }
 
 #exam_title{
+  font-family: Helvetica, Arial;
+  font-size: 26px;
   font-weight: 900;
   color:#FFA500;
+  margin-top: 8px;
 }
 
 table {
@@ -73,41 +57,53 @@ tr {
 }
 
 #title {
-  font-size: 72px;
+  font-size: 64px;
   font-family: Helvetica, Arial;
   font-weight: 900;
   color: #EEE;
   display: inline-block;
-  margin-top: 32px;
+  margin-top: 20px;
   margin-left: 60px;
 }
 
+
 #wrapper {
-  width: 1200px;
-  height: 800px;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
+  height: 100%;
+  min-height: 600px;
   margin-top:50px;
   overflow: hidden;
 }
 
 #top {
-  height: 20%;
-  width: 1196px;
+  height: 142px;
+  width: 100%;
+  border-bottom: solid 4px #ccc;
   clear: both;
 }
 
 #left {
   float: left;
-  height: 80%;
+  height: auto;
   width: 25%;
+  padding-bottom: 1000px;
+  margin-bottom: -1000px;
+  border-right:solid 2px #ccc;
 }
 
 
 #question {
   float: right;
-  width: 892px;
-  height: 60%;
+  width: 75%;
+  height: auto;
+  min-height: 600px;
+  border-left: solid 2px #ccc;
+}
+
+.evaluation{
+  font-size: 20px;
+  font-family: Helvetica, Arial;
+  color: #ccc;
 }
 
 #buttons {
@@ -117,11 +113,18 @@ tr {
 }
 
 #submit_button {
-  margin: 20px;
-  font-size: 26px;
+  color: #CCC;
+  font-size: 20px;
+  background-color: #463E3F;
   font-family: Helvetica, Arial;
-  color: #000000;
 }
+
+#answers {
+  color: white;
+  font-style: 20px;
+  font-family: Helvetica, Arial;
+}
+
 
 .tabs input[type=radio] {
           position: absolute;
@@ -142,10 +145,10 @@ tr {
           display: block;
           padding: 10px 20px;
           border-radius: 2px 2px 0 0;
-          color: #08C;
+          color: #CCC;
           font-size: 24px;
           font-weight: normal;
-          font-family: 'Lily Script One', helveti;
+          font-family: Helvetica, Arial;
           background: rgba(255,255,255,0.2);
           cursor: pointer;
           position: relative;
@@ -161,8 +164,8 @@ tr {
       }
 
       [id^=tab]:checked + label {
-        background: #08C;
-        color: white;
+        background: #555;
+        color: #FFA500;
         top: 0;
       }
 
@@ -177,7 +180,7 @@ tr {
         font-size: 20px;
         line-height: 140%;
         padding-top: 10px;
-        background: #08C;
+        background: #555;
         padding: 15px;
         color: white;
         position: absolute;

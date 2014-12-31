@@ -50,13 +50,16 @@ checkBoxWidget checked identity quest = if (T.unpack checked) == "True"
                                          else toWidget [hamlet| <input type=checkbox name=#{T.unpack identity} unchecked> <span id=answers> #{quest} <br>|]
 
 titleWidget :: Widget
-titleWidget = toWidget [hamlet|<a id=title href=@{LayoutR}> QuizLearner |]
+titleWidget = toWidget [hamlet|<a id=title href=@{LayoutR} style="text-decoration:none;">
+                                <span style="color:#FAA500;">Quiz</span>Learner|]
+
+-- <img src="images/QuizCreator.png" style="float:right;">
 
 leftWidget :: Widget
-leftWidget = toWidget [hamlet| <ul id=exam_list>
-                                    <li><p id=exam_title> [Exams] </p>
+leftWidget = toWidget [hamlet|<p id=exam_title> [Exams] </p> 
+                              <ul id=exam_list>
                                     $forall single_exam <- exams
-                                        <li><a class=button href=@{ExamOneR}> #{exam_title single_exam} </a>
+                                        <li><a href=@{ExamOneR}> #{exam_title single_exam} </a>
  |]
 
 -- ###################################################################################

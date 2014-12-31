@@ -22,13 +22,24 @@ $newline never
 
         <script>
           document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/,'js');
-    <body>
+          function styleLinks(){
+              var url = document.URL;
+              var exams = document.getElementById('exam_list');
+              var links = exams.getElementByTagName("a").elements;
+              for(var i = 0; i < links.length; i++){
+                if(links[i].getAttribute('href') === url){
+                  links[i].style.backgroundColor = "#FFA500";
+                }
+              }
+            }
+    <body onload="styleLinks();">
         <div class="container">
             <header>
             <div id="main" role="main">
               ^{pageBody pc}
             <footer>
-                #{appCopyright $ appSettings master}
+              This is the footer (in default-layout-wrapper.hamlet)
+        
 
         $maybe analytics <- appAnalytics $ appSettings master
             <script>
