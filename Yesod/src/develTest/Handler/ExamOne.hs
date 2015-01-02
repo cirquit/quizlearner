@@ -5,15 +5,12 @@ import TemporaryLibrary
 import Data.List ((!!))
 import qualified Data.Text as T
 
--- ###############################################################################
--- ONLY FOR GET
 
 middleWidget_GET :: Widget
 middleWidget_GET = [whamlet|<form method=post>
                               <ul class="tabs">
-                                            ^{create_question fst_q} <!-- this must be done for every question -->
-                                            ^{create_question snd_q}
-                                            ^{create_question trd_q}
+                                           $forall question <- exam_questions exam_1
+                                             ^{create_question question}
                                <input type=submit id=submit_button value="Save!">
 
                     |]
@@ -25,7 +22,7 @@ create_question quest = do
             (Just (T.unpack -> [x1,x2,x3,x4])) -> [whamlet|
          <li>
              <input type="radio" name="tabs" id="tab#{question_id quest}">
-             <label for="tab#{question_id quest}">Question #{question_id quest}</label>
+             <label for="tab#{question_id quest}">Q #{question_id quest}</label>
              <div id="tab-content1" class="tab-content animated fadeIn">
                <table>
                   <tr>
@@ -45,7 +42,7 @@ create_question quest = do
             _                            -> [whamlet|
            <li>
              <input type="radio" name="tabs" id="tab#{question_id quest}">
-             <label for="tab#{question_id quest}">Question #{question_id quest}</label>
+             <label for="tab#{question_id quest}">Q #{question_id quest}</label>
              <div id="tab-content1" class="tab-content animated fadeIn">
                <table>
                   <tr>
@@ -62,8 +59,6 @@ create_question quest = do
                     <td> ^{checkBoxWidget (T.pack "False") (answer_id ((answer_list quest) !! 3)) (answer_content ((answer_list quest) !! 3))}
                                                    |]
 
--- ###############################################################################
--- ONLY FOR POST
 
 save_cur_answers :: Question -> WidgetT App IO()
 save_cur_answers quest = do
@@ -91,21 +86,13 @@ validate_answers quest = do
 
 middleWidget_POST :: Widget
 middleWidget_POST = do
-            save_cur_answers fst_q -- this must be done for every question
-            save_cur_answers snd_q
-            save_cur_answers trd_q
-            [whamlet| <span class=evaluation> I hopefully saved all of your answers! <br>
-                        ^{validate_answers fst_q}   <!-- this must be done for every question -->
-                        ^{validate_answers snd_q}
-                        ^{validate_answers trd_q}
-                        ^{validate_answers snd_q}
-                        ^{validate_answers trd_q}
-                      <span class=evaluation> <a href=@{ExamOneR}> Get back! </a>
+             _ <- mapM save_cur_answers (exam_questions exam_1)
+             [whamlet| <span class=evaluation> I hopefully saved all of your answers! <br>
+                         $forall question <- exam_questions exam_1
+                             ^{validate_answers question}
+                        <span class=evaluation> <a href=@{ExamOneR}> Get back! </a>
                      |]
 
--- ###############################################################################
--- TO ADD NEW QUESTION EDIT
--- ROW 14 | ROW 94 | ROW 98
 
 getExamOneR :: Handler Html
 getExamOneR = defaultLayout $ do $(widgetFile "exam_form")

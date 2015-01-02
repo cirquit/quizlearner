@@ -132,7 +132,7 @@ tr {
           left: -9999px;
       }
       .tabs {
-        width: 650px;
+        width: 300px;
         float: none;
         list-style: none;
         position: relative;

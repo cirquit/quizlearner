@@ -56,7 +56,7 @@ titleWidget = toWidget [hamlet|<a id=title href=@{LayoutR} style="text-decoratio
 -- <img src="images/QuizCreator.png" style="float:right;">
 
 leftWidget :: Widget
-leftWidget = toWidget [hamlet|<p id=exam_title> [Exams] </p> 
+leftWidget = toWidget [hamlet|<p id=exam_title> [Exams] </p>
                               <ul id=exam_list>
                                     $forall single_exam <- exams
                                         <li><a href=@{ExamOneR}> #{exam_title single_exam} </a>
@@ -69,57 +69,69 @@ exams :: [Exam]
 exams =[exam_1, exam_2]
 
 exam_1 :: Exam
-exam_1 = Exam {exam_title="Lineare Algebra", exam_max_score=50, exam_max_time=120, passing_score=45.0, exam_questions=[fst_q, snd_q, trd_q]}
+exam_1 = Exam {exam_title="Lineare Algebra", exam_max_score=50, exam_max_time=120, passing_score=45.0, exam_questions=[q1,q2,q3,q4,q5,q6,q7,q8,q9]}
 
 exam_2 :: Exam
-exam_2 = Exam {exam_title="FFP", exam_max_score=40, exam_max_time=180, passing_score=30.0, exam_questions=[fst_q]}
+exam_2 = Exam {exam_title="FFP", exam_max_score=40, exam_max_time=180, passing_score=30.0, exam_questions=[q1]}
 
 
 -- Temporary Questions
-fst_q :: Question
-fst_q = Question {question_id="Nr.1", question_content="Wieviel ist 2+3?", answer_list=fst_qas, max_score=4}
-
-snd_q :: Question
-snd_q = Question {question_id="Nr.2", question_content="Wieviel ist 3+4?", answer_list=snd_qas, max_score=4}
-
-trd_q :: Question
-trd_q = Question {question_id="Nr.3", question_content="Wieviel ist 4+5?", answer_list=trd_qas, max_score=4}
-
+q1 = Question {question_id="1", question_content="Wieviel ist 2+3?", answer_list=q1_answers, max_score=4} :: Question
+q2 = Question {question_id="2", question_content="Wieviel ist 3+4?", answer_list=q2_answers, max_score=4} :: Question
+q3 = Question {question_id="3", question_content="Wieviel ist 4+5?", answer_list=q3_answers, max_score=4} :: Question
+q4 = Question {question_id="4", question_content="Wieviel ist 2+3?", answer_list=q4_answers, max_score=4} :: Question
+q5 = Question {question_id="5", question_content="Wieviel ist 3+4?", answer_list=q5_answers, max_score=4} :: Question
+q6 = Question {question_id="6", question_content="Wieviel ist 4+5?", answer_list=q6_answers, max_score=4} :: Question
+q7 = Question {question_id="7", question_content="Wieviel ist 2+3?", answer_list=q7_answers, max_score=4} :: Question
+q8 = Question {question_id="8", question_content="Wieviel ist 3+4?", answer_list=q8_answers, max_score=4} :: Question
+q9 = Question {question_id="9", question_content="Wieviel ist 4+5?", answer_list=q9_answers, max_score=4} :: Question
 
 -- Temporary Answers
-fst_qas :: [Answer]
-fst_qas = [fst_a1, fst_a2, fst_a3, fst_a4]
+q1_answers = [q1_a1,q1_a2,q1_a3,q1_a4] :: [Answer]
+q2_answers = [q2_a1,q2_a2,q2_a3,q2_a4] :: [Answer]
+q3_answers = [q3_a1,q3_a2,q3_a3,q3_a4] :: [Answer]
+q4_answers = [q4_a1,q4_a2,q4_a3,q4_a4] :: [Answer]
+q5_answers = [q5_a1,q5_a2,q5_a3,q5_a4] :: [Answer]
+q6_answers = [q6_a1,q6_a2,q6_a3,q6_a4] :: [Answer]
+q7_answers = [q7_a1,q7_a2,q7_a3,q7_a4] :: [Answer]
+q8_answers = [q8_a1,q8_a2,q8_a3,q8_a4] :: [Answer]
+q9_answers = [q9_a1,q9_a2,q9_a3,q9_a4] :: [Answer]
 
-snd_qas :: [Answer]
-snd_qas = [snd_a1, snd_a2, snd_a3, snd_a4]
+q1_a1 = Answer {answer_id = "q1_a1", answer_content="1", is_correct=False, answer_hint="This is hint", is_checked=False} :: Answer
+q1_a2 = Answer {answer_id = "q1_a2", answer_content="2", is_correct=False, answer_hint="This is hint", is_checked=False} :: Answer
+q1_a3 = Answer {answer_id = "q1_a3", answer_content="4", is_correct=False, answer_hint="This is hint", is_checked=False} :: Answer
+q1_a4 = Answer {answer_id = "q1_a4", answer_content="5", is_correct=True, answer_hint="This is hint", is_checked=False} :: Answer
+q2_a1 = Answer {answer_id = "q2_a1", answer_content="5", is_correct=False, answer_hint="This is hint", is_checked=False} :: Answer
+q2_a2 = Answer {answer_id = "q2_a2", answer_content="2", is_correct=False, answer_hint="This is hint", is_checked=False} :: Answer
+q2_a3 = Answer {answer_id = "q2_a3", answer_content="3", is_correct=False, answer_hint="This is hint", is_checked=False} :: Answer
+q2_a4 = Answer {answer_id = "q2_a4", answer_content="1", is_correct=True, answer_hint="This is hint", is_checked=False} :: Answer
+q3_a1 = Answer {answer_id = "q3_a1", answer_content="1", is_correct=False, answer_hint="This is hint", is_checked=False} :: Answer
+q3_a2 = Answer {answer_id = "q3_a2", answer_content="9", is_correct=False, answer_hint="This is hint", is_checked=False} :: Answer
+q3_a3 = Answer {answer_id = "q3_a3", answer_content="7", is_correct=False, answer_hint="This is hint", is_checked=False} :: Answer
+q3_a4 = Answer {answer_id = "q3_a4", answer_content="2", is_correct=True, answer_hint="This is hint", is_checked=False} :: Answer
+q4_a1 = Answer {answer_id = "q4_a1", answer_content="1", is_correct=False, answer_hint="This is hint", is_checked=False} :: Answer
+q4_a2 = Answer {answer_id = "q4_a2", answer_content="2", is_correct=False, answer_hint="This is hint", is_checked=False} :: Answer
+q4_a3 = Answer {answer_id = "q4_a3", answer_content="4", is_correct=False, answer_hint="This is hint", is_checked=False} :: Answer
+q4_a4 = Answer {answer_id = "q4_a4", answer_content="5", is_correct=True, answer_hint="This is hint", is_checked=False} :: Answer
+q5_a1 = Answer {answer_id = "q5_a1", answer_content="5", is_correct=False, answer_hint="This is hint", is_checked=False} :: Answer
+q5_a2 = Answer {answer_id = "q5_a2", answer_content="2", is_correct=False, answer_hint="This is hint", is_checked=False} :: Answer
+q5_a3 = Answer {answer_id = "q5_a3", answer_content="3", is_correct=False, answer_hint="This is hint", is_checked=False} :: Answer
+q5_a4 = Answer {answer_id = "q5_a4", answer_content="1", is_correct=True, answer_hint="This is hint", is_checked=False} :: Answer
+q6_a1 = Answer {answer_id = "q6_a1", answer_content="1", is_correct=False, answer_hint="This is hint", is_checked=False} :: Answer
+q6_a2 = Answer {answer_id = "q6_a2", answer_content="9", is_correct=False, answer_hint="This is hint", is_checked=False} :: Answer
+q6_a3 = Answer {answer_id = "q6_a3", answer_content="7", is_correct=False, answer_hint="This is hint", is_checked=False} :: Answer
+q6_a4 = Answer {answer_id = "q6_a4", answer_content="2", is_correct=True, answer_hint="This is hint", is_checked=False} :: Answer
+q7_a1 = Answer {answer_id = "q7_a1", answer_content="1", is_correct=False, answer_hint="This is hint", is_checked=False} :: Answer
+q7_a2 = Answer {answer_id = "q7_a2", answer_content="2", is_correct=False, answer_hint="This is hint", is_checked=False} :: Answer
+q7_a3 = Answer {answer_id = "q7_a3", answer_content="4", is_correct=False, answer_hint="This is hint", is_checked=False} :: Answer
+q7_a4 = Answer {answer_id = "q7_a4", answer_content="5", is_correct=True, answer_hint="This is hint", is_checked=False} :: Answer
+q8_a1 = Answer {answer_id = "q8_a1", answer_content="5", is_correct=False, answer_hint="This is hint", is_checked=False} :: Answer
+q8_a2 = Answer {answer_id = "q8_a2", answer_content="2", is_correct=False, answer_hint="This is hint", is_checked=False} :: Answer
+q8_a3 = Answer {answer_id = "q8_a3", answer_content="3", is_correct=False, answer_hint="This is hint", is_checked=False} :: Answer
+q8_a4 = Answer {answer_id = "q8_a4", answer_content="1", is_correct=True, answer_hint="This is hint", is_checked=False} :: Answer
+q9_a1 = Answer {answer_id = "q9_a1", answer_content="1", is_correct=False, answer_hint="This is hint", is_checked=False} :: Answer
+q9_a2 = Answer {answer_id = "q9_a2", answer_content="9", is_correct=False, answer_hint="This is hint", is_checked=False} :: Answer
+q9_a3 = Answer {answer_id = "q9_a3", answer_content="7", is_correct=False, answer_hint="This is hint", is_checked=False} :: Answer
+q9_a4 = Answer {answer_id = "q9_a4", answer_content="2", is_correct=True, answer_hint="This is hint", is_checked=False} :: Answer
 
-trd_qas :: [Answer]
-trd_qas = [trd_a1, trd_a2, trd_a3, trd_a4]
-
-fst_a1 :: Answer
-fst_a1 = Answer {answer_id = "fst_q_a1", answer_content="1", is_correct=False, answer_hint="This is hint", is_checked=False}
-fst_a2 :: Answer
-fst_a2 = Answer {answer_id = "fst_q_a2", answer_content="2", is_correct=False, answer_hint="This is hint", is_checked=False}
-fst_a3 :: Answer
-fst_a3 = Answer {answer_id = "fst_q_a3", answer_content="4", is_correct=False, answer_hint="This is hint", is_checked=False}
-fst_a4 :: Answer
-fst_a4 = Answer {answer_id = "fst_q_a4", answer_content="5", is_correct=True, answer_hint="This is hint", is_checked=False}
-
-snd_a1 :: Answer
-snd_a1 = Answer {answer_id = "snd_q_a1", answer_content="5", is_correct=False, answer_hint="This is hint", is_checked=False}
-snd_a2 :: Answer
-snd_a2 = Answer {answer_id = "snd_q_a2", answer_content="2", is_correct=False, answer_hint="This is hint", is_checked=False}
-snd_a3 :: Answer
-snd_a3 = Answer {answer_id = "snd_q_a3", answer_content="3", is_correct=False, answer_hint="This is hint", is_checked=False}
-snd_a4 :: Answer
-snd_a4 = Answer {answer_id = "snd_q_a4", answer_content="1", is_correct=True, answer_hint="This is hint", is_checked=False}
-
-trd_a1 :: Answer
-trd_a1 = Answer {answer_id = "trd_q_a1", answer_content="13", is_correct=False, answer_hint="This is hint", is_checked=False}
-trd_a2 :: Answer
-trd_a2 = Answer {answer_id = "trd_q_a2", answer_content="9", is_correct=False, answer_hint="This is hint", is_checked=False}
-trd_a3 :: Answer
-trd_a3 = Answer {answer_id = "trd_q_a3", answer_content="7", is_correct=False, answer_hint="This is hint", is_checked=False}
-trd_a4 :: Answer
-trd_a4 = Answer {answer_id = "trd_q_a4", answer_content="20", is_correct=True, answer_hint="This is hint", is_checked=False}
 
