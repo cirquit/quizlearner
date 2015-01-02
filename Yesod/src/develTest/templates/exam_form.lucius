@@ -37,17 +37,18 @@ body {
   margin-top: 8px;
 }
 
-table {
-  margin: 20px;
-  border-spacing: 10px;
-  border-collapse: separate;
-}
-
-th {
+.question_head {
   font-family: Helvetica, Arial;
   font-size: 24px;
   text-align: left;
   color:#CCC;
+  font-weight: 900;
+}
+
+table {
+  margin: 20px;
+  border-spacing: 10px;
+  border-collapse: separate;
 }
 
 tr {
@@ -113,7 +114,7 @@ tr {
   font-family: Helvetica, Arial;
 }
 
-#answers {
+.answers {
   color: white;
   font-style: 20px;
   font-family: Helvetica, Arial;
@@ -147,6 +148,7 @@ tr {
           cursor: pointer;
           position: relative;
           top: 3px;
+          margin-top: 600px;
           -webkit-transition: all 0.2s ease-in-out;
           -moz-transition: all 0.2s ease-in-out;
           -o-transition: all 0.2s ease-in-out;

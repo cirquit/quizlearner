@@ -37,22 +37,24 @@ body {
   margin-top: 8px;
 }
 
+.question_head {
+  font-family: Helvetica, Arial;
+  font-size: 24px;
+  text-align: left;
+  color:#CCC;
+  font-weight: 900;
+}
+
 table {
   margin: 20px;
   border-spacing: 10px;
   border-collapse: separate;
 }
 
-th {
-  font-family: Helvetica, Arial;
-  font-size: 24px;
-  text-align: left;
-  color:#CCC;
-}
-
 tr {
   font-family: Helvetica, Arial;
   font-size: 16px;
+  text-align: left;
   color:#CCC;
 }
 
@@ -113,13 +115,16 @@ tr {
 }
 
 #submit_button {
+  float:right;
   color: #CCC;
   font-size: 20px;
   background-color: #463E3F;
   font-family: Helvetica, Arial;
 }
 
-#answers {
+.answers {
+  display: inline-block;
+  text-align: left;
   color: white;
   font-style: 20px;
   font-family: Helvetica, Arial;
