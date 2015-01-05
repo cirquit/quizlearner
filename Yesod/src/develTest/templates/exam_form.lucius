@@ -42,7 +42,7 @@ body {
   font-size: 24px;
   text-align: left;
   color:#CCC;
-  font-weight: 900;
+  font-weight: bold;
 }
 
 table {

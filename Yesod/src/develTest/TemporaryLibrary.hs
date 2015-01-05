@@ -10,7 +10,7 @@ data Exam = Exam
       , passing_score   :: Double  --in %
       , exam_questions  :: [Question]
     }
- 
+
 data Question = Question
     {  question_id      :: Text
      , question_content :: Text
@@ -51,9 +51,21 @@ checkBoxWidget checked identity quest = if (T.unpack checked) == "True"
 
 titleWidget :: Widget
 titleWidget = toWidget [hamlet|<a id=title href=@{LayoutR} style="text-decoration:none;">
-                                <span style="color:#FAA500;">Quiz</span>Learner|]
+                                   <span style="color:#FAA500;">Quiz</span>Learner<br>
+                       |]
 
--- <img src="images/QuizCreator.png" style="float:right;">
+iconWidget :: Widget
+iconWidget = do
+             toWidget [hamlet| <img src=#{static_images_QuizCreator_png} id="quiz_creator" title=#{q_creator_title}>
+                      |]
+             toWidget [lucius| #quiz_creator{float: right; margin: 30px;}
+                      |]
+
+static_images_QuizCreator_png :: Text -- should be a Route -- TODO
+static_images_QuizCreator_png = T.pack "static/images/QuizCreator.png"
+
+q_creator_title :: Text
+q_creator_title = T.pack "Click this if you want to create a new exam!"
 
 leftWidget :: Widget
 leftWidget = toWidget [hamlet|<p id=exam_title> [Exams] </p>
@@ -104,8 +116,8 @@ q4_a1, q4_a2, q4_a3, q4_a4, q5_a1, q5_a2, q5_a3, q5_a4, q6_a1, q6_a2, q6_a3, q6_
 q7_a1, q7_a2, q7_a3, q7_a4, q8_a1, q8_a2, q8_a3, q8_a4, q9_a1, q9_a2, q9_a3, q9_a4 :: Answer
 
 q1_a1 = Answer {answer_id = "q1_a1", answer_content="Dies ist ein sehr sehr lange Antwort! Dies ist ein sehr sehr lange Antwort! Dies ist ein sehr sehr lange Antwort! Dies ist ein sehr sehr lange Antwort! Dies ist ein sehr sehr lange Antwort! Dies ist ein sehr sehr lange Antwort! Dies ist ein sehr sehr lange Antwort! Dies ist ein sehr sehr lange Antwort!Dies ist ein sehr sehr lange Antwort!", is_correct=False, answer_hint="This is hint", is_checked=False}
-q1_a2 = Answer {answer_id = "q1_a2", answer_content="2", is_correct=False, answer_hint="This is hint", is_checked=False}
-q1_a3 = Answer {answer_id = "q1_a3", answer_content="4", is_correct=False, answer_hint="This is hint", is_checked=False}
+q1_a2 = Answer {answer_id = "q1_a2", answer_content="2поыбнпкйфяч", is_correct=False, answer_hint="This is hint", is_checked=False}
+q1_a3 = Answer {answer_id = "q1_a3", answer_content="靴子", is_correct=False, answer_hint="This is hint", is_checked=False}
 q1_a4 = Answer {answer_id = "q1_a4", answer_content="5", is_correct=True, answer_hint="This is hint", is_checked=False}
 q2_a1 = Answer {answer_id = "q2_a1", answer_content="5", is_correct=False, answer_hint="This is hint", is_checked=False}
 q2_a2 = Answer {answer_id = "q2_a2", answer_content="2dnauofgbwiegf2974g9f  7 rvze7f9h27zf9qhfvz4r8hfuwhdfuwhfwhef9wh97fgw9rfgbw9gfb9wrgfzuwrbgfwrgbf9wg9wuhfg9uwhrf9wugwh9rugw9urghw9rhgfw98rhg9wrhg9whrg97ewhr97ewhrg9", is_correct=False, answer_hint="This is hint", is_checked=False}

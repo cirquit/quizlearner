@@ -58,7 +58,7 @@ create_question quest = do
                                                    |]
 
 
-save_cur_answers :: Question -> WidgetT App IO()
+save_cur_answers :: Question -> WidgetT App IO() 
 save_cur_answers quest = do
             q_box1 <- runInputPost $ ireq checkBoxField (answer_id ((answer_list quest) !! 0))
             q_box2 <- runInputPost $ ireq checkBoxField (answer_id ((answer_list quest) !! 1))
@@ -67,6 +67,8 @@ save_cur_answers quest = do
 
             setSession (question_id quest) $ bool_to_cookie [q_box1, q_box2, q_box3, q_box4]
 
+save_all :: WidgetT App IO[()]
+save_all = mapM save_cur_answers (exam_questions exam_1)
 
 validate_answers :: Question -> Widget
 validate_answers quest = do
@@ -82,7 +84,7 @@ validate_answers quest = do
                           |]
                 _                                  -> toWidget[hamlet| <span class=evaluation> There are no current answers submitted|]
 
-middleWidget_POST :: Widget
+middleWidget_POST :: Widget 
 middleWidget_POST = do
              _ <- mapM save_cur_answers (exam_questions exam_1)
              [whamlet| <span class=evaluation> I hopefully saved all of your answers! <br>
@@ -91,7 +93,7 @@ middleWidget_POST = do
                         <span class=evaluation> <a href=@{ExamOneR}> Get back! </a>
                      |]
 
- 
+
 getExamOneR :: Handler Html
 getExamOneR = defaultLayout $ do $(widgetFile "exam_form")
 
