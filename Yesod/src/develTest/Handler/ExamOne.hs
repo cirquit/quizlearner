@@ -8,10 +8,10 @@ import qualified Data.Text as T
 
 middleWidget_GET :: Widget
 middleWidget_GET = [whamlet|<form method=post>
-                              <ul class="tabs">
+                                <ul class="tabs">
                                            $forall question <- exam_questions exam_1
                                              ^{create_question question}
-                             <input type=submit id=submit_button value="Save!">
+                              <input type=submit id=submit_button value="Save!">
 
                     |]
 
@@ -84,7 +84,7 @@ validate_answers quest = do
                           |]
                 _                                  -> toWidget[hamlet| <span class=evaluation> There are no current answers submitted|]
 
-middleWidget_POST :: Widget 
+middleWidget_POST :: Widget
 middleWidget_POST = do
              _ <- mapM save_cur_answers (exam_questions exam_1)
              [whamlet| <span class=evaluation> I hopefully saved all of your answers! <br>

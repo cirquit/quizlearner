@@ -8,6 +8,4 @@
       ^{leftWidget}
      <!-- Middle Div-->
      <div id=question class=front>
-      ^{middleWidget_POST}
-     <!-- Lower Div-->
-   <div id=buttons class=front>
+      ^{middleWidget exam_name}

@@ -46,8 +46,8 @@ show_right_answers quest = T.pack $ concatMap ((++ " ") . show . is_correct) (an
 
 checkBoxWidget :: T.Text -> T.Text -> T.Text -> Widget
 checkBoxWidget checked identity quest = if (T.unpack checked) == "True"
-                                         then toWidget [hamlet| <input type=checkbox name=#{T.unpack identity} checked>   </td> <td class=answers> <span class=answers> #{quest} </td>|]
-                                         else toWidget [hamlet| <input type=checkbox name=#{T.unpack identity} unchecked> </td> <td class=answers> <span class=answers> #{quest} </td>|]
+        then toWidget [hamlet| <input type=checkbox name=#{T.unpack identity} checked>   </td> <td class=answers> <span class=answers> #{quest} </td>|]
+        else toWidget [hamlet| <input type=checkbox name=#{T.unpack identity} unchecked> </td> <td class=answers> <span class=answers> #{quest} </td>|]
 
 titleWidget :: Widget
 titleWidget = toWidget [hamlet|<a id=title href=@{LayoutR} style="text-decoration:none;">
@@ -56,13 +56,13 @@ titleWidget = toWidget [hamlet|<a id=title href=@{LayoutR} style="text-decoratio
 
 iconWidget :: Widget
 iconWidget = do
-             toWidget [hamlet| <img src=#{static_images_QuizCreator_png} id="quiz_creator" title=#{q_creator_title}>
+             toWidget [hamlet| <img src="localhost:3000/static/images/QuizCreator.png"} id="quiz_creator" title=#{q_creator_title}>
                       |]
              toWidget [lucius| #quiz_creator{float: right; margin: 30px;}
                       |]
 
-static_images_QuizCreator_png :: Text -- should be a Route -- TODO
-static_images_QuizCreator_png = T.pack "static/images/QuizCreator.png"
+images_QuizCreator_png :: Text -- should be a Route -- TODO
+images_QuizCreator_png = T.pack "static/images/QuizCreator.png"
 
 q_creator_title :: Text
 q_creator_title = T.pack "Click this if you want to create a new exam!"
@@ -153,3 +153,11 @@ q9_a3 = Answer {answer_id = "q9_a3", answer_content="7", is_correct=False, answe
 q9_a4 = Answer {answer_id = "q9_a4", answer_content="2", is_correct=True, answer_hint="This is hint", is_checked=False}
 
 
+-- ######## DEPRICATED ###############
+-- shuffle_answers :: [Answer] -> IO ([Answer])
+-- shuffle_answers list = do
+--     let n = L.length list
+--     seed <- getStdRandom (randomR (0, (product [1..n]) - 1))
+--     return $ permutations list !! seed
+--
+--     shuffled_answers <- liftIO $ shuffle_answers $ answer_list snd_q

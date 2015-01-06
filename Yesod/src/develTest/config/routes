@@ -6,5 +6,5 @@
 
 / HomeR GET POST
 /layout LayoutR GET
-/lin_alg LineareAlgebraR GET POST
 /examOne ExamOneR GET POST
+/exam/#Text ExamR GET

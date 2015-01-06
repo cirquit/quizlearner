@@ -21,8 +21,8 @@ library
                      Handler.Common
                      Handler.Home
                      Handler.Layout
-                     Handler.LineareAlgebra
                      Handler.ExamOne
+                     Handler.Exam
                      TemporaryLibrary
 
     if flag(dev) || flag(library-only)
