@@ -5,9 +5,9 @@
        ^{iconWidget}
       <!-- Left Div-->
       <div id=left class=front align=center>
-       ^{leftWidget}
+       ^{leftWidget exams}
       <!-- Middle Div-->
       <div id=question class=front>
-       ^{middleWidget_GET}
+       ^{middleWidget_GET exam}
       <!-- Lower Div-->
       <div id=buttons class=front>

@@ -2,29 +2,30 @@ module TemporaryLibrary where
 
 import Import
 import qualified Data.Text as T
+import Database.Persist.Sqlite
 
-data Exam = Exam
-    {   exam_title      :: Text
-      , exam_max_score  :: Integer --in points
-      , exam_max_time   :: Integer --in minutes
-      , passing_score   :: Double  --in %
-      , exam_questions  :: [Question]
-    }
+--data Exam = Exam
+--    {   exam_title      :: Text
+--      , exam_max_score  :: Int --in points
+--      , exam_max_time   :: Int --in minutes
+--      , passing_score   :: Double  --in %
+--      , exam_questions  :: [Question]
+--    }
 
-data Question = Question
-    {  question_id      :: Text
-     , question_content :: Text
-     , answer_list      :: [Answer]
-     , max_score        :: Integer
-    }
+--data Question = Question
+--    {  question_id      :: Text
+--     , question_content :: Text
+--     , answer_list      :: [Answer]
+--     , max_score        :: Int
+--    }
 
-data Answer = Answer
-    {  answer_id       :: Text
-     , answer_content  :: Text
-     , is_correct      :: Bool
-     , is_checked      :: Bool
-     , answer_hint     :: Text
-    }
+--data Answer = Answer
+--    {  answer_id       :: Text
+--     , answer_content  :: Text
+--     , is_correct      :: Bool
+--     , is_checked      :: Bool
+--     , answer_hint     :: Text
+--    }
 
 -- ###################################################################################
 -- Helper
@@ -38,8 +39,9 @@ bool_to_cookie l = T.pack $ foldr (\x xs -> (bool_to_char x) : xs) "" l
   where bool_to_char :: Bool -> Char
         bool_to_char x = if x then '1' else '0'
 
-show_right_answers :: Question -> T.Text
-show_right_answers quest = T.pack $ concatMap ((++ " ") . show . is_correct) (answer_list quest)
+--this functions doesn't see is_correct / answer_list
+--show_right_answers :: Question -> T.Text
+--show_right_answers quest = T.pack $ concatMap ((++ " ") . show . is_correct) (answer_list quest)
 
 -- ###################################################################################
 -- Widgets
@@ -54,50 +56,90 @@ titleWidget = toWidget [hamlet|<a id=title href=@{LayoutR} style="text-decoratio
                                    <span style="color:#FAA500;">Quiz</span>Learner<br>
                        |]
 
+staticFiles "static"
+
 iconWidget :: Widget
 iconWidget = do
-             toWidget [hamlet| <img src="localhost:3000/static/images/QuizCreator.png"} id="quiz_creator" title=#{q_creator_title}>
+             toWidget [hamlet| <img src=@{StaticR images_quizcreator_png} id="quiz_creator" title=#{q_creator_title}>
                       |]
              toWidget [lucius| #quiz_creator{float: right; margin: 30px;}
                       |]
 
-images_QuizCreator_png :: Text -- should be a Route -- TODO
-images_QuizCreator_png = T.pack "static/images/QuizCreator.png"
-
 q_creator_title :: Text
 q_creator_title = T.pack "Click this if you want to create a new exam!"
 
-leftWidget :: Widget
-leftWidget = toWidget [hamlet|<p id=exam_title> [Exams] </p>
-                              <ul id=exam_list>
-                                    $forall single_exam <- exams
-                                        <li><a href=@{ExamOneR}> #{exam_title single_exam} </a>
- |]
+leftWidget :: [Entity Exam] -> Widget
+leftWidget exams = toWidget [hamlet|<p id=exam_title> [Exams] </p>
+                                       <ul id=exam_list>
+                                             $if null exams
+                                                 <li> Couldn't find any exams in the DB!
+                                             $else
+                                                 $forall (Entity exam_id exam) <- exams
+                                                     <li><a href=@{ExamR exam_id}> #{exam_title exam} </a>
+                              |]
+
+
+-- ###################################################################################
+-- DB
+
+load_DB :: IO()
+load_DB = runSqlite "develTest.sqlite3" $ do
+    runMigration migrateAll
+
+    lin_alg_id <- insert $ exam_1
+    ffp_id <- insert $ exam_2
+
+    test1 <- get lin_alg_id
+
+    liftIO $ print (test1 :: Maybe Exam)
+
+    liftIO $ putStrLn "load DB was called"
 
 -- ###################################################################################
 -- Temporary Exams
 
-exams :: [Exam]
-exams =[exam_1, exam_2]
+exam_list :: [Exam]
+exam_list =[exam_1, exam_2]
 
-exam_1 :: Exam
-exam_1 = Exam {exam_title="Lineare Algebra", exam_max_score=50, exam_max_time=120, passing_score=45.0, exam_questions=[q1,q2,q3,q4,q5,q6,q7,q8,q9]}
+exam_1, exam_2 :: Exam
+exam_1 = Exam "Lineare Algebra" 50 120 45.0 [q1,q2,q3,q4,q5,q6,q7,q8,q9]
+exam_2 = Exam "FFP" 40 180 30.0 [q1]
 
-exam_2 :: Exam
-exam_2 = Exam {exam_title="FFP", exam_max_score=40, exam_max_time=180, passing_score=30.0, exam_questions=[q1]}
+exam_questions :: Exam -> [Question]
+exam_questions (Exam _ _ _ _ list) = list
 
+exam_title :: Exam -> T.Text
+exam_title (Exam title _ _ _ _) = title
+
+question_id :: Question -> T.Text
+question_id (Question id' _ _ _) = id'
+
+question_content :: Question -> T.Text
+question_content (Question _ content _ _) = content
+
+answer_list :: Question -> [Answer]
+answer_list (Question _ _ list _) = list
+
+answer_id :: Answer -> T.Text
+answer_id (Answer id' _ _ _ _) = id'
+
+answer_content :: Answer -> T.Text
+answer_content (Answer _ content _ _ _) = content
+
+is_correct :: Answer -> Bool
+is_correct (Answer _ _ var _ _) = var
 
 -- Temporary Questions
 q1,q2,q3,q4,q5,q6,q7,q8,q9 :: Question
-q1 = Question {question_id="1", question_content="Wieviel ist 2+3?", answer_list=q1_answers, max_score=4}
-q2 = Question {question_id="2", question_content="Wieviel ist 3+4?", answer_list=q2_answers, max_score=4}
-q3 = Question {question_id="3", question_content="Wieviel ist 4+5?", answer_list=q3_answers, max_score=4}
-q4 = Question {question_id="4", question_content="Wieviel ist 2+3?", answer_list=q4_answers, max_score=4}
-q5 = Question {question_id="5", question_content="Wieviel ist 3+4?", answer_list=q5_answers, max_score=4}
-q6 = Question {question_id="6", question_content="Wieviel ist 4+5?", answer_list=q6_answers, max_score=4}
-q7 = Question {question_id="7", question_content="Wieviel ist 2+3?", answer_list=q7_answers, max_score=4}
-q8 = Question {question_id="8", question_content="Wieviel ist 3+4?", answer_list=q8_answers, max_score=4}
-q9 = Question {question_id="9", question_content="Wieviel ist 4+5?", answer_list=q9_answers, max_score=4}
+q1 = Question (T.pack "1") (T.pack "Wieviel ist 2+3?") q1_answers 4
+q2 = Question (T.pack "2") (T.pack "Wieviel ist 3+4?") q2_answers 4
+q3 = Question (T.pack "3") (T.pack "Wieviel ist 4+5?") q3_answers 4
+q4 = Question (T.pack "4") (T.pack "Wieviel ist 2+3?") q4_answers 4
+q5 = Question (T.pack "5") (T.pack "Wieviel ist 3+4?") q5_answers 4
+q6 = Question (T.pack "6") (T.pack "Wieviel ist 4+5?") q6_answers 4
+q7 = Question (T.pack "7") (T.pack "Wieviel ist 2+3?") q7_answers 4
+q8 = Question (T.pack "8") (T.pack "Wieviel ist 3+4?") q8_answers 4
+q9 = Question (T.pack "9") (T.pack "Wieviel ist 4+5?") q9_answers 4
 
 -- Temporary Answers
 q1_answers, q2_answers, q3_answers, q4_answers, q5_answers, q6_answers, q7_answers, q8_answers, q9_answers :: [Answer]
@@ -111,46 +153,47 @@ q7_answers = [q7_a1,q7_a2,q7_a3,q7_a4]
 q8_answers = [q8_a1,q8_a2,q8_a3,q8_a4]
 q9_answers = [q9_a1,q9_a2,q9_a3,q9_a4]
 
+
 q1_a1, q1_a2, q1_a3, q1_a4, q2_a1, q2_a2, q2_a3, q2_a4, q3_a1, q3_a2, q3_a3, q3_a4 :: Answer
 q4_a1, q4_a2, q4_a3, q4_a4, q5_a1, q5_a2, q5_a3, q5_a4, q6_a1, q6_a2, q6_a3, q6_a4 :: Answer
 q7_a1, q7_a2, q7_a3, q7_a4, q8_a1, q8_a2, q8_a3, q8_a4, q9_a1, q9_a2, q9_a3, q9_a4 :: Answer
 
-q1_a1 = Answer {answer_id = "q1_a1", answer_content="Dies ist ein sehr sehr lange Antwort! Dies ist ein sehr sehr lange Antwort! Dies ist ein sehr sehr lange Antwort! Dies ist ein sehr sehr lange Antwort! Dies ist ein sehr sehr lange Antwort! Dies ist ein sehr sehr lange Antwort! Dies ist ein sehr sehr lange Antwort! Dies ist ein sehr sehr lange Antwort!Dies ist ein sehr sehr lange Antwort!", is_correct=False, answer_hint="This is hint", is_checked=False}
-q1_a2 = Answer {answer_id = "q1_a2", answer_content="2поыбнпкйфяч", is_correct=False, answer_hint="This is hint", is_checked=False}
-q1_a3 = Answer {answer_id = "q1_a3", answer_content="靴子", is_correct=False, answer_hint="This is hint", is_checked=False}
-q1_a4 = Answer {answer_id = "q1_a4", answer_content="5", is_correct=True, answer_hint="This is hint", is_checked=False}
-q2_a1 = Answer {answer_id = "q2_a1", answer_content="5", is_correct=False, answer_hint="This is hint", is_checked=False}
-q2_a2 = Answer {answer_id = "q2_a2", answer_content="2dnauofgbwiegf2974g9f  7 rvze7f9h27zf9qhfvz4r8hfuwhdfuwhfwhef9wh97fgw9rfgbw9gfb9wrgfzuwrbgfwrgbf9wg9wuhfg9uwhrf9wugwh9rugw9urghw9rhgfw98rhg9wrhg9whrg97ewhr97ewhrg9", is_correct=False, answer_hint="This is hint", is_checked=False}
-q2_a3 = Answer {answer_id = "q2_a3", answer_content="3", is_correct=False, answer_hint="This is hint", is_checked=False}
-q2_a4 = Answer {answer_id = "q2_a4", answer_content="1", is_correct=True, answer_hint="This is hint", is_checked=False}
-q3_a1 = Answer {answer_id = "q3_a1", answer_content="1", is_correct=False, answer_hint="This is hint", is_checked=False}
-q3_a2 = Answer {answer_id = "q3_a2", answer_content="9", is_correct=False, answer_hint="This is hint", is_checked=False}
-q3_a3 = Answer {answer_id = "q3_a3", answer_content="7", is_correct=False, answer_hint="This is hint", is_checked=False}
-q3_a4 = Answer {answer_id = "q3_a4", answer_content="2 ", is_correct=True, answer_hint="This is hint", is_checked=False}
-q4_a1 = Answer {answer_id = "q4_a1", answer_content="1", is_correct=False, answer_hint="This is hint", is_checked=False}
-q4_a2 = Answer {answer_id = "q4_a2", answer_content="2", is_correct=False, answer_hint="This is hint", is_checked=False}
-q4_a3 = Answer {answer_id = "q4_a3", answer_content="4", is_correct=False, answer_hint="This is hint", is_checked=False}
-q4_a4 = Answer {answer_id = "q4_a4", answer_content="5", is_correct=True, answer_hint="This is hint", is_checked=False}
-q5_a1 = Answer {answer_id = "q5_a1", answer_content="5", is_correct=False, answer_hint="This is hint", is_checked=False}
-q5_a2 = Answer {answer_id = "q5_a2", answer_content="2", is_correct=False, answer_hint="This is hint", is_checked=False}
-q5_a3 = Answer {answer_id = "q5_a3", answer_content="3", is_correct=False, answer_hint="This is hint", is_checked=False}
-q5_a4 = Answer {answer_id = "q5_a4", answer_content="1", is_correct=True, answer_hint="This is hint", is_checked=False}
-q6_a1 = Answer {answer_id = "q6_a1", answer_content="1", is_correct=False, answer_hint="This is hint", is_checked=False}
-q6_a2 = Answer {answer_id = "q6_a2", answer_content="9", is_correct=False, answer_hint="This is hint", is_checked=False}
-q6_a3 = Answer {answer_id = "q6_a3", answer_content="7", is_correct=False, answer_hint="This is hint", is_checked=False}
-q6_a4 = Answer {answer_id = "q6_a4", answer_content="2", is_correct=True, answer_hint="This is hint", is_checked=False}
-q7_a1 = Answer {answer_id = "q7_a1", answer_content="1", is_correct=False, answer_hint="This is hint", is_checked=False}
-q7_a2 = Answer {answer_id = "q7_a2", answer_content="2", is_correct=False, answer_hint="This is hint", is_checked=False}
-q7_a3 = Answer {answer_id = "q7_a3", answer_content="4", is_correct=False, answer_hint="This is hint", is_checked=False}
-q7_a4 = Answer {answer_id = "q7_a4", answer_content="5", is_correct=True, answer_hint="This is hint", is_checked=False}
-q8_a1 = Answer {answer_id = "q8_a1", answer_content="5", is_correct=False, answer_hint="This is hint", is_checked=False}
-q8_a2 = Answer {answer_id = "q8_a2", answer_content="2", is_correct=False, answer_hint="This is hint", is_checked=False}
-q8_a3 = Answer {answer_id = "q8_a3", answer_content="3", is_correct=False, answer_hint="This is hint", is_checked=False}
-q8_a4 = Answer {answer_id = "q8_a4", answer_content="1", is_correct=True, answer_hint="This is hint", is_checked=False}
-q9_a1 = Answer {answer_id = "q9_a1", answer_content="1", is_correct=False, answer_hint="This is hint", is_checked=False}
-q9_a2 = Answer {answer_id = "q9_a2", answer_content="9", is_correct=False, answer_hint="This is hint", is_checked=False}
-q9_a3 = Answer {answer_id = "q9_a3", answer_content="7", is_correct=False, answer_hint="This is hint", is_checked=False}
-q9_a4 = Answer {answer_id = "q9_a4", answer_content="2", is_correct=True, answer_hint="This is hint", is_checked=False}
+q1_a1 = Answer (T.pack "q1_a1") (T.pack "1") False False (T.pack "This is hint")
+q1_a2 = Answer (T.pack "q1_a2") (T.pack "2") False False (T.pack "This is hint")
+q1_a3 = Answer (T.pack "q1_a3") (T.pack "3") False False (T.pack "This is hint")
+q1_a4 = Answer (T.pack "q1_a4") (T.pack "5") True  False (T.pack "This is hint")
+q2_a1 = Answer (T.pack "q2_a1") (T.pack "5") False False (T.pack "This is hint")
+q2_a2 = Answer (T.pack "q2_a2") (T.pack "9") False False (T.pack "This is hint")
+q2_a3 = Answer (T.pack "q2_a3") (T.pack "3") False False (T.pack "This is hint")
+q2_a4 = Answer (T.pack "q2_a4") (T.pack "1") True  False (T.pack "This is hint")
+q3_a1 = Answer (T.pack "q3_a1") (T.pack "1") False False (T.pack "This is hint")
+q3_a2 = Answer (T.pack "q3_a2") (T.pack "9") False False (T.pack "This is hint")
+q3_a3 = Answer (T.pack "q3_a3") (T.pack "7") False False (T.pack "This is hint")
+q3_a4 = Answer (T.pack "q3_a4") (T.pack "2") True  False (T.pack "This is hint")
+q4_a1 = Answer (T.pack "q4_a1") (T.pack "1") False False (T.pack "This is hint")
+q4_a2 = Answer (T.pack "q4_a2") (T.pack "2") False False (T.pack "This is hint")
+q4_a3 = Answer (T.pack "q4_a3") (T.pack "4") False False (T.pack "This is hint")
+q4_a4 = Answer (T.pack "q4_a4") (T.pack "5") True  False (T.pack "This is hint")
+q5_a1 = Answer (T.pack "q5_a1") (T.pack "5") False False (T.pack "This is hint")
+q5_a2 = Answer (T.pack "q5_a2") (T.pack "2") False False (T.pack "This is hint")
+q5_a3 = Answer (T.pack "q5_a3") (T.pack "3") False False (T.pack "This is hint")
+q5_a4 = Answer (T.pack "q5_a4") (T.pack "1") True  False (T.pack "This is hint")
+q6_a1 = Answer (T.pack "q6_a1") (T.pack "1") False False (T.pack "This is hint")
+q6_a2 = Answer (T.pack "q6_a2") (T.pack "9") False False (T.pack "This is hint")
+q6_a3 = Answer (T.pack "q6_a3") (T.pack "7") False False (T.pack "This is hint")
+q6_a4 = Answer (T.pack "q6_a4") (T.pack "2") True  False (T.pack "This is hint")
+q7_a1 = Answer (T.pack "q7_a1") (T.pack "1") False False (T.pack "This is hint")
+q7_a2 = Answer (T.pack "q7_a2") (T.pack "2") False False (T.pack "This is hint")
+q7_a3 = Answer (T.pack "q7_a3") (T.pack "4") False False (T.pack "This is hint")
+q7_a4 = Answer (T.pack "q7_a4") (T.pack "5") True  False (T.pack "This is hint")
+q8_a1 = Answer (T.pack "q8_a1") (T.pack "5") False False (T.pack "This is hint")
+q8_a2 = Answer (T.pack "q8_a2") (T.pack "2") False False (T.pack "This is hint")
+q8_a3 = Answer (T.pack "q8_a3") (T.pack "3") False False (T.pack "This is hint")
+q8_a4 = Answer (T.pack "q8_a4") (T.pack "1") True  False (T.pack "This is hint")
+q9_a1 = Answer (T.pack "q9_a1") (T.pack "1") False False (T.pack "This is hint")
+q9_a2 = Answer (T.pack "q9_a2") (T.pack "9") False False (T.pack "This is hint")
+q9_a3 = Answer (T.pack "q9_a3") (T.pack "7") False False (T.pack "This is hint")
+q9_a4 = Answer (T.pack "q9_a4") (T.pack "2") True  False (T.pack "This is hint")
 
 
 -- ######## DEPRICATED ###############

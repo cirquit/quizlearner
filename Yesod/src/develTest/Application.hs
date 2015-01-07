@@ -115,7 +115,6 @@ getApplicationDev = do
 -- | main function for use by yesod devel
 develMain :: IO ()
 develMain = develMainHelper getApplicationDev
-
 -- | The @main@ function for an executable running this site.
 appMain :: IO ()
 appMain = do

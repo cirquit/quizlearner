@@ -7,4 +7,4 @@
 / HomeR GET POST
 /layout LayoutR GET
 /examOne ExamOneR GET POST
-/exam/#Text ExamR GET
+/exam/#ExamId ExamR GET POST

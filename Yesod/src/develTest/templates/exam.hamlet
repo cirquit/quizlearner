@@ -3,6 +3,9 @@
      <div id=top class=front>
       ^{titleWidget}
       ^{iconWidget}
+      ^{iconWidget}
+      ^{iconWidget}
+      ^{iconWidget}
      <!-- Left Div-->
      <div id=left class=front align=center>
       ^{leftWidget}
