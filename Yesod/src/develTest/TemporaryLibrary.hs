@@ -40,7 +40,6 @@ bool_to_cookie l = T.pack $ foldr (\x xs -> (bool_to_char x) : xs) "" l
   where bool_to_char :: Bool -> Char
         bool_to_char x = if x then '1' else '0'
 
---this functions doesn't see is_correct / answer_list
 show_right_answers :: Question -> T.Text
 show_right_answers quest = T.pack $ concatMap ((++ " ") . show . is_correct) (answer_list quest)
 
@@ -86,14 +85,15 @@ q_creator_title = T.pack "Click this if you want to create a new exam!"
 -- ###################################################################################
 -- DB
 
+
 load_DB :: IO()
 load_DB = runSqlite "develTest.sqlite3" $ do
-    runMigration migrateAll
+ runMigration migrateAll
 
-    _ <- insert $ exam_1
-    _ <- insert $ exam_2
-    --test1 <- get lin_alg_id -- This is a :: Maybe Exam
-    liftIO $ print $ T.pack "The function load_DB was called!"
+ _ <- insert $ exam_1
+ _ <- insert $ exam_2
+ liftIO $ putStrLn "The function load_DB was called!"
+
 -- ###################################################################################
 -- Temporary Exams
 
