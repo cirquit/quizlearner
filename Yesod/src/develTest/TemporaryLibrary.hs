@@ -87,7 +87,7 @@ staticFiles "static"
 
 iconWidget :: Widget
 iconWidget = do
-             toWidget [hamlet| <img src=@{StaticR images_quizcreator_png} id="quiz_creator" title=#{q_creator_title}>
+             toWidget [hamlet| <img src=@{StaticR Import.images_quizcreator_png} id="quiz_creator" title=#{q_creator_title}>
                       |]
              toWidget [lucius| #quiz_creator{float: right; margin: 30px;}
                       |]
@@ -115,7 +115,7 @@ exam_list :: [Exam]
 exam_list =[exam_1, exam_2]
 
 exam_1, exam_2 :: Exam
-exam_1 = Exam "Lineare Algebra" 50 120 45.0 [q1,q2,q3,q4,q5,q6,q7,q8,q9]
+exam_1 = Exam "Lineare Algebra" 50 120 45.0 [q1,q2,q3,q4,q5,q6,q7,q8,q9,q6]
 exam_2 = Exam "FFP" 40 180 30.0 [q1,q2,q3]
 
 -- Temporary Questions

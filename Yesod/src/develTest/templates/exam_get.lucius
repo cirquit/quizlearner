@@ -108,12 +108,6 @@ tr {
   border-left: solid 2px #ccc;
 }
 
-#buttons {
-  float: right;
-  height: 20%;
-  width: 892px;
-}
-
 #submit_button {
   color: #CCC;
   font-size: 20px;
@@ -134,15 +128,15 @@ tr {
           left: -9999px;
       }
       .tabs {
-        width: 650px;
+        width: 700px;
         float: none;
         list-style: none;
         position: relative;
         padding: 0;
       }
       .tabs li{
-        /*float: left; */
-        height: 44px;
+        float: left; 
+        /*height: 44px; */
       }
       .tabs label {
           display: block;
@@ -155,10 +149,10 @@ tr {
           background: #333;
           cursor: pointer;
           position: relative;
-          top:4px;
-          left:780px;
-          width:70px;
-          height: 40px;
+          top:-4px;
+          left:4px;
+          width: 70px;
+          /*height: 40px; */
           -webkit-transition: all 0.2s ease-in-out;
           -moz-transition: all 0.2s ease-in-out;
           -o-transition: all 0.2s ease-in-out;
@@ -166,13 +160,13 @@ tr {
       }
       .tabs label:hover {
         background: rgba(255,255,255,0.5);
-        left: 776px;
+        top: -8px;
       }
 
       [id^=tab]:checked + label {
         background: #555;
         color: #FFA500;
-        left: 776px;
+        top: -8px;
       }
 
       [id^=tab]:checked ~ [id^=tab-content] {
@@ -190,10 +184,14 @@ tr {
         padding: 15px;
         color: white;
         position: absolute;
-        top: 0;
+        top: 120px;
+        width: 100%;
+        left:0px;
         box-sizing: border-box;
         -webkit-animation-duration: 0.5s;
         -o-animation-duration: 0.5s;
         -moz-animation-duration: 0.5s;
         animation-duration: 0.5s;
       }
+
+
