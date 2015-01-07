@@ -15,7 +15,7 @@ getLayoutR = defaultLayout $ do
   entity_exam_list <- runSqlite "develTest.sqlite3" (selectList [] [Asc ExamExam_title])
 
   if null entity_exam_list then liftIO $ load_DB
-                           else liftIO $ putStrLn "load_DB was not called because there are already some exams!"
+                           else liftIO $ putStrLn $ col_cyan ++ "load_DB was not called because there are already some exams!" ++ col_reset
 
 
   $(widgetFile "layout")
