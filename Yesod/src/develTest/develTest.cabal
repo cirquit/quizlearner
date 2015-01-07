@@ -21,7 +21,6 @@ library
                      Handler.Common
                      Handler.Home
                      Handler.Layout
-                     Handler.ExamOne
                      Handler.Exam
                      TemporaryLibrary
 

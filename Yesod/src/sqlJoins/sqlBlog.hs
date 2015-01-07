@@ -25,7 +25,7 @@ BlogPost
 
 main :: IO ()
 main = runSqlite ":memory:" $ do
-    runMigration migrateAll
+    runMigration migrateAllse
 
     johnId <- insert $ Person "John Doe" $ Just 35
     janeId <- insert $ Person "Jane Doe" Nothing

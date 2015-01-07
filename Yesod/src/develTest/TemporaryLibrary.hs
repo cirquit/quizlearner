@@ -4,106 +4,8 @@ import Import
 import qualified Data.Text as T
 import Database.Persist.Sqlite
 
---data Exam = Exam
---    {   exam_title      :: Text
---      , exam_max_score  :: Int --in points
---      , exam_max_time   :: Int --in minutes
---      , passing_score   :: Double  --in %
---      , exam_questions  :: [Question]
---    }
-
---data Question = Question
---    {  question_id      :: Text
---     , question_content :: Text
---     , answer_list      :: [Answer]
---     , max_score        :: Int
---    }
-
---data Answer = Answer
---    {  answer_id       :: Text
---     , answer_content  :: Text
---     , is_correct      :: Bool
---     , is_checked      :: Bool
---     , answer_hint     :: Text
---    }
-
 -- ###################################################################################
 -- Helper
-
-cookie_to_textbool :: Char -> T.Text
-cookie_to_textbool x = if x == '1' then T.pack "True"
-                                              else T.pack "False"
-
-bool_to_cookie :: [Bool] -> T.Text
-bool_to_cookie l = T.pack $ foldr (\x xs -> (bool_to_char x) : xs) "" l
-  where bool_to_char :: Bool -> Char
-        bool_to_char x = if x then '1' else '0'
-
---this functions doesn't see is_correct / answer_list
---show_right_answers :: Question -> T.Text
---show_right_answers quest = T.pack $ concatMap ((++ " ") . show . is_correct) (answer_list quest)
-
--- ###################################################################################
--- Widgets
-
-checkBoxWidget :: T.Text -> T.Text -> T.Text -> Widget
-checkBoxWidget checked identity quest = if (T.unpack checked) == "True"
-        then toWidget [hamlet| <input type=checkbox name=#{T.unpack identity} checked>   </td> <td class=answers> <span class=answers> #{quest} </td>|]
-        else toWidget [hamlet| <input type=checkbox name=#{T.unpack identity} unchecked> </td> <td class=answers> <span class=answers> #{quest} </td>|]
-
-titleWidget :: Widget
-titleWidget = toWidget [hamlet|<a id=title href=@{LayoutR} style="text-decoration:none;">
-                                   <span style="color:#FAA500;">Quiz</span>Learner<br>
-                       |]
-
-staticFiles "static"
-
-iconWidget :: Widget
-iconWidget = do
-             toWidget [hamlet| <img src=@{StaticR images_quizcreator_png} id="quiz_creator" title=#{q_creator_title}>
-                      |]
-             toWidget [lucius| #quiz_creator{float: right; margin: 30px;}
-                      |]
-
-q_creator_title :: Text
-q_creator_title = T.pack "Click this if you want to create a new exam!"
-
-leftWidget :: [Entity Exam] -> Widget
-leftWidget exams = toWidget [hamlet|<p id=exam_title> [Exams] </p>
-                                       <ul id=exam_list>
-                                             $if null exams
-                                                 <li> Couldn't find any exams in the DB!
-                                             $else
-                                                 $forall (Entity exam_id exam) <- exams
-                                                     <li><a href=@{ExamR exam_id}> #{exam_title exam} </a>
-                              |]
-
-
--- ###################################################################################
--- DB
-
-load_DB :: IO()
-load_DB = runSqlite "develTest.sqlite3" $ do
-    runMigration migrateAll
-
-    lin_alg_id <- insert $ exam_1
-    ffp_id <- insert $ exam_2
-
-    test1 <- get lin_alg_id
-
-    liftIO $ print (test1 :: Maybe Exam)
-
-    liftIO $ putStrLn "load DB was called"
-
--- ###################################################################################
--- Temporary Exams
-
-exam_list :: [Exam]
-exam_list =[exam_1, exam_2]
-
-exam_1, exam_2 :: Exam
-exam_1 = Exam "Lineare Algebra" 50 120 45.0 [q1,q2,q3,q4,q5,q6,q7,q8,q9]
-exam_2 = Exam "FFP" 40 180 30.0 [q1]
 
 exam_questions :: Exam -> [Question]
 exam_questions (Exam _ _ _ _ list) = list
@@ -128,6 +30,79 @@ answer_content (Answer _ content _ _ _) = content
 
 is_correct :: Answer -> Bool
 is_correct (Answer _ _ var _ _) = var
+
+cookie_to_textbool :: Char -> T.Text
+cookie_to_textbool x = if x == '1' then T.pack "True"
+                                              else T.pack "False"
+
+bool_to_cookie :: [Bool] -> T.Text
+bool_to_cookie l = T.pack $ foldr (\x xs -> (bool_to_char x) : xs) "" l
+  where bool_to_char :: Bool -> Char
+        bool_to_char x = if x then '1' else '0'
+
+--this functions doesn't see is_correct / answer_list
+show_right_answers :: Question -> T.Text
+show_right_answers quest = T.pack $ concatMap ((++ " ") . show . is_correct) (answer_list quest)
+
+-- ###################################################################################
+-- Widgets
+
+checkBoxWidget :: T.Text -> T.Text -> T.Text -> Widget
+checkBoxWidget checked identity quest = if (T.unpack checked) == "True"
+        then toWidget [hamlet| <input type=checkbox name=#{T.unpack identity} checked>   </td> <td class=answers> <span class=answers> #{quest} </td>|]
+        else toWidget [hamlet| <input type=checkbox name=#{T.unpack identity} unchecked> </td> <td class=answers> <span class=answers> #{quest} </td>|]
+
+titleWidget :: Widget
+titleWidget = toWidget [hamlet|<a id=title href=@{LayoutR} style="text-decoration:none;">
+                                   <span style="color:#FAA500;">Quiz</span>Learner<br>
+                       |]
+
+leftWidget :: [Entity Exam] -> Widget
+leftWidget exams = toWidget [hamlet|<p id=exam_title> [Exams] </p>
+                                       <ul id=exam_list>
+                                             $if null exams
+                                                 <p id=error> Couldn't find any exams in the DB!
+                                             $else
+                                                 $forall (Entity exam_id exam) <- exams
+                                                     <li><a href=@{ExamR exam_id}> #{exam_title exam} </a>
+                              |]
+
+-- ###################################################################################
+-- Static Files
+
+staticFiles "static"
+
+iconWidget :: Widget
+iconWidget = do
+             toWidget [hamlet| <img src=@{StaticR images_quizcreator_png} id="quiz_creator" title=#{q_creator_title}>
+                      |]
+             toWidget [lucius| #quiz_creator{float: right; margin: 30px;}
+                      |]
+
+q_creator_title :: Text
+q_creator_title = T.pack "Click this if you want to create a new exam!"
+
+
+-- ###################################################################################
+-- DB
+
+load_DB :: IO()
+load_DB = runSqlite "develTest.sqlite3" $ do
+    runMigration migrateAll
+
+    _ <- insert $ exam_1
+    _ <- insert $ exam_2
+    --test1 <- get lin_alg_id -- This is a :: Maybe Exam
+    liftIO $ print $ T.pack "The function load_DB was called!"
+-- ###################################################################################
+-- Temporary Exams
+
+exam_list :: [Exam]
+exam_list =[exam_1, exam_2]
+
+exam_1, exam_2 :: Exam
+exam_1 = Exam "Lineare Algebra" 50 120 45.0 [q1,q2,q3,q4,q5,q6,q7,q8,q9]
+exam_2 = Exam "FFP" 40 180 30.0 [q1,q2,q3]
 
 -- Temporary Questions
 q1,q2,q3,q4,q5,q6,q7,q8,q9 :: Question

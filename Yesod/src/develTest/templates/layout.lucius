@@ -2,6 +2,14 @@ body {
   background-color: #CCC;
 }
 
+#error{
+  color: #FFA500;
+  font-size: 20px;
+  font-family: Helvetica, Arial;
+  text-align: left;
+  font-weight: 600;
+}
+
 #startScreen {
 	margin: 64px;
 	font-size: 48px;

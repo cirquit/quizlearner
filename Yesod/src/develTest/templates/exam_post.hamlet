@@ -3,11 +3,15 @@
       <div id=top class=front>
        ^{titleWidget}
        ^{iconWidget}
+       ^{iconWidget}
+       ^{iconWidget}
+       ^{iconWidget}
+       ^{iconWidget}
       <!-- Left Div-->
       <div id=left class=front align=center>
-       ^{leftWidget exams}
+       ^{leftWidget entity_exam_list}
       <!-- Middle Div-->
       <div id=question class=front>
-       ^{middleWidget_GET exam}
+       ^{middleWidget_POST exam}
       <!-- Lower Div-->
       <div id=buttons class=front>

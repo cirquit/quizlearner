@@ -66,8 +66,7 @@ validate_answers quest = do
             case (m_answers) of
                 (Just (T.unpack -> [x1,x2,x3,x4])) -> toWidget [hamlet|
                           <span class=evaluation> Question#{question_id quest} #{question_content quest} should be:
-                         <!-- <span class=evaluation> #{show_right_answers quest} <br> -->
-                          <br>
+                          <span class=evaluation> #{show_right_answers quest} <br>
                           <span class=evaluation> You said that A1 := #{answer_content ((answer_list quest) !! 0)} == #{cookie_to_textbool x1} <br>
                           <span class=evaluation> You said that A2 := #{answer_content ((answer_list quest) !! 1)} == #{cookie_to_textbool x2} <br>
                           <span class=evaluation> You said that A3 := #{answer_content ((answer_list quest) !! 2)} == #{cookie_to_textbool x3} <br>
@@ -76,7 +75,7 @@ validate_answers quest = do
                 _                                  -> toWidget[hamlet| <span class=evaluation> There are no current answers submitted|]
 
 middleWidget_POST :: Exam ->  Widget
-middleWidget_POST  exam = do
+middleWidget_POST exam = do
              _ <- mapM save_cur_answers (exam_questions exam)
              [whamlet| <span class=evaluation> I hopefully saved all of your answers! <br>
                          $forall question <- exam_questions exam
@@ -87,7 +86,7 @@ middleWidget_POST  exam = do
 
 
 middleWidget_GET :: Exam ->  Widget
-middleWidget_GET  exam =  do
+middleWidget_GET exam =  do
               [whamlet|
                  <form method=post>
                      <ul class="tabs">
@@ -98,13 +97,13 @@ middleWidget_GET  exam =  do
 
 getExamR :: ExamId -> Handler Html
 getExamR exam_id = do
-              exams <- runDB $ selectList [] [Asc ExamExam_max_time]
+              entity_exam_list <- runDB $ selectList [] [Asc ExamExam_max_time]
               exam <-  runDB $ get404 exam_id
-              defaultLayout $ do $(widgetFile "exam_form")
+              defaultLayout $ do $(widgetFile "exam_get")
 
 postExamR :: ExamId -> Handler Html
 postExamR exam_id = do
-              exams <- runDB $ selectList [] [Asc ExamExam_max_time]
+              entity_exam_list <- runDB $ selectList [] [Asc ExamExam_max_time]
               exam  <- runDB $ get404 exam_id
-              defaultLayout $ do $(widgetFile "exam_answers")
+              defaultLayout $ do $(widgetFile "exam_post")
 

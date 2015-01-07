@@ -1,18 +1,19 @@
 body {
-  background-color: #CCC;
+ background-color: #CCC;
 }
 
-#startScreen {
-  margin: 64px;
-  font-size: 48px;
-  font-weight: 900;
+#error{
+  color: #FFA500;
+  font-size: 20px;
   font-family: Helvetica, Arial;
-  color: #CCC;
+  text-align: left;
+  font-weight: 600;
 }
 
 .front {
-  background-color: #2b2b2b;
+  background-color: #2B2B2B;
   }
+
 
 #exam_list{
   list-style-type: none;
@@ -43,22 +44,24 @@ body {
   margin-top: 8px;
 }
 
+.question_head {
+  font-family: Helvetica, Arial;
+  font-size: 24px;
+  text-align: left;
+  color:#CCC;
+  font-weight: 900;
+}
+
 table {
   margin: 20px;
   border-spacing: 10px;
   border-collapse: separate;
 }
 
-th {
-  font-family: Helvetica, Arial;
-  font-size: 24px;
-  text-align: left;
-  color:#CCC;
-}
-
 tr {
   font-family: Helvetica, Arial;
   font-size: 16px;
+  text-align: left;
   color:#CCC;
 }
 
@@ -106,15 +109,34 @@ tr {
   border-left: solid 2px #ccc;
 }
 
+.evaluation{
+  font-size: 20px;
+  font-family: Helvetica, Arial;
+  color: #ccc;
+}
+
 #buttons {
   float: right;
   height: 20%;
-  width: 75%;
+  width: 892px;
 }
 
 #submit_button {
-  margin: 20px;
+  float:right;
+  color: #CCC;
+  font-size: 20px;
+  background-color: #463E3F;
+  font-family: Helvetica, Arial;
 }
+
+.answers {
+  display: inline-block;
+  text-align: left;
+  color: white;
+  font-style: 20px;
+  font-family: Helvetica, Arial;
+}
+
 
 .tabs input[type=radio] {
           position: absolute;
@@ -122,7 +144,7 @@ tr {
           left: -9999px;
       }
       .tabs {
-        width: 650px;
+        width: 300px;
         float: none;
         list-style: none;
         position: relative;
@@ -135,10 +157,10 @@ tr {
           display: block;
           padding: 10px 20px;
           border-radius: 2px 2px 0 0;
-          color: #08C;
+          color: #CCC;
           font-size: 24px;
           font-weight: normal;
-          font-family: 'Lily Script One', helveti;
+          font-family: Helvetica, Arial;
           background: rgba(255,255,255,0.2);
           cursor: pointer;
           position: relative;
@@ -154,8 +176,8 @@ tr {
       }
 
       [id^=tab]:checked + label {
-        background: #08C;
-        color: white;
+        background: #555;
+        color: #FFA500;
         top: 0;
       }
 
@@ -170,7 +192,7 @@ tr {
         font-size: 20px;
         line-height: 140%;
         padding-top: 10px;
-        background: #08C;
+        background: #555;
         padding: 15px;
         color: white;
         position: absolute;

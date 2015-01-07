@@ -12,5 +12,5 @@ getLayoutR :: Handler Html
 getLayoutR = defaultLayout $ do
   setTitle "Basic Layout"
   _ <- liftIO $ load_DB
-  exams <- runSqlite "develTest.sqlite3" (selectList [] [Asc ExamExam_max_time])
+  entity_exam_list <- runSqlite "develTest.sqlite3" (selectList [] [Asc ExamExam_max_time])
   $(widgetFile "layout")
