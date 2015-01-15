@@ -1,70 +1,15 @@
+/* Background */
+
 body {
  background-color: #CCC;
 }
 
-#error{
-  color: #FFA500;
-  font-size: 20px;
-  font-family: Helvetica, Arial;
-  text-align: left;
-  font-weight: 600;
-}
-
 .front {
   background-color: #2B2B2B;
-  }
-
-
-#exam_list{
-  list-style-type: none;
 }
 
-
-#exam_list li{
-  font-family: Helvetica, Arial;
-  font-size: 20px;
-  text-align: left;
-}
-
-#exam_list li a{
-  text-decoration: none;
-  color: #EEE;
-}
-
-#exam_list li a:hover{
-  text-decoration: none;
-  color: #FFA500;
-}
-
-#exam_title{
-  font-family: Helvetica, Arial;
-  font-size: 26px;
-  font-weight: 900;
-  color:#FFA500;
-  margin-top: 8px;
-}
-
-.question_head {
-  font-family: Helvetica, Arial;
-  font-size: 24px;
-  text-align: left;
-  color:#CCC;
-  font-weight: bold;
-}
-
-table {
-  margin: 20px;
-  border-spacing: 10px;
-  border-collapse: separate;
-}
-
-tr {
-  font-family: Helvetica, Arial;
-  font-size: 16px;
-  color:#CCC;
-}
-
-#title {
+/* Font Styles */
+.mainTitle {
   font-size: 64px;
   font-family: Helvetica, Arial;
   font-weight: 900;
@@ -74,6 +19,52 @@ tr {
   margin-left: 60px;
 }
 
+.orangeTitle{
+  font-family: Helvetica, Arial;
+  font-size: 26px;
+  font-weight: 900;
+  color:#FFA500;
+  margin-top: 8px;
+}
+
+.boldWhite {
+  font-family: Helvetica, Arial;
+  font-size: 24px;
+  text-align: left;
+  color:#CCC;
+  font-weight: bold;
+}
+
+.simpleWhite {
+  color: white;
+  font-style: 20px;
+  font-family: Helvetica, Arial;
+  margin:10px;
+}
+
+
+/* Left Exam List */
+
+.examList{
+  font-family: Helvetica, Arial;
+  font-size: 20px;
+  font-weight: 600;
+  list-style-type: none;
+  text-align: center;
+}
+
+.examList li a{
+  text-decoration: none;
+  color: #EEE;
+}
+
+.examList li a:hover{
+  text-decoration: none;
+  color: #FFA500;
+}
+
+
+/*Inner question div*/
 
 #wrapper {
   width: 100%;
@@ -100,7 +91,6 @@ tr {
   border-right:solid 2px #ccc;
 }
 
-
 #question {
   float: right;
   width: 75%;
@@ -108,18 +98,13 @@ tr {
   border-left: solid 2px #ccc;
 }
 
-#submit_button {
+.button {
   color: #CCC;
   font-size: 20px;
   background-color: #463E3F;
   font-family: Helvetica, Arial;
 }
 
-.answers {
-  color: white;
-  font-style: 20px;
-  font-family: Helvetica, Arial;
-}
 
 
 .tabs input[type=radio] {
@@ -135,7 +120,7 @@ tr {
         padding: 0;
       }
       .tabs li{
-        float: left; 
+        float: left;
         /*height: 44px; */
       }
       .tabs label {

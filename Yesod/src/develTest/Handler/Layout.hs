@@ -12,12 +12,12 @@ getLayoutR :: Handler Html
 getLayoutR = defaultLayout $ do
   setTitle "Basic Layout"
 
-  entity_exam_list <- runSqlite "develTest.sqlite3" (selectList [] [Asc ExamExam_title])
+  entity_exam_list <- runSqlite "develTest.sqlite3" (selectList [] [Asc ExamTitle])
 
-  --if null entity_exam_list then liftIO $ load_DB
-  --                         else liftIO $ putStrLn $ col_cyan ++ "load_DB was not called because there are already some exams!" ++ col_reset
-  runSqlite "develTest.sqlite3" (deleteWhere [ExamExam_title !=. ""])
-  liftIO $ load_DB
+  if null entity_exam_list then liftIO $ load_DB
+                           else liftIO $ putStrLn $ col_cyan ++ "load_DB was not called because there are already some exams!" ++ col_reset
+  --runSqlite "develTest.sqlite3" (deleteWhere [ExamTitle !=. ""])
+  --liftIO $ load_DB
 
 
   $(widgetFile "layout")

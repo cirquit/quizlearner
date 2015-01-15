@@ -1,32 +1,32 @@
 User
-    ident Text
-    password Text Maybe
-    UniqueUser ident
+    ident         Text
+    password      Text Maybe
+    UniqueUser    ident
     deriving Typeable
 Email
-    email Text
+    email       Text
     user UserId Maybe
     verkey Text Maybe
     UniqueEmail email
 Exam
-    exam_title Text
-    exam_max_score Int
-    exam_max_time Int
-    passing_score Double
-    exam_questions [Question]
+    title        Text
+    maxScore     Int
+    maxTime      Int
+    passingScore Double
+    questions    [Question]
     deriving Show
 Question
-    question_id Text
-    question_content Text
-    answer_list [Answer]
-    max_score Int
-    deriving Show
-Answer
-    answer_id Text
-    answer_content Text
-    is_correct Bool
-    is_checked Bool
-    answer_hint Text
+    identity   Text
+    content    Text
+    answerList [Answer]
+    maxScore   Int
     deriving Show
 
+Answer
+    identity  Text
+    content   Text
+    isCorrect Bool
+    isChecked Bool
+    hint      Text
+    deriving Show
  -- By default this file is used in Model.hs (which is imported by Foundation.hs)
