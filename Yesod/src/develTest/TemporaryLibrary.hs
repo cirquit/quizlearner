@@ -13,7 +13,7 @@ import Database.Persist.Sqlite
 --        else toWidget [hamlet| <input type=checkbox name=#{T.unpack identity} unchecked> </td> <td class=answers> <span class=answers> #{quest} </td>|]
 
 titleWidget :: Widget
-titleWidget = toWidget [hamlet|<a class=mainTitle href=@{LayoutR} style="text-decoration:none;">
+titleWidget = toWidget [hamlet|<a class=mainTitle href=@{LayoutR}>
                                    <span style="color:#FAA500;">Quiz</span>Learner<br>
                        |]
 
@@ -36,7 +36,7 @@ staticFiles "static"
 
 iconWidget :: Widget
 iconWidget = do
-             toWidget [hamlet| <img src=@{StaticR images_quizcreator_png} id="quiz_creator" title=#{q_creator_title}>
+             toWidget [hamlet| <img src=@{StaticR Import.images_quizcreator_png} id="quiz_creator" title=#{q_creator_title}>
                       |]
              toWidget [lucius| #quiz_creator{float: right; margin: 30px;}
                       |]

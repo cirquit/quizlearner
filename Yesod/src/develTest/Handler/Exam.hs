@@ -44,6 +44,11 @@ getExamR exam_id = do
               let middleWidget = [whamlet|
                                             <form method=post enctype=#{enctype}>
                                                  ^{widget}
+                                            <script>
+                                                 var divList = document.getElementsByClassName("tab-content");
+                                                   for(i=0; i<divList.length; i++){
+                                                     divList[i].style.top = 40*Math.ceil(#{length $ examQuestions exam}/10) + "px";
+                                                   }
                                      |]
               defaultLayout $ do $(widgetFile "exam")
 
@@ -92,7 +97,7 @@ listEditMForm xs token = do
                              <p class=boldWhite> #{fvLabel view}: </p>
                              ^{fvInput view}
                              <br>
-             <input class=button type=submit value="Testing mForms">
+             <input class=button type=submit value="Testing">
         |]
       return ((FormSuccess check_results), widget)
 
