@@ -20,6 +20,10 @@ body {
   margin-left: 60px;
 }
 
+.mainTitle:hover {
+  color:#EEE;
+}
+
 .orangeTitle{
   font-size: 26px;
   font-weight: 900;
@@ -47,7 +51,6 @@ body {
   font-size: 20px;
   font-weight: 600;
   list-style-type: none;
-  text-decoration: none;
 }
 
 .examList ul{
@@ -61,6 +64,8 @@ body {
 
 .examList li a:hover{
   color: #FFA500;
+  text-decoration: none;
+
 }
 
 

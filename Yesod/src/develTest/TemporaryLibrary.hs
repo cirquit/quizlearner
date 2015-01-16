@@ -18,7 +18,7 @@ titleWidget = toWidget [hamlet|<a class=mainTitle href=@{LayoutR} style="text-de
                        |]
 
 leftWidget :: [Entity Exam] -> Widget
-leftWidget exams = toWidget [hamlet| 
+leftWidget exams = toWidget [hamlet|
                                        <p class=orangeTitle> [Exams]
                                        <ul class=examList style="padding-left: 0px;">
                                              $if null exams
