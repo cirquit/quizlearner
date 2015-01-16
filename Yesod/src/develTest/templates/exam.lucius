@@ -2,6 +2,8 @@
 
 body {
  background-color: #CCC;
+ font-family: Helvetica, Arial;
+ color:#EEE;
 }
 
 .front {
@@ -11,7 +13,6 @@ body {
 /* Font Styles */
 .mainTitle {
   font-size: 64px;
-  font-family: Helvetica, Arial;
   font-weight: 900;
   color: #EEE;
   display: inline-block;
@@ -20,7 +21,6 @@ body {
 }
 
 .orangeTitle{
-  font-family: Helvetica, Arial;
   font-size: 26px;
   font-weight: 900;
   color:#FFA500;
@@ -28,7 +28,6 @@ body {
 }
 
 .boldWhite {
-  font-family: Helvetica, Arial;
   font-size: 24px;
   text-align: left;
   color:#CCC;
@@ -38,7 +37,6 @@ body {
 .simpleWhite {
   color: white;
   font-style: 20px;
-  font-family: Helvetica, Arial;
   margin:10px;
 }
 
@@ -46,22 +44,26 @@ body {
 /* Left Exam List */
 
 .examList{
-  font-family: Helvetica, Arial;
   font-size: 20px;
   font-weight: 600;
   list-style-type: none;
+  text-decoration: none;
+}
+
+.examList ul{
   text-align: center;
 }
 
 .examList li a{
-  text-decoration: none;
   color: #EEE;
+  display: inline;
 }
 
 .examList li a:hover{
-  text-decoration: none;
   color: #FFA500;
 }
+
+
 
 
 /*Inner question div*/
@@ -102,7 +104,6 @@ body {
   color: #CCC;
   font-size: 20px;
   background-color: #463E3F;
-  font-family: Helvetica, Arial;
 }
 
 
@@ -125,12 +126,10 @@ body {
       }
       .tabs label {
           display: block;
-          color: #CCC;
           text-align: center;
           line-height: 40px;
           font-size: 18px;
           font-weight: normal;
-          font-family: Helvetica, Arial;
           background: #333;
           cursor: pointer;
           position: relative;
@@ -167,7 +166,6 @@ body {
         padding-top: 10px;
         background: #555;
         padding: 15px;
-        color: white;
         position: absolute;
         top: 120px;
         width: 100%;

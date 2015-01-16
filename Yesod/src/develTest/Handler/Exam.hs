@@ -86,9 +86,9 @@ listEditMForm xs token = do
                 <ul class="tabs">
                    $forall (c,view) <- numerated_views
                        <li>
-                           <input type="radio" name="tabs" id="tab#{show c}">
-                           <label for="tab#{show c}">Q #{show c}
-                           <div id="tab-content#{show c}" class="tab-content animated fadeIn">
+                           <input type="radio" name="tabs" id="tab#{fvId view}">
+                           <label for="tab#{fvId view}">Q #{show c}
+                           <div id="tab-content#{fvId view}" class="tab-content animated fadeIn">
                              <p class=boldWhite> #{fvLabel view}: </p>
                              ^{fvInput view}
                              <br>
