@@ -2,7 +2,6 @@ module TemporaryLibrary where
 
 import Import
 import qualified Data.Text as T
-import Database.Persist.Sqlite
 
 -- ###################################################################################
 -- Widgetshex #EEE
@@ -36,7 +35,7 @@ staticFiles "static"
 
 iconWidget :: Widget
 iconWidget = do
-             toWidget [hamlet| <img src=@{StaticR Import.images_quizcreator_png} id="quiz_creator" title=#{q_creator_title}>
+             toWidget [hamlet| <img src=@{StaticR images_quizcreator_png} id="quiz_creator" title=#{q_creator_title}>
                       |]
              toWidget [lucius| #quiz_creator{float: right; margin: 30px;}
                       |]
@@ -48,11 +47,8 @@ q_creator_title = T.pack "Click this if you want to create a new exam!"
 -- ###################################################################################
 -- DB
 
-
-load_DB :: IO()
-load_DB = runSqlite "develTest.sqlite3" $ do
- runMigration migrateAll
-
+load_DB :: MonadIO m => ReaderT SqlBackend m ()
+load_DB = do
  _ <- insert $ exam_1
  _ <- insert $ exam_2
  liftIO $ putStrLn "The function load_DB was called!"
@@ -130,7 +126,7 @@ exam_list :: [Exam]
 exam_list =[exam_1, exam_2]
 
 exam_1, exam_2 :: Exam
-exam_1 = Exam {examTitle="Lineare Algebra", examMaxScore=50, examMaxTime=120, examPassingScore=45.0, examQuestions=[q1,q2,q3,q4,q5,q6,q7,q8,q9,q6]}
+exam_1 = Exam {examTitle="Lineare Algebra", examMaxScore=50, examMaxTime=120, examPassingScore=45.0, examQuestions=[q1,q2,q3,q4,q5,q6,q7,q8,q9,q6,q6,q6]}
 exam_2 = Exam {examTitle="FFP",  examMaxScore=40, examMaxTime=180, examPassingScore=30.0, examQuestions=[q1,q2,q3]}
 
 -- Temporary Questions

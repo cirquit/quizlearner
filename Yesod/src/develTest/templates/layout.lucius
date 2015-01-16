@@ -11,17 +11,14 @@ body {
 }
 
 /* Font Styles */
-.mainTitle {
+.mainTitle, .mainTitle:hover {
   font-size: 64px;
   font-weight: 900;
   color: #EEE;
   display: inline-block;
   margin-top: 20px;
   margin-left: 60px;
-}
-
-.mainTitle:hover {
-  color:#EEE;
+  text-decoration: none;
 }
 
 .orangeTitle{
@@ -65,7 +62,6 @@ body {
 .examList li a:hover{
   color: #FFA500;
   text-decoration: none;
-
 }
 
 
@@ -106,6 +102,7 @@ body {
 }
 
 .button {
+  float: right;
   color: #CCC;
   font-size: 20px;
   background-color: #463E3F;
@@ -181,5 +178,7 @@ body {
         -moz-animation-duration: 0.5s;
         animation-duration: 0.5s;
       }
+
+
 
 

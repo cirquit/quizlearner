@@ -37,7 +37,7 @@ import qualified Data.Text as T
 
 getExamR :: ExamId -> Handler Html
 getExamR exam_id = do
-              entity_exam_list <- runDB $ selectList [] [Asc ExamTitle]
+              entity_exam_list <- runDB $ selectList [] [Desc ExamTitle]
               exam <-  runDB $ get404 exam_id
 
               (widget, enctype) <-generateFormPost $ listEditMForm $ examQuestions exam
@@ -55,7 +55,7 @@ getExamR exam_id = do
 
 postExamR :: ExamId -> Handler Html
 postExamR exam_id = do
-              entity_exam_list <- runDB $ selectList [] [Asc ExamTitle]
+              entity_exam_list <- runDB $ selectList [] [Desc ExamTitle]
               exam  <- runDB $ get404 exam_id
 
               ((res,_), _) <- runFormPost $ listEditMForm $ examQuestions exam
