@@ -49,7 +49,7 @@ getExamR exam_id = do
                                                    for(i=0; i<divList.length; i++){
                                                      divList[i].style.top = 40*Math.ceil(#{length $ examQuestions exam}/10) + "px";
                                                    }
-                                     |]
+                                  |]
               defaultLayout $ do $(widgetFile "exam")
 
 
@@ -75,15 +75,23 @@ postExamR exam_id = do
               defaultLayout $ do $(widgetFile "exam")
 
 
-zip_a :: [Answer] -> [(Text, Bool)]
-zip_a [] = []
-zip_a ((Answer _ text val _ _ ):xs) = (text, val):zip_a xs
+zipAnswers :: [Answer] -> [(Text, Int)]
+zipAnswers [] = []
+zipAnswers xs = acc 0 xs
+     where  acc _ []  = []
+            acc n ((Answer _ text val _ _ ):xs') =  (text, n):acc (n+1) xs'
 
-listEditMForm :: [Question] -> Html -> MForm Handler (FormResult ([FormResult (Maybe [Bool])]), Widget)
+zipQuestCookies :: [Question] -> [[Bool]] -> [(Question, Maybe [Bool])]
+zipQuestCookies []      _     = []
+zipQuestCookies (x:xs) []     = (x,Nothing) :zipQuestCookies xs []
+zipQuestCookies (x:xs) (y:ys) = (x,(Just y)):zipQuestCookies xs ys
+
+
+listEditMForm :: [Question] -> Html -> MForm Handler (FormResult ([FormResult (Maybe [Int])]), Widget)
 listEditMForm xs token = do
       -- session cookie mit den fragen zippen und dann mit dem forM als argument rausholen
-      -- eigenes Zip schreiben, dass Nothings dranhängt, wenn es nicht genug cookies sind für die fragen
-      check_fields <- forM xs (\(Question _ content list _ ) -> mopt (checkboxesFieldList' $ zip_a list) (fromString $ T.unpack content) Nothing)
+     -- let questsNcookies = zipQuestCookies xs []
+      check_fields <- forM xs (\(Question _ content list _ ) -> mopt (checkboxesFieldList' $ zipAnswers list) (fromString $ T.unpack content) Nothing)
       let (check_results, check_views) = unzip check_fields
       let numerated_views = Import.zip ([1..]::[Int]) check_views
       let widget = [whamlet|
@@ -104,15 +112,17 @@ listEditMForm xs token = do
 
 
 -- ################## CUSTOM FIELDS ######################
-checkboxesFieldList' :: (Eq a, RenderMessage site FormMessage, RenderMessage site msg) => [(msg, a)]
-                     -> Field (HandlerT site IO) [a]
+checkboxesFieldList' :: (Eq a, RenderMessage site FormMessage, RenderMessage site msg) =>
+                              [(msg, a)] -> Field (HandlerT site IO) [a]
 checkboxesFieldList' = checkboxesField' . optionsPairs
 
+
 checkboxesField' :: (Eq a, RenderMessage site FormMessage)
-                 => HandlerT site IO (OptionList a)
-                 -> Field (HandlerT site IO) [a]
+                  => HandlerT site IO (OptionList a)
+                  -> Field (HandlerT site IO) [a]
 checkboxesField' ioptlist = (multiSelectField ioptlist)
-    { fieldView =
+    { --fieldParse = \e _ -> return $ checkBoxParser e
+       fieldView =
         \theId name attrs val _ -> do
             opts <- fmap olOptions $ handlerToWidget ioptlist
             let optselected (Left _) _ = False
@@ -123,5 +133,10 @@ checkboxesField' ioptlist = (multiSelectField ioptlist)
                         <label>
                           <input type=checkbox name=#{name} value=#{optionExternalValue opt} *{attrs} :optselected val opt:checked>
                           <span class=simpleWhite> #{optionDisplay opt}
-                |]
-    }
+                |]}
+    --}
+    --where     checkBoxParser [] = Right $ Just False
+    --          checkBoxParser (x:xs) = case x of
+    --            "yes" -> Right $ Just True
+    --            "on" -> Right $ Just True
+    --            _     -> Right $ Just False

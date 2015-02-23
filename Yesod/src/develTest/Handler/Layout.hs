@@ -12,7 +12,7 @@ getLayoutR = do
         entity_exam_list <- runDB (selectList [] [Desc ExamTitle])
 
         if null entity_exam_list then runDB $ load_DB
-                                 else liftIO $ putStrLn $ col_cyan ++ "load_DB was not called because there are already some exams!"
+                                 else liftIO $ putStrLn $ col_cyan ++ "load_DB was not called because there are already some exams!" ++ col_reset
 
         defaultLayout $ do
          setTitle "Basic Layout"

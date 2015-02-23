@@ -4,7 +4,7 @@ import Import
 import qualified Data.Text as T
 
 -- ###################################################################################
--- Widgetshex #EEE
+--
 
 --checkBoxWidget :: T.Text -> T.Text -> T.Text -> Widget
 --checkBoxWidget checked identity quest = if (T.unpack checked) == "True"
@@ -49,9 +49,9 @@ q_creator_title = T.pack "Click this if you want to create a new exam!"
 
 load_DB :: MonadIO m => ReaderT SqlBackend m ()
 load_DB = do
- _ <- insert $ exam_1
- _ <- insert $ exam_2
- liftIO $ putStrLn "The function load_DB was called!"
+    _ <- insert $ exam_1
+    _ <- insert $ exam_2
+    liftIO $ putStrLn "The function load_DB was called!"
 
 
 -- ###################################################################################
