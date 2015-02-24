@@ -1,0 +1,2 @@
+database:
+  database: quizlearner_test.sqlite3

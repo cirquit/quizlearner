@@ -1,0 +1,20 @@
+Default: &defaults
+  database: quizlearner.sqlite3
+  poolsize: 10
+
+Development:
+  <<: *defaults
+
+Testing:
+  database: quizlearner_test.sqlite3
+  <<: *defaults
+
+Staging:
+  database: quizlearner_staging.sqlite3
+  poolsize: 100
+  <<: *defaults
+
+Production:
+  database: quizlearner_production.sqlite3
+  poolsize: 100
+  <<: *defaults
