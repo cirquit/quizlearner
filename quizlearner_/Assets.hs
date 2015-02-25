@@ -1,6 +1,6 @@
 module Assets where
 
-import Import
+import Import hiding (images_quizcreator_png)
 
 -- ###################################################################################
 -- Widgets

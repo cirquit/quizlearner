@@ -86,6 +86,6 @@ scriptWidget exam = toWidget [hamlet|
                                  <script>
                                      var divList = document.getElementsByClassName("tab-content");
                                          for(i=0; i<divList.length; i++){
-                                             divList[i].style.top = 35*Math.ceil(#{length $ examQuestions exam}/10) + "px";
+                                             divList[i].style.top = 40*Math.ceil(#{length $ examQuestions exam}/10) + "px";
                                          }
                              |]
