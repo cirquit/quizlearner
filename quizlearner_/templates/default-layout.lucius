@@ -1,0 +1,182 @@
+/* Background */
+
+body {
+ background-color: #CCC;
+ font-family: Helvetica, Arial;
+ color:#EEE;
+}
+
+.front {
+  background-color: #2B2B2B;
+}
+
+/* Font Styles */
+.mainTitle, .mainTitle:hover {
+  font-size: 64px;
+  font-weight: 900;
+  color: #EEE;
+  display: inline-block;
+  margin-top: 20px;
+  margin-left: 60px;
+  text-decoration: none;
+}
+
+.orangeTitle{
+  font-size: 26px;
+  font-weight: 900;
+  color:#FFA500;
+  margin-top: 8px;
+}
+
+.boldWhite {
+  font-size: 24px;
+  text-align: left;
+  color:#CCC;
+  font-weight: bold;
+}
+
+.simpleWhite {
+  color: white;
+  font-style: 20px;
+  margin:10px;
+}
+
+
+/* Left Exam List */
+
+.examList{
+  font-size: 20px;
+  font-weight: 600;
+  list-style-type: none;
+}
+
+.examList ul{
+  text-align: center;
+}
+
+.examList li a{
+  color: #EEE;
+  display: inline;
+}
+
+.examList li a:hover{
+  color: #FFA500;
+  text-decoration: none;
+}
+
+
+
+
+/*Inner question div*/
+
+#wrapper {
+  width: 100%;
+  height: 100%;
+  min-height: 600px;
+  min-width: 650px;
+  margin-top:50px;
+  overflow: hidden;
+}
+
+#top {
+  height: 142px;
+  width: 100%;
+  border-bottom: solid 4px #ccc;
+  clear: both;
+}
+
+#left {
+  float: left;
+  height: auto;
+  width: 25%;
+  padding-bottom: 6000px;
+  margin-bottom: -6000px;
+  border-right:solid 2px #ccc;
+}
+
+#question {
+  float: right;
+  width: 75%;
+  min-height: 600px;
+  border-left: solid 2px #ccc;
+}
+
+.button {
+  float: right;
+  color: #CCC;
+  font-size: 20px;
+  background-color: #463E3F;
+}
+
+
+
+.tabs input[type=radio] {
+          position: absolute;
+          top: -9999px;
+          left: -9999px;
+      }
+      .tabs {
+        width: 700px;
+        float: none;
+        list-style: none;
+        position: relative;
+        padding: 0;
+      }
+      .tabs li{
+        float: left;
+        /*height: 44px; */
+      }
+      .tabs label {
+          display: block;
+          text-align: center;
+          line-height: 40px;
+          font-size: 18px;
+          font-weight: normal;
+          background: #333;
+          cursor: pointer;
+          position: relative;
+          top:-4px;
+          left:4px;
+          width: 70px;
+          /*height: 40px; */
+          -webkit-transition: all 0.2s ease-in-out;
+          -moz-transition: all 0.2s ease-in-out;
+          -o-transition: all 0.2s ease-in-out;
+          transition: all 0.2s ease-in-out;
+      }
+      .tabs label:hover {
+        background: rgba(255,255,255,0.5);
+        top: -8px;
+      }
+
+      [id^=tab]:checked + label {
+        background: #555;
+        color: #FFA500;
+        top: -8px;
+      }
+
+      [id^=tab]:checked ~ [id^=tab-content] {
+          display: block;
+      }
+      .tab-content{
+        z-index: 2;
+        display: none;
+        text-align: left;
+        width: 772px;
+        font-size: 20px;
+        line-height: 140%;
+        padding-top: 10px;
+        background: #555;
+        padding: 15px;
+        position: absolute;
+        top: 120px;
+        width: 100%;
+        left:0px;
+        box-sizing: border-box;
+        -webkit-animation-duration: 0.5s;
+        -o-animation-duration: 0.5s;
+        -moz-animation-duration: 0.5s;
+        animation-duration: 0.5s;
+      }
+
+

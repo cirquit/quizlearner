@@ -39,17 +39,15 @@ getExamR :: ExamId -> Handler Html
 getExamR exam_id = do
               entity_exam_list <- runDB $ selectList [] [Desc ExamTitle]
               exam <-  runDB $ get404 exam_id
-
               (widget, enctype) <-generateFormPost $ listEditMForm $ examQuestions exam
-              let middleWidget = [whamlet|
-                                            <form method=post enctype=#{enctype}>
+              let middleWidget = [whamlet|  <form method=post enctype=#{enctype}>
                                                  ^{widget}
                                             <script>
-                                                 var divList = document.getElementsByClassName("tab-content");
-                                                   for(i=0; i<divList.length; i++){
-                                                     divList[i].style.top = 40*Math.ceil(#{length $ examQuestions exam}/10) + "px";
-                                                   }
-                                  |]
+                                                    var divList = document.getElementsByClassName("tab-content");
+                                                        for(i=0; i<divList.length; i++){
+                                                            divList[i].style.top = 40*Math.ceil(#{length $ examQuestions exam}/10) + "px";
+                                                        }
+                                        |]
               defaultLayout $ do $(widgetFile "exam")
 
 
@@ -57,7 +55,6 @@ postExamR :: ExamId -> Handler Html
 postExamR exam_id = do
               entity_exam_list <- runDB $ selectList [] [Desc ExamTitle]
               exam  <- runDB $ get404 exam_id
-
               ((res,_), _) <- runFormPost $ listEditMForm $ examQuestions exam
               let middleWidget = case res of
                    (FormSuccess list) -> let newList = Import.zip ([1..]::[Int]) list in
@@ -90,7 +87,7 @@ zipQuestCookies (x:xs) (y:ys) = (x,(Just y)):zipQuestCookies xs ys
 listEditMForm :: [Question] -> Html -> MForm Handler (FormResult ([FormResult (Maybe [Int])]), Widget)
 listEditMForm xs token = do
       -- session cookie mit den fragen zippen und dann mit dem forM als argument rausholen
-     -- let questsNcookies = zipQuestCookies xs []
+      -- let questsNcookies = zipQuestCookies xs []
       check_fields <- forM xs (\(Question _ content list _ ) -> mopt (checkboxesFieldList' $ zipAnswers list) (fromString $ T.unpack content) Nothing)
       let (check_results, check_views) = unzip check_fields
       let numerated_views = Import.zip ([1..]::[Int]) check_views
@@ -102,9 +99,9 @@ listEditMForm xs token = do
                            <input type="radio" name="tabs" id="tab#{fvId view}">
                            <label for="tab#{fvId view}">Q #{show c}
                            <div id="tab-content#{fvId view}" class="tab-content animated fadeIn">
-                             <p class=boldWhite> #{fvLabel view}: </p>
-                             ^{fvInput view}
-                             <br>
+                               <p class=boldWhite> #{fvLabel view}: </p>
+                               ^{fvInput view}
+                               <br>
              <input class=button type=submit value="Testing">
         |]
       return ((FormSuccess check_results), widget)
@@ -117,12 +114,10 @@ checkboxesFieldList' :: (Eq a, RenderMessage site FormMessage, RenderMessage sit
 checkboxesFieldList' = checkboxesField' . optionsPairs
 
 
-checkboxesField' :: (Eq a, RenderMessage site FormMessage)
-                  => HandlerT site IO (OptionList a)
-                  -> Field (HandlerT site IO) [a]
+checkboxesField' :: (Eq a, RenderMessage site FormMessage) =>
+                    HandlerT site IO (OptionList a) -> Field (HandlerT site IO) [a]
 checkboxesField' ioptlist = (multiSelectField ioptlist)
-    { --fieldParse = \e _ -> return $ checkBoxParser e
-       fieldView =
+    { fieldView =
         \theId name attrs val _ -> do
             opts <- fmap olOptions $ handlerToWidget ioptlist
             let optselected (Left _) _ = False
@@ -134,9 +129,3 @@ checkboxesField' ioptlist = (multiSelectField ioptlist)
                           <input type=checkbox name=#{name} value=#{optionExternalValue opt} *{attrs} :optselected val opt:checked>
                           <span class=simpleWhite> #{optionDisplay opt}
                 |]}
-    --}
-    --where     checkBoxParser [] = Right $ Just False
-    --          checkBoxParser (x:xs) = case x of
-    --            "yes" -> Right $ Just True
-    --            "on" -> Right $ Just True
-    --            _     -> Right $ Just False

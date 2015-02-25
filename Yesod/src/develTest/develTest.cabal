@@ -30,6 +30,7 @@ library
     else
         ghc-options:   -Wall -fwarn-tabs -O2
 
+
     extensions: TemplateHaskell
                 QuasiQuotes
                 OverloadedStrings

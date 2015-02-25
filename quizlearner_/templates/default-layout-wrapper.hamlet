@@ -20,15 +20,14 @@ $newline never
         \<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         \<![endif]-->
 
-        <script>
-          document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/,'js');
-    <body>
+    <body onload="styleLinks();">
         <div class="container">
             <header>
             <div id="main" role="main">
               ^{pageBody pc}
             <footer>
-                #{appCopyright $ appSettings master}
+              <p> Made by Mujo Alic & Alexander Isenko
+              <p> MIT License
 
         $maybe analytics <- appAnalytics $ appSettings master
             <script>
