@@ -21,6 +21,7 @@ library
                      Handler.Common
                      Handler.Home
                      Handler.Exam
+                     Handler.Quizcreator
                      Assets
 
     if flag(dev) || flag(library-only)

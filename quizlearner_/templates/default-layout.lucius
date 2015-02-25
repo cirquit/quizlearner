@@ -3,7 +3,6 @@
 body {
  background-color: #CCC;
  font-family: Helvetica, Arial;
- color:#EEE;
 }
 
 .front {
@@ -74,7 +73,7 @@ body {
   height: 100%;
   min-height: 600px;
   min-width: 650px;
-  margin-top:50px;
+  margin-top: 25px;
   overflow: hidden;
 }
 
@@ -108,8 +107,6 @@ body {
   background-color: #463E3F;
 }
 
-
-
 .tabs input[type=radio] {
           position: absolute;
           top: -9999px;
@@ -124,10 +121,12 @@ body {
       }
       .tabs li{
         float: left;
-        /*height: 44px; */
+        height: 40px;
+        top:0px;
       }
       .tabs label {
           display: block;
+          color: #EEE;
           text-align: center;
           line-height: 40px;
           font-size: 18px;
@@ -135,8 +134,8 @@ body {
           background: #333;
           cursor: pointer;
           position: relative;
-          top:-4px;
-          left:4px;
+          top:-10px;
+          left:0px;
           width: 70px;
           /*height: 40px; */
           -webkit-transition: all 0.2s ease-in-out;
@@ -146,13 +145,11 @@ body {
       }
       .tabs label:hover {
         background: rgba(255,255,255,0.5);
-        top: -8px;
       }
 
       [id^=tab]:checked + label {
         background: #555;
         color: #FFA500;
-        top: -8px;
       }
 
       [id^=tab]:checked ~ [id^=tab-content] {
@@ -169,7 +166,6 @@ body {
         background: #555;
         padding: 15px;
         position: absolute;
-        top: 120px;
         width: 100%;
         left:0px;
         box-sizing: border-box;
@@ -180,3 +176,8 @@ body {
       }
 
 
+/* Footer */
+
+footer{
+  text-align: center;
+}

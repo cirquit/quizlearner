@@ -29,7 +29,8 @@ staticFiles "static"
 
 iconWidget :: Widget
 iconWidget = do
-             toWidget [hamlet| <img src=@{StaticR images_quizcreator_png} id="quiz_creator" title=#{q_creator_title}>
+             toWidget [hamlet| <a href=@{QuizcreatorR}>
+                                   <img src=@{StaticR images_quizcreator_png} id="quiz_creator" title=#{q_creator_title}>
                       |]
              toWidget [lucius| #quiz_creator{float: right; margin: 30px;}
                       |]
