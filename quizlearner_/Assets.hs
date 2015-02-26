@@ -1,6 +1,6 @@
 module Assets where
 
-import Import hiding (images_quizcreator_png)
+import Import hiding (images_quizCreator_svg, images_uploadXML_svg)
 
 -- ###################################################################################
 -- Widgets
@@ -30,13 +30,17 @@ staticFiles "static"
 iconWidget :: Widget
 iconWidget = do
              toWidget [hamlet| <a href=@{QuizcreatorR}>
-                                   <img src=@{StaticR images_quizcreator_png} id="quiz_creator" title=#{q_creator_title}>
+                                   <img src=@{StaticR images_uploadXML_svg} id="upload_xml" title=#{upload_xml_title} width="80px" height="80px">
+                                   <img src=@{StaticR images_quizCreator_svg} id="quiz_creator" title=#{q_creator_title} width="80px" height="80px">
                       |]
-             toWidget [lucius| #quiz_creator{float: right; margin: 30px;}
+             toWidget [lucius| #quiz_creator, #upload_xml {float: right; margin: 30px;}
                       |]
 
 q_creator_title :: Text
-q_creator_title = pack "Click this if you want to create a new exam!"
+q_creator_title = pack "Click this to create a new exam"
+
+upload_xml_title :: Text
+upload_xml_title = pack "Click this to upload an XML file"
 
 
 -- ###################################################################################
