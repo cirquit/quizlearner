@@ -12,20 +12,17 @@ Exam
     title        Text
     maxScore     Int
     maxTime      Int
-    passingScore Double
-    questions    [Question]
+    passPercentage Double
+    questions     [Question]
     deriving Show
 Question
     identity   Text
     content    Text
     answerList [Answer]
-    maxScore   Int
     deriving Show
 Answer
     identity  Text
     content   Text
     isCorrect Bool
-    isChecked Bool
-    hint      Text
     deriving Show
  -- By default this file is used in Model.hs (which is imported by Foundation.hs)

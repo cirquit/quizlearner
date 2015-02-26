@@ -68,7 +68,7 @@ zipAnswers :: [Answer] -> [(Text, Int)]
 zipAnswers [] = []
 zipAnswers xs = acc 0 xs
      where  acc _ []  = []
-            acc n ((Answer _ text _ _ _ ):xs') =  (text, n):acc (n+1) xs'
+            acc n ((Answer _ text _ ):xs') =  (text, n):acc (n+1) xs'
 
 
 
@@ -125,20 +125,20 @@ exam_list :: [Exam]
 exam_list =[exam_1, exam_2]
 
 exam_1, exam_2 :: Exam
-exam_1 = Exam {examTitle="Lineare Algebra", examMaxScore=50, examMaxTime=120, examPassingScore=45.0, examQuestions=[q1,q2,q3,q4,q5,q6,q7,q8,q9,q6,q6,q6]}
-exam_2 = Exam {examTitle="FFP",  examMaxScore=40, examMaxTime=180, examPassingScore=30.0, examQuestions=[q1,q2,q3]}
+exam_1 = Exam {examTitle="Lineare Algebra", examMaxScore=50, examMaxTime=120, examPassPercentage=0.45, examQuestions=[q1,q2,q3,q4,q5,q6,q7,q8,q9,q6,q6,q6]}
+exam_2 = Exam {examTitle="FFP",  examMaxScore=12, examMaxTime=180, examPassPercentage=0.3, examQuestions=[q1,q2,q3]}
 
 -- Temporary Questions
 q1,q2,q3,q4,q5,q6,q7,q8,q9 :: Question
-q1 = Question {questionIdentity="1", questionContent="Wieviel ist 2+3?", questionAnswerList=q1_answers, questionMaxScore=4}
-q2 = Question {questionIdentity="2", questionContent="Wieviel ist 3+4?", questionAnswerList=q2_answers, questionMaxScore=4}
-q3 = Question {questionIdentity="3", questionContent="Wieviel ist 4+5?", questionAnswerList=q3_answers, questionMaxScore=4}
-q4 = Question {questionIdentity="4", questionContent="Wieviel ist 2+3?", questionAnswerList=q4_answers, questionMaxScore=4}
-q5 = Question {questionIdentity="5", questionContent="Wieviel ist 3+4?", questionAnswerList=q5_answers, questionMaxScore=4}
-q6 = Question {questionIdentity="6", questionContent="Wieviel ist 4+5?", questionAnswerList=q6_answers, questionMaxScore=4}
-q7 = Question {questionIdentity="7", questionContent="Wieviel ist 2+3?", questionAnswerList=q7_answers, questionMaxScore=4}
-q8 = Question {questionIdentity="8", questionContent="Wieviel ist 3+4?", questionAnswerList=q8_answers, questionMaxScore=4}
-q9 = Question {questionIdentity="9", questionContent="Wieviel ist 4+5?", questionAnswerList=q9_answers, questionMaxScore=4}
+q1 = Question {questionIdentity="1", questionContent="Wieviel ist 2+3?", questionAnswerList=q1_answers}
+q2 = Question {questionIdentity="2", questionContent="Wieviel ist 3+4?", questionAnswerList=q2_answers}
+q3 = Question {questionIdentity="3", questionContent="Wieviel ist 4+5?", questionAnswerList=q3_answers}
+q4 = Question {questionIdentity="4", questionContent="Wieviel ist 2+3?", questionAnswerList=q4_answers}
+q5 = Question {questionIdentity="5", questionContent="Wieviel ist 3+4?", questionAnswerList=q5_answers}
+q6 = Question {questionIdentity="6", questionContent="Wieviel ist 4+5?", questionAnswerList=q6_answers}
+q7 = Question {questionIdentity="7", questionContent="Wieviel ist 2+3?", questionAnswerList=q7_answers}
+q8 = Question {questionIdentity="8", questionContent="Wieviel ist 3+4?", questionAnswerList=q8_answers}
+q9 = Question {questionIdentity="9", questionContent="Wieviel ist 4+5?", questionAnswerList=q9_answers}
 
 -- Temporary Answers
 q1_answers, q2_answers, q3_answers, q4_answers, q5_answers, q6_answers, q7_answers, q8_answers, q9_answers :: [Answer]
@@ -157,42 +157,42 @@ q1_a1, q1_a2, q1_a3, q1_a4, q2_a1, q2_a2, q2_a3, q2_a4, q3_a1, q3_a2, q3_a3, q3_
 q4_a1, q4_a2, q4_a3, q4_a4, q5_a1, q5_a2, q5_a3, q5_a4, q6_a1, q6_a2, q6_a3, q6_a4 :: Answer
 q7_a1, q7_a2, q7_a3, q7_a4, q8_a1, q8_a2, q8_a3, q8_a4, q9_a1, q9_a2, q9_a3, q9_a4 :: Answer
 
-q1_a1 = Answer {answerIdentity="q1_a1", answerContent="1", answerIsCorrect=False, answerIsChecked=False, answerHint="This is hint"}
-q1_a2 = Answer {answerIdentity="q1_a2", answerContent="2", answerIsCorrect=False, answerIsChecked=False, answerHint="This is hint"}
-q1_a3 = Answer {answerIdentity="q1_a3", answerContent="3", answerIsCorrect=False, answerIsChecked=False, answerHint="This is hint"}
-q1_a4 = Answer {answerIdentity="q1_a4", answerContent="5", answerIsCorrect=True , answerIsChecked=False, answerHint="This is hint"}
-q2_a1 = Answer {answerIdentity="q2_a1", answerContent="5", answerIsCorrect=False, answerIsChecked=False, answerHint="This is hint"}
-q2_a2 = Answer {answerIdentity="q2_a2", answerContent="9", answerIsCorrect=False, answerIsChecked=False, answerHint="This is hint"}
-q2_a3 = Answer {answerIdentity="q2_a3", answerContent="3", answerIsCorrect=False, answerIsChecked=False, answerHint="This is hint"}
-q2_a4 = Answer {answerIdentity="q2_a4", answerContent="1", answerIsCorrect=True , answerIsChecked=False, answerHint="This is hint"}
-q3_a1 = Answer {answerIdentity="q3_a1", answerContent="1", answerIsCorrect=False, answerIsChecked=False, answerHint="This is hint"}
-q3_a2 = Answer {answerIdentity="q3_a2", answerContent="9", answerIsCorrect=False, answerIsChecked=False, answerHint="This is hint"}
-q3_a3 = Answer {answerIdentity="q3_a3", answerContent="7", answerIsCorrect=False, answerIsChecked=False, answerHint="This is hint"}
-q3_a4 = Answer {answerIdentity="q3_a4", answerContent="2", answerIsCorrect=True , answerIsChecked=False, answerHint="This is hint"}
-q4_a1 = Answer {answerIdentity="q4_a1", answerContent="1", answerIsCorrect=False, answerIsChecked=False, answerHint="This is hint"}
-q4_a2 = Answer {answerIdentity="q4_a2", answerContent="2", answerIsCorrect=False, answerIsChecked=False, answerHint="This is hint"}
-q4_a3 = Answer {answerIdentity="q4_a3", answerContent="4", answerIsCorrect=False, answerIsChecked=False, answerHint="This is hint"}
-q4_a4 = Answer {answerIdentity="q4_a4", answerContent="5", answerIsCorrect=True , answerIsChecked=False, answerHint="This is hint"}
-q5_a1 = Answer {answerIdentity="q5_a1", answerContent="5", answerIsCorrect=False, answerIsChecked=False, answerHint="This is hint"}
-q5_a2 = Answer {answerIdentity="q5_a2", answerContent="2", answerIsCorrect=False, answerIsChecked=False, answerHint="This is hint"}
-q5_a3 = Answer {answerIdentity="q5_a3", answerContent="3", answerIsCorrect=False, answerIsChecked=False, answerHint="This is hint"}
-q5_a4 = Answer {answerIdentity="q5_a4", answerContent="1", answerIsCorrect=True , answerIsChecked=False, answerHint="This is hint"}
-q6_a1 = Answer {answerIdentity="q6_a1", answerContent="1", answerIsCorrect=False, answerIsChecked=False, answerHint="This is hint"}
-q6_a2 = Answer {answerIdentity="q6_a2", answerContent="9", answerIsCorrect=False, answerIsChecked=False, answerHint="This is hint"}
-q6_a3 = Answer {answerIdentity="q6_a3", answerContent="7", answerIsCorrect=False, answerIsChecked=False, answerHint="This is hint"}
-q6_a4 = Answer {answerIdentity="q6_a4", answerContent="2", answerIsCorrect=True , answerIsChecked=False, answerHint="This is hint"}
-q7_a1 = Answer {answerIdentity="q7_a1", answerContent="1", answerIsCorrect=False, answerIsChecked=False, answerHint="This is hint"}
-q7_a2 = Answer {answerIdentity="q7_a2", answerContent="2", answerIsCorrect=False, answerIsChecked=False, answerHint="This is hint"}
-q7_a3 = Answer {answerIdentity="q7_a3", answerContent="4", answerIsCorrect=False, answerIsChecked=False, answerHint="This is hint"}
-q7_a4 = Answer {answerIdentity="q7_a4", answerContent="5", answerIsCorrect=True , answerIsChecked=False, answerHint="This is hint"}
-q8_a1 = Answer {answerIdentity="q8_a1", answerContent="5", answerIsCorrect=False, answerIsChecked=False, answerHint="This is hint"}
-q8_a2 = Answer {answerIdentity="q8_a2", answerContent="2", answerIsCorrect=False, answerIsChecked=False, answerHint="This is hint"}
-q8_a3 = Answer {answerIdentity="q8_a3", answerContent="3", answerIsCorrect=False, answerIsChecked=False, answerHint="This is hint"}
-q8_a4 = Answer {answerIdentity="q8_a4", answerContent="1", answerIsCorrect=True , answerIsChecked=False, answerHint="This is hint"}
-q9_a1 = Answer {answerIdentity="q9_a1", answerContent="1", answerIsCorrect=False, answerIsChecked=False, answerHint="This is hint"}
-q9_a2 = Answer {answerIdentity="q9_a2", answerContent="9", answerIsCorrect=False, answerIsChecked=False, answerHint="This is hint"}
-q9_a3 = Answer {answerIdentity="q9_a3", answerContent="7", answerIsCorrect=False, answerIsChecked=False, answerHint="This is hint"}
-q9_a4 = Answer {answerIdentity="q9_a4", answerContent="2", answerIsCorrect=True , answerIsChecked=False, answerHint="This is hint"}
+q1_a1 = Answer {answerIdentity="q1_a1", answerContent="1", answerIsCorrect=False}
+q1_a2 = Answer {answerIdentity="q1_a2", answerContent="2", answerIsCorrect=False}
+q1_a3 = Answer {answerIdentity="q1_a3", answerContent="3", answerIsCorrect=False}
+q1_a4 = Answer {answerIdentity="q1_a4", answerContent="5", answerIsCorrect=True }
+q2_a1 = Answer {answerIdentity="q2_a1", answerContent="5", answerIsCorrect=False}
+q2_a2 = Answer {answerIdentity="q2_a2", answerContent="9", answerIsCorrect=False}
+q2_a3 = Answer {answerIdentity="q2_a3", answerContent="3", answerIsCorrect=False}
+q2_a4 = Answer {answerIdentity="q2_a4", answerContent="1", answerIsCorrect=True }
+q3_a1 = Answer {answerIdentity="q3_a1", answerContent="1", answerIsCorrect=False}
+q3_a2 = Answer {answerIdentity="q3_a2", answerContent="9", answerIsCorrect=False}
+q3_a3 = Answer {answerIdentity="q3_a3", answerContent="7", answerIsCorrect=False}
+q3_a4 = Answer {answerIdentity="q3_a4", answerContent="2", answerIsCorrect=True }
+q4_a1 = Answer {answerIdentity="q4_a1", answerContent="1", answerIsCorrect=False}
+q4_a2 = Answer {answerIdentity="q4_a2", answerContent="2", answerIsCorrect=False}
+q4_a3 = Answer {answerIdentity="q4_a3", answerContent="4", answerIsCorrect=False}
+q4_a4 = Answer {answerIdentity="q4_a4", answerContent="5", answerIsCorrect=True }
+q5_a1 = Answer {answerIdentity="q5_a1", answerContent="5", answerIsCorrect=False}
+q5_a2 = Answer {answerIdentity="q5_a2", answerContent="2", answerIsCorrect=False}
+q5_a3 = Answer {answerIdentity="q5_a3", answerContent="3", answerIsCorrect=False}
+q5_a4 = Answer {answerIdentity="q5_a4", answerContent="1", answerIsCorrect=True }
+q6_a1 = Answer {answerIdentity="q6_a1", answerContent="1", answerIsCorrect=False}
+q6_a2 = Answer {answerIdentity="q6_a2", answerContent="9", answerIsCorrect=False}
+q6_a3 = Answer {answerIdentity="q6_a3", answerContent="7", answerIsCorrect=False}
+q6_a4 = Answer {answerIdentity="q6_a4", answerContent="2", answerIsCorrect=True }
+q7_a1 = Answer {answerIdentity="q7_a1", answerContent="1", answerIsCorrect=False}
+q7_a2 = Answer {answerIdentity="q7_a2", answerContent="2", answerIsCorrect=False}
+q7_a3 = Answer {answerIdentity="q7_a3", answerContent="4", answerIsCorrect=False}
+q7_a4 = Answer {answerIdentity="q7_a4", answerContent="5", answerIsCorrect=True }
+q8_a1 = Answer {answerIdentity="q8_a1", answerContent="5", answerIsCorrect=False}
+q8_a2 = Answer {answerIdentity="q8_a2", answerContent="2", answerIsCorrect=False}
+q8_a3 = Answer {answerIdentity="q8_a3", answerContent="3", answerIsCorrect=False}
+q8_a4 = Answer {answerIdentity="q8_a4", answerContent="1", answerIsCorrect=True }
+q9_a1 = Answer {answerIdentity="q9_a1", answerContent="1", answerIsCorrect=False}
+q9_a2 = Answer {answerIdentity="q9_a2", answerContent="9", answerIsCorrect=False}
+q9_a3 = Answer {answerIdentity="q9_a3", answerContent="7", answerIsCorrect=False}
+q9_a4 = Answer {answerIdentity="q9_a4", answerContent="2", answerIsCorrect=True }
 
 
 -- ######## DEPRICATED ###############

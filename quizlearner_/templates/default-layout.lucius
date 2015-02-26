@@ -20,6 +20,22 @@ body {
   text-decoration: none;
 }
 
+.green {
+  font-size: 24px;
+  text-align: middle;
+  color:#82CC68;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+.sadred {
+  font-size: 24px;
+  text-align: middle;
+  color:#E52325;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
 .orangeTitle{
   font-size: 26px;
   font-weight: 900;
@@ -32,13 +48,18 @@ body {
   text-align: left;
   color:#CCC;
   font-weight: bold;
-  margin-left: 4px;
+  margin-left: 10px;
 }
 
 .simpleWhite {
   color: white;
   font-style: 20px;
   margin:10px;
+}
+
+.simpleOrange {
+   color:#FFA500;
+   font-style: 20px;
 }
 
 
