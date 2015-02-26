@@ -1,17 +1,171 @@
-<html>wertzuz
-    <text>slaksjl</text>
-    <blabla> myContent </blabla>
-    <head>
-        <title blabla="some text">Headings</title>
-    </head>
-    <body>
-        <hgroup>
-            <h1>Heading 1 foo</h1>
-            <h2 class="blabla">Heading 2 foo</h2>
-        </hgroup>
-        <hgroup>
-            <h1>Heading 1 bar</h1>
-            <h2 class="bar">Heading 2 bar</h2>
-        </hgroup>
-    </body>
-</html>
+<quiz title="Meine Klausur" qcount="24" time="90" passpercentage="0.5">
+
+    <question content="Wieviel ist 2+4?" identity="1">
+        <answer identity="q1_a1" correct="false">2</answer>
+        <answer identity="q1_a2" correct="true">6</answer>
+        <answer identity="q1_a3" correct="false">8</answer>
+        <answer identity="q1_a4" correct="false">9</answer>
+    </question>
+
+    <question content="Wieviel ist 2+7?" identity="2">
+        <answer identity="q2_a1" correct="false">2</answer>
+        <answer identity="q2_a2" correct="false">0</answer>
+        <answer identity="q2_a3" correct="false">8</answer>
+        <answer identity="q2_a4" correct="true">9</answer>
+    </question>
+
+    <question content="Wieviel ist 1+4?" identity="3">
+        <answer identity="q3_a1" correct="true">5</answer>
+        <answer identity="q3_a2" correct="false">6</answer>
+        <answer identity="q3_a3" correct="true">5</answer>
+        <answer identity="q3_a4" correct="false">9</answer>
+    </question>
+
+    <question content="Wieviel ist 2+9?" identity="4">
+        <answer identity="q4_a1" correct="false">2</answer>
+        <answer identity="q4_a2" correct="true">11</answer>
+        <answer identity="q4_a3" correct="false">3</answer>
+        <answer identity="q4_a4" correct="false">9</answer>
+    </question>
+
+    <question content="Wieviel ist 2+4?" identity="5">
+        <answer identity="q5_a1" correct="false">2</answer>
+        <answer identity="q5_a2" correct="true">6</answer>
+        <answer identity="q5_a3" correct="false">8</answer>
+        <answer identity="q5_a4" correct="false">9</answer>
+    </question>
+
+    <question content="Wieviel ist 2+4?" identity="6">
+        <answer identity="q6_a1" correct="false">2</answer>
+        <answer identity="q6_a2" correct="true">6</answer>
+        <answer identity="q6_a3" correct="false">8</answer>
+        <answer identity="q6_a4" correct="false">9</answer>
+    </question>
+
+    <question content="Wieviel ist 2+4?" identity="7">
+        <answer identity="q7_a1" correct="false">2</answer>
+        <answer identity="q7_a2" correct="true">6</answer>
+        <answer identity="q7_a3" correct="false">8</answer>
+        <answer identity="q7_a4" correct="false">9</answer>
+    </question>
+
+    <question content="Wieviel ist 2+4?" identity="8">
+        <answer identity="q8_a1" correct="false">2</answer>
+        <answer identity="q8_a2" correct="true">6</answer>
+        <answer identity="q8_a3" correct="false">8</answer>
+        <answer identity="q8_a4" correct="false">9</answer>
+    </question>
+
+    <question content="Wieviel ist 2+4?" identity="9">
+        <answer identity="q9_a1" correct="false">2</answer>
+        <answer identity="q9_a2" correct="true">6</answer>
+        <answer identity="q9_a3" correct="false">8</answer>
+        <answer identity="q9_a4" correct="false">9</answer>
+    </question>
+
+    <question content="Wieviel ist 2+4?" identity="10">
+        <answer identity="q10_a1" correct="false">2</answer>
+        <answer identity="q10_a2" correct="true">6</answer>
+        <answer identity="q10_a3" correct="false">8</answer>
+        <answer identity="q10_a4" correct="false">9</answer>
+    </question>
+
+    <question content="Wieviel ist 2+4?" identity="11">
+        <answer identity="q11_a1" correct="false">2</answer>
+        <answer identity="q11_a2" correct="true">6</answer>
+        <answer identity="q11_a3" correct="false">8</answer>
+        <answer identity="q11_a4" correct="false">9</answer>
+    </question>
+
+    <question content="Wieviel ist 2+4?" identity="12">
+        <answer identity="q12_a1" correct="false">2</answer>
+        <answer identity="q12_a2" correct="true">6</answer>
+        <answer identity="q12_a3" correct="false">8</answer>
+        <answer identity="q12_a4" correct="false">9</answer>
+    </question>
+
+    <question content="Wieviel ist 2+4?" identity="13">
+        <answer identity="q13_a1" correct="false">2</answer>
+        <answer identity="q13_a2" correct="true">6</answer>
+        <answer identity="q13_a3" correct="false">8</answer>
+        <answer identity="q13_a4" correct="false">9</answer>
+    </question>
+
+    <question content="Wieviel ist 2+4?" identity="14">
+        <answer identity="q14_a1" correct="false">2</answer>
+        <answer identity="q14_a2" correct="true">6</answer>
+        <answer identity="q14_a3" correct="false">8</answer>
+        <answer identity="q14_a4" correct="false">9</answer>
+    </question>
+
+    <question content="Wieviel ist 2+4?" identity="15">
+        <answer identity="q15_a1" correct="false">2</answer>
+        <answer identity="q15_a2" correct="true">6</answer>
+        <answer identity="q15_a3" correct="false">8</answer>
+        <answer identity="q15_a4" correct="false">9</answer>
+    </question>
+
+    <question content="Wieviel ist 2+4?" identity="16">
+        <answer identity="q16_a1" correct="false">2</answer>
+        <answer identity="q16_a2" correct="true">6</answer>
+        <answer identity="q16_a3" correct="false">8</answer>
+        <answer identity="q16_a4" correct="false">9</answer>
+    </question>
+
+    <question content="Wieviel ist 2+4?" identity="17">
+        <answer identity="q17_a1" correct="false">2</answer>
+        <answer identity="q17_a2" correct="true">6</answer>
+        <answer identity="q17_a3" correct="false">8</answer>
+        <answer identity="q17_a4" correct="false">9</answer>
+    </question>
+
+    <question content="Wieviel ist 2+4?" identity="18">
+        <answer identity="q18_a1" correct="false">2</answer>
+        <answer identity="q18_a2" correct="true">6</answer>
+        <answer identity="q18_a3" correct="false">8</answer>
+        <answer identity="q18_a4" correct="false">9</answer>
+    </question>
+
+    <question content="Wieviel ist 2+4?" identity="19">
+        <answer identity="q19_a1" correct="false">2</answer>
+        <answer identity="q19_a2" correct="true">6</answer>
+        <answer identity="q19_a3" correct="false">8</answer>
+        <answer identity="q19_a4" correct="false">9</answer>
+    </question>
+
+    <question content="Wieviel ist 2+4?" identity="20">
+        <answer identity="q20_a1" correct="false">2</answer>
+        <answer identity="q20_a2" correct="true">6</answer>
+        <answer identity="q20_a3" correct="false">8</answer>
+        <answer identity="q20_a4" correct="false">9</answer>
+    </question>
+
+    <question content="Wieviel ist 2+4?" identity="21">
+        <answer identity="q21_a1" correct="false">2</answer>
+        <answer identity="q21_a2" correct="true">6</answer>
+        <answer identity="q21_a3" correct="false">8</answer>
+        <answer identity="q21_a4" correct="false">9</answer>
+    </question>
+
+    <question content="Wieviel ist 2+4?" identity="22">
+        <answer identity="q22_a1" correct="false">2</answer>
+        <answer identity="q22_a2" correct="true">6</answer>
+        <answer identity="q22_a3" correct="false">8</answer>
+        <answer identity="q22_a4" correct="false">9</answer>
+    </question>
+
+    <question content="Wieviel ist 2+4?" identity="23">
+        <answer identity="q23_a1" correct="false">2</answer>
+        <answer identity="q23_a2" correct="true">6</answer>
+        <answer identity="q23_a3" correct="false">8</answer>
+        <answer identity="q23_a4" correct="false">9</answer>
+    </question>
+
+    <question content="Wieviel ist 2+4?" identity="24">
+        <answer identity="q24_a1" correct="false">2</answer>
+        <answer identity="q24_a2" correct="true">6</answer>
+        <answer identity="q24_a3" correct="false">8</answer>
+        <answer identity="q24_a4" correct="false">9</answer>
+    </question>
+</quiz>
+
