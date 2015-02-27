@@ -2,6 +2,7 @@
 import Prelude hiding (readFile)
 import Text.XML
 import Text.XML.Cursor
+import Text.HTML.DOM
 import Data.Text as T hiding (map, length)
 import Data.List.Split as S (chunksOf)
 

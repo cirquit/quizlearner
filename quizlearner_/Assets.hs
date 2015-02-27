@@ -30,8 +30,9 @@ staticFiles "static"
 iconWidget :: Widget
 iconWidget = do
              toWidget [hamlet| <a href=@{QuizcreatorR}>
-                                   <img src=@{StaticR images_uploadXML_svg} id="upload_xml" title=#{upload_xml_title} width="80px" height="80px">
                                    <img src=@{StaticR images_quizCreator_svg} id="quiz_creator" title=#{q_creator_title} width="80px" height="80px">
+                               <a href=@{UploadR}>
+                                   <img src=@{StaticR images_uploadXML_svg} id="upload_xml" title=#{upload_xml_title} width="80px" height="80px">
                       |]
              toWidget [lucius| #quiz_creator, #upload_xml {float: right; margin: 30px;}
                       |]
