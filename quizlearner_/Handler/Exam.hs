@@ -1,6 +1,6 @@
 module Handler.Exam where
 
-import Assets (zipAnswers, titleWidget, iconWidget, leftWidget)
+import Assets (zipAnswers, titleWidget, iconWidget, leftWidget, toDouble, floor')
 import Import hiding (unzip)
 import Data.List ((!!), unzip)
 
@@ -22,17 +22,13 @@ postExamR exam_id = do
     ((res,_), _) <- runFormPost $ listEditMForm $ examQuestions exam
     let middleWidget = case res of
          (FormSuccess list) -> let newList = zip ([0..]::[Int]) list
-                                   accPoints  = fromIntegral (accumAnswers newList exam) :: Double
-                                   accPercent = accPoints / fromIntegral (examMaxScore exam)
+                                   accPoints  = toDouble (accumAnswers newList exam)
+                                   accPercent = accPoints / toDouble (examMaxScore exam)
                                    passed = accPercent >= examPassPercentage exam
-                                   roundPercent = fromIntegral (floor $ accPercent * 10000) / 100 in
+                                   roundPercent = (toDouble  $ floor' $ accPercent * 10000) / 100 in
                                    [whamlet|
-                                        $forall (c,(FormSuccess may)) <- newList
-                                            $maybe just <- may
-                                                <p class=simpleWhite>Question Nr.#{show c}: #{show $ compareAnswers (getAnswers exam c) (Just $ toBoolList just)}p
-                                            $nothing
-                                                <p class=simpleWhite>Question Nr.#{show c}: You didn't check anything. #{show $ compareAnswers (getAnswers exam c) Nothing}p
-                                    <p class=boldWhite> #{show accPoints}p | #{show roundPercent}%
+                                    ^{tableWidget newList exam}
+                                        <p class=boldWhite> #{show accPoints}p | #{show roundPercent}%
                                     $if passed
                                         <p class=green> Congratulations, you passed the test!
                                     $else
@@ -116,4 +112,49 @@ accumAnswers :: [(Int, FormResult (Maybe [Int]))] -> Exam -> Int
 accumAnswers [] _  = 0
 accumAnswers ((c,(FormSuccess (Just xs))):ys) exam = compareAnswers (getAnswers exam c) (Just $ toBoolList xs) + accumAnswers ys exam
 accumAnswers ((c,(_)):ys) exam = compareAnswers (getAnswers exam c) Nothing + accumAnswers ys exam
+
+tableWidget :: (MonadThrow m, MonadBaseControl IO m, MonadIO m, Foldable t) =>
+        t (Int, FormResult (Maybe [Int])) -> Exam -> WidgetT App m ()
+tableWidget maybeAnswers exam = [whamlet|
+                                    <table class=evalTable>
+                                        <tr>
+                                            <th> Question
+                                            <th colspan="4"> Answers
+                                            <th> Points
+                                        $forall (c,(FormSuccess may)) <- maybeAnswers
+                                            ^{evalWidget exam c may}
+                                |]
+
+xW :: [Bool] -> Int -> Int -> Exam -> Int -> Widget
+xW l n c exam res
+ | l !! n = toWidget [hamlet|
+                     <th class=info>#{show (n + 1)} ☒
+                        <span class=showinfo#{show res}#{show (n + 1)}> #{show $ answerContent $ (questionAnswerList ((examQuestions exam) !! c) !! n)}
+            |]
+ | otherwise = toWidget [hamlet|
+                    <th class=info>#{show (n + 1)} ☐
+                        <span class=showinfo#{show res}#{show (n + 1)}> #{show $ answerContent $ (questionAnswerList ((examQuestions exam) !! c) !! n)}
+               |]
+
+evalWidget :: Exam -> Int -> Maybe [Int] -> Widget
+evalWidget exam c maybeAnswer  = let res = getAnswers exam c
+                                     fl  = [False, False, False, False]
+                                     r = 1 {- result tooltip css -}
+                                     cr = 2 {- correct answer tooltip css -} in
+                      [whamlet|
+                          <tr>
+                                    <th rowspan="2" class=info> Nr. #{show c}
+                                        <span class=showinfoQ> #{show $ questionContent $ (examQuestions exam) !! c}
+                            $maybe just <- maybeAnswer
+                                $with bl <- toBoolList just
+                                    ^{xW bl 0 c exam r} ^{xW bl 1 c exam r} ^{xW bl 2 c exam r} ^{xW bl 3 c exam r}
+                                    <th rowspan="2"> #{show $ compareAnswers res (Just $ bl)}p
+                            $nothing
+                                    ^{xW fl 0 c exam r} ^{xW fl 1 c exam r} ^{xW fl 2 c exam r} ^{xW fl 3 c exam r}
+                                    <th rowspan="2"> #{show $ compareAnswers res Nothing}p
+                          <tr style="background-color:#31914E;">
+                                    ^{xW res 0 c exam cr} ^{xW res 1 c exam cr} ^{xW res 2 c exam cr} ^{xW res 3 c exam cr}
+                     |]
+
+
 

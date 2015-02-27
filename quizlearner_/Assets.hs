@@ -71,9 +71,11 @@ zipAnswers xs = acc 0 xs
             acc n ((Answer _ text _ ):xs') =  (text, n):acc (n+1) xs'
 
 
+toDouble :: (Integral a) => a -> Double
+toDouble = fromIntegral
 
-
-
+floor' :: (RealFrac a) => a -> Integer
+floor' = floor
 
 
 
