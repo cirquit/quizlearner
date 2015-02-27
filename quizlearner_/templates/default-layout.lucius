@@ -149,7 +149,7 @@ body {
     display: none;
     text-align: center;
     background: #595757;
-    margin-top: -34px;
+    margin-top: -34.5px;
     margin-left: 243px;
     padding: 10px;
     position: absolute;
@@ -161,7 +161,7 @@ body {
     display: none;
     text-align: center;
     background: #595757;
-    margin-top: -34px;
+    margin-top: -34.5px;
     margin-left: 199px;
     padding: 10px;
     position: absolute;
@@ -173,7 +173,7 @@ body {
     display: none;
     text-align: center;
     background: #595757;
-    margin-top: -34px;
+    margin-top: -34.5px;
     margin-left: 155px;
     padding: 10px;
     position: absolute;
@@ -185,7 +185,7 @@ body {
     display: none;
     text-align: center;
     background: #595757;
-    margin-top: -34px;
+    margin-top: -34.5px;
     margin-left: 111px;
     padding: 10px;
     position: absolute;
