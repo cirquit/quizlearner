@@ -1,2 +1,13 @@
   <div id=wrapper>
-      FUCK YOU
+      <!-- Upper Div-->
+      <div id=top class=front>
+          ^{titleWidget}
+          ^{iconWidget}
+      <!-- Left Div-->
+      <div id=left class=front align=center>
+          ^{leftWidget entityExamList}
+      <!-- Middle Div-->
+      <div id=question class=front>
+          ^{formWidget}
+      <!-- Lower Div-->
+      <div id=buttons class=front>

@@ -1,10 +1,14 @@
 module Handler.Quizcreator where
 
 import Import
-import Assets
+import Assets (loadDB, titleWidget, iconWidget, leftWidget)
 
 getQuizcreatorR :: Handler Html
-getQuizcreatorR = error "Not yet implemented: getQuizcreatorR"
+getQuizcreatorR =  do
+                   entityExamList <- runDB $ selectList [] [Desc ExamTitle]
+                   defaultLayout $ do $(widgetFile "quizcreator")
 
 postQuizcreatorR :: Handler Html
-postQuizcreatorR = error "Not yet implemented: postQuizcreatorR"
+postQuizcreatorR = do
+                   entityExamList <- runDB $ selectList [] [Desc ExamTitle]
+                   defaultLayout $ do $(widgetFile "quizcreator")

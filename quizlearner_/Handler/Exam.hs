@@ -125,7 +125,12 @@ tableWidget maybeAnswers exam = [whamlet|
                                             ^{evalWidget exam c may}
                                 |]
 
-xW :: [Bool] -> Int -> Int -> Exam -> Int -> Widget
+xW :: [Bool] --answer list
+    -> Int   --answer index
+    -> Int   --question index
+    -> Exam
+    -> Int   --correct answer (2) | person answer (1)
+    -> Widget
 xW l n c exam res
  | l !! n = toWidget [hamlet|
                      <th class=info>#{show (n + 1)} ☒
@@ -136,7 +141,10 @@ xW l n c exam res
                         <span class=showinfo#{show res}#{show (n + 1)}> #{show $ answerContent $ (questionAnswerList ((examQuestions exam) !! c) !! n)}
                |]
 
-evalWidget :: Exam -> Int -> Maybe [Int] -> Widget
+evalWidget :: Exam
+            -> Int -- question index
+            -> Maybe [Int] -- possible answers
+            -> Widget
 evalWidget exam c maybeAnswer  = let res = getAnswers exam c
                                      fl  = [False, False, False, False]
                                      r = 1 {- result tooltip css -}
