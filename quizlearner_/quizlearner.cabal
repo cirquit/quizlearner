@@ -23,6 +23,7 @@ library
                      Handler.Exam
                      Handler.Quizcreator
                      Handler.Upload
+                     Handler.Xml
                      Assets
 
     if flag(dev) || flag(library-only)

@@ -9,6 +9,13 @@ body {
   background-color: #2B2B2B;
 }
 
+/* images */
+.xmllink {
+   color:#FFA500;
+   font-weight: bold;
+   text-decoration: none;
+ }
+
 /* Font Styles */
 .mainTitle, .mainTitle:hover {
   font-size: 64px;

@@ -2,30 +2,16 @@ module Assets where
 
 import Import hiding (images_quizCreator_svg, images_uploadXML_svg)
 
--- ###################################################################################
--- Widgets
-
-titleWidget :: Widget
-titleWidget = toWidget [hamlet|
-    <a class=mainTitle href=@{HomeR}>
-        <span style="color:#FAA500;">Quiz</span>Learner<br>
-                       |]
-
-leftWidget :: [Entity Exam] -> Widget
-leftWidget exams = toWidget [hamlet|
-    <p class=orangeTitle> [Exams]
-    <ul class=examList style="padding-left: 0px;">
-          $if null exams
-                  <p class=mid_orange> Couldn't find any exams in the DB!
-          $else
-              $forall (Entity examId exam) <- exams
-                  <li class=examList><a href=@{ExamR examId}> #{examTitle exam} </a>
-                              |]
 
 -- ###################################################################################
 -- Static Files
 
 staticFiles "static"
+
+xmlWidget :: ExamId -> Widget
+xmlWidget examId = do
+                   toWidget [hamlet| blubb
+                            |]
 
 iconWidget :: Widget
 iconWidget = do
@@ -43,6 +29,25 @@ q_creator_title = pack "Click this to create a new exam"
 upload_xml_title :: Text
 upload_xml_title = pack "Click this to upload an XML file"
 
+-- ###################################################################################
+-- Widgets
+
+titleWidget :: Widget
+titleWidget = toWidget [hamlet|
+    <a class=mainTitle href=@{HomeR}>
+        <span style="color:#FAA500;">Quiz</span>Learner<br>
+                       |]
+
+leftWidget :: [Entity Exam] -> Widget
+leftWidget exams = toWidget [hamlet|
+    <p class=orangeTitle> [Exams]
+    <ul class=examList style="padding-left: 0px;">
+          $if null exams
+                  <p class=sadred> Couldn't find any exams in the DB!
+          $else
+              $forall (Entity examId exam) <- exams
+                  <li class=examList><a href=@{ExamR examId}> #{examTitle exam} </a> <a class=xmllink href=@{XmlR examId}> &lt;xml&gt; </a>
+                            |]
 
 -- ###################################################################################
 -- DB
