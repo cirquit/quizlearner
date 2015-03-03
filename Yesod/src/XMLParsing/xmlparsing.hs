@@ -11,11 +11,14 @@ import Text.XML.HaXml
 data Exam = Exam {examTitle :: Text, examMaxScore :: Int, examTime :: Int, examPassPercentage :: Double, examQuestions :: [Question]}
     deriving Show
 
-data Question = Question {questionIdentity :: Text, questionContent :: Text, questionAnswerList :: [Answer]}
+data Question = Question {questionContent :: Text, questionAnswerList :: [Answer]}
     deriving Show
 
-data Answer = Answer {answerIdentity :: Text, answerContent :: Text, answerCorrect :: Bool}
+data Answer = Answer {answerContent :: Text, answerCorrect :: Bool}
     deriving Show
+
+
+
 
 
 makeAnswerLists :: Cursor -> [[Answer]]
@@ -23,10 +26,8 @@ makeAnswerLists cursor = zipWith3 (zipWith3 makeAnswer) aIdentities aContents aC
     where
         makeAnswer :: Text -> Text -> Text -> Answer
         makeAnswer identity content correct = Answer {
-                                              answerIdentity = identity, 
                                               answerContent  = content, 
                                               answerCorrect  = if correct=="true" then True else False}
-        aIdentities = getAnswerAttributes cursor "identity"
         aContents   = getAnswerContents cursor
         aCorrects   = getAnswerAttributes cursor "correct"    
 
@@ -40,7 +41,6 @@ makeQuestionList cursor = zipWith3 makeQuestion qIdentities qContents answerList
                                                 questionIdentity   = identity,
                                                 questionContent    = content,
                                                 questionAnswerList = answers}
-        qIdentities = getQuestionAttributes cursor "identity"
         qContents   = getQuestionAttributes cursor "content"
         answerLists = makeAnswerLists cursor
 
