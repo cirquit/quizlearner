@@ -5,6 +5,7 @@ import Text.XML.Cursor
 import Text.HTML.DOM
 import Data.Text as T hiding (map, length)
 import Data.List.Split as S (chunksOf)
+import Text.XML.HaXml
 
 
 data Exam = Exam {examTitle :: Text, examMaxScore :: Int, examTime :: Int, examPassPercentage :: Double, examQuestions :: [Question]}
@@ -84,7 +85,8 @@ main :: IO ()
 main = do
     doc <- readFile def "test2.xml"
     let cursor = fromDocument doc
-    putStrLn $ show $ makeExam cursor
+    -- putStrLn $ show $ makeExam cursor
+    putStrLn $ render doc
 
 
 

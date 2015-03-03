@@ -1,6 +1,6 @@
 module Assets where
 
-import Import hiding (images_quizCreator_svg, images_uploadXML_svg)
+import Import hiding (images_quizCreator_svg, images_uploadXML_svg, images_xml_svg)
 
 
 -- ###################################################################################
@@ -41,7 +41,9 @@ leftWidget exams = toWidget [hamlet|
                   <p class=sadred> Couldn't find any exams in the DB!
           $else
               $forall (Entity examId exam) <- exams
-                  <li class=examList><a href=@{ExamR examId}> #{examTitle exam} </a> <a class=xmllink href=@{XmlR examId}> &lt;xml&gt; </a>
+                  <li class=examList>
+                    <a href=@{ExamR examId}> #{examTitle exam} </a> 
+                    <a class=xmllink href=@{XmlR examId}> <img src=@{StaticR images_xml_svg}> </a>
                             |]
 
 -- ###################################################################################
