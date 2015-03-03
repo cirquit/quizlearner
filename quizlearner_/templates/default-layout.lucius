@@ -60,13 +60,13 @@ body {
 
 .simpleWhite {
   color: white;
-  font-style: 20px;
+  font-size: 20px;
   margin:10px;
 }
 
 .simpleOrange {
    color:#FFA500;
-   font-style: 20px;
+   font-size: 20px;
 }
 
 
@@ -110,145 +110,53 @@ body {
   }
 }
 
-/*Evaluation tooltip - new one*/
-.info:hover .showinfoQ{
-    display: block;
-}
-.info:hover .showinfo11{
-    display: block;
-}
-.info:hover .showinfo12{
-    display: block;
-}
-.info:hover .showinfo13{
-    display: block;
-}
-.info:hover .showinfo14{
-    display: block;
-}
-.info:hover .showinfo21{
-    display: block;
-}
-.info:hover .showinfo22{
-    display: block;
-}
-.info:hover .showinfo23{
-    display: block;
-}
-.info:hover .showinfo24{
-    display: block;
+/* Evaluation tooltip */
+
+th.tooltips {
+  position: relative;
 }
 
-.showinfoQ {
-    display: none;
-    text-align: center;
-    background: #595757;
-    margin-top: -54px;
-    margin-left: 341px;
-    padding: 10px;
-    position: absolute;
-    z-index: 1000;
-    width:506px;
-    height:80px;
+
+th.tooltips span {
+  position: absolute;
+  width: 400px;
+  color: #FFFFFF;
+  background: #000000;
+  height: 100px;
+  line-height: 25px;
+  padding: 15px;
+  text-align: center;
+  visibility: hidden;
+  border-radius: 4px;
+  box-shadow: 0px 0px 0px #7D7D7D;
+}
+th.tooltips span:after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -8px;
+  width: 0; height: 0;
+  border-top: 8px solid #000000;
+  border-right: 8px solid transparent;
+  border-left: 8px solid transparent;
+}
+th:hover.tooltips span {
+  visibility: visible;
+  opacity: 0.8;
+  bottom: 50px;
+  left: 50%;
+  margin-left: -200px;
+  z-index: 999;
 }
 
-.showinfo11 {
-    display: none;
-    text-align: center;
-    background: #595757;
-    margin-top: -34.5px;
-    margin-left: 243px;
-    padding: 10px;
-    position: absolute;
-    z-index: 1000;
-    width:506px;
-    height:80px;
-}
-.showinfo12 {
-    display: none;
-    text-align: center;
-    background: #595757;
-    margin-top: -34.5px;
-    margin-left: 199px;
-    padding: 10px;
-    position: absolute;
-    z-index: 1000;
-    width:506px;
-    height:80px;
-}
-.showinfo13 {
-    display: none;
-    text-align: center;
-    background: #595757;
-    margin-top: -34.5px;
-    margin-left: 155px;
-    padding: 10px;
-    position: absolute;
-    z-index: 1000;
-    width:506px;
-    height:80px;
-}
-.showinfo14 {
-    display: none;
-    text-align: center;
-    background: #595757;
-    margin-top: -34.5px;
-    margin-left: 111px;
-    padding: 10px;
-    position: absolute;
-    z-index: 1000;
-    width:506px;
-    height:80px;
+/* Quizcreator */
+
+.questCreator {
+  list-style-type: none;
 }
 
-.showinfo21 {
-    display: none;
-    text-align: center;
-    background: #595757;
-    margin-top: -74px;
-    margin-left: 243px;
-    padding: 10px;
-    position: absolute;
-    z-index: 1000;
-    width:506px;
-    height:80px;
-}
-.showinfo22 {
-    display: none;
-    text-align: center;
-    background: #595757;
-    margin-top: -74px;
-    margin-left: 199px;
-    padding: 10px;
-    position: absolute;
-    z-index: 1000;
-    width:506px;
-    height:80px;
-}
-.showinfo23 {
-    display: none;
-    text-align: center;
-    background: #595757;
-    margin-top: -74px;
-    margin-left: 155px;
-    padding: 10px;
-    position: absolute;
-    z-index: 1000;
-    width:506px;
-    height:80px;
-}
-.showinfo24 {
-    display: none;
-    text-align: center;
-    background: #595757;
-    margin-top: -74px;
-    margin-left: 111px;
-    padding: 10px;
-    position: absolute;
-    z-index: 1000;
-    width:506px;
-    height:80px;
-}
+
 /*Inner question div*/
 
 #wrapper {

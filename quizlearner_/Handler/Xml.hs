@@ -7,6 +7,6 @@ getXmlR :: ExamId -> Handler Html
 getXmlR exam = do
     entityExamList <- runDB $ selectList [] [Desc ExamTitle]
     let middleWidget = [whamlet|
-                         <p> This is xml - test
+                         <p class=boldWhite> This is xml - test
                        |]
     defaultLayout $ do $(widgetFile "xml")

@@ -16,12 +16,10 @@ Exam
     questions     [Question]
     deriving Show
 Question
-    identity   Text
     content    Text
     answerList [Answer]
     deriving Show
 Answer
-    identity  Text
     content   Text
     isCorrect Bool
     deriving Show

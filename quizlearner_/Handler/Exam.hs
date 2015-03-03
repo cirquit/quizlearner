@@ -45,11 +45,11 @@ listEditMForm :: [Question] -> Html -> MForm Handler (FormResult ([FormResult (M
 listEditMForm xs token = do
     let checkBoxes = checkboxesFieldList' . zipAnswers
     let questionStr = fromString . unpack
-    checkFields <- forM xs (\(Question _ content list ) -> mopt (checkBoxes list) (questionStr content) Nothing)
+    checkFields <- forM xs (\(Question content list ) -> mopt (checkBoxes list) (questionStr content) Nothing)
     let (checkResults, checkViews) = unzip checkFields
     let numeratedViews = zip ([1..]::[Int]) checkViews
     let widget = [whamlet|
-                         ^{token}
+                         #{token}
                              <ul class="tabs">
                                  $forall (c,view) <- numeratedViews
                                      <li>
@@ -125,44 +125,41 @@ tableWidget maybeAnswers exam = [whamlet|
                                             ^{evalWidget exam c may}
                                 |]
 
-xW :: [Bool] --answer list
-    -> Int   --answer index
-    -> Int   --question index
-    -> Exam
-    -> Int   --correct answer (2) | person answer (1)
-    -> Widget
-xW l n c exam res
- | l !! n = toWidget [hamlet|
-                     <th class=info>#{show (n + 1)} ☒
-                        <span class=showinfo#{show res}#{show (n + 1)}> #{show $ answerContent $ (questionAnswerList ((examQuestions exam) !! c) !! n)}
-            |]
- | otherwise = toWidget [hamlet|
-                    <th class=info>#{show (n + 1)} ☐
-                        <span class=showinfo#{show res}#{show (n + 1)}> #{show $ answerContent $ (questionAnswerList ((examQuestions exam) !! c) !! n)}
-               |]
+squareWidget :: [Bool] --my answers
+             -> Int   --answer index
+             -> [Answer]
+             -> Widget
+squareWidget list aIndex answerL = let square = if list !! aIndex then [whamlet|☒|]
+                                                                  else [whamlet|☐|]
+                                       answer = answerL !! aIndex in
+                                              [whamlet|
+                                                  <th class=tooltips>^{square}
+                                                      <span> #{answerContent answer}
+                                              |]
 
 evalWidget :: Exam
             -> Int -- question index
-            -> Maybe [Int] -- possible answers
+            -> Maybe [Int] -- my possible answers
             -> Widget
-evalWidget exam c maybeAnswer  = let res = getAnswers exam c
-                                     fl  = [False, False, False, False]
-                                     r = 1 {- result tooltip css -}
-                                     cr = 2 {- correct answer tooltip css -} in
-                      [whamlet|
+evalWidget exam qIndex maybeAnswer  = let correctResult = getAnswers exam qIndex
+                                          question = (examQuestions exam) !! qIndex
+                                          answerList  = questionAnswerList question
+                                          falseL  = [False, False, False, False]
+                                          wid results index = squareWidget results index answerList in
+                                     [whamlet|
                           <tr>
-                                    <th rowspan="2" class=info> Nr. #{show c}
-                                        <span class=showinfoQ> #{show $ questionContent $ (examQuestions exam) !! c}
+                                    <th rowspan="2" class=tooltips> Nr. #{show qIndex}
+                                        <span> #{questionContent question}
                             $maybe just <- maybeAnswer
-                                $with bl <- toBoolList just
-                                    ^{xW bl 0 c exam r} ^{xW bl 1 c exam r} ^{xW bl 2 c exam r} ^{xW bl 3 c exam r}
-                                    <th rowspan="2"> #{show $ compareAnswers res (Just $ bl)}p
+                                $with myResults <- toBoolList just
+                                    ^{wid myResults 0} ^{wid myResults 1} ^{wid myResults 2} ^{wid myResults 3}
+                                    <th rowspan="2"> #{show $ compareAnswers correctResult (Just myResults)}p
                             $nothing
-                                    ^{xW fl 0 c exam r} ^{xW fl 1 c exam r} ^{xW fl 2 c exam r} ^{xW fl 3 c exam r}
-                                    <th rowspan="2"> #{show $ compareAnswers res Nothing}p
+                                    ^{wid falseL 0} ^{wid falseL 1} ^{wid falseL 2} ^{wid falseL 3}
+                                    <th rowspan="2"> #{show $ compareAnswers correctResult Nothing}p
                           <tr style="background-color:#31914E;">
-                                    ^{xW res 0 c exam cr} ^{xW res 1 c exam cr} ^{xW res 2 c exam cr} ^{xW res 3 c exam cr}
+                                    ^{wid correctResult 0} ^{wid correctResult 1} ^{wid correctResult 2} ^{wid correctResult 3}
                      |]
 
 
-
+ --   <a class="tooltips" href="#"> CSS Tooltips <span>What if it s reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaaaaaaaaaaaaaaaaaaaaaaally long?</span>
