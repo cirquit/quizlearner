@@ -5,9 +5,9 @@ import Import hiding (unzip)
 import Data.List ((!!), unzip)
 
 getExamR :: ExamId -> Handler Html
-getExamR exam_id = do
+getExamR examId = do
     entityExamList <- runDB $ selectList [] [Desc ExamTitle]
-    exam <-  runDB $ get404 exam_id
+    exam <-  runDB $ get404 examId
     (widget, enctype) <-generateFormPost $ listEditMForm $ examQuestions exam
     let middleWidget = [whamlet|
                            <form method=post enctype=#{enctype}>
@@ -16,9 +16,9 @@ getExamR exam_id = do
     defaultLayout $ do $(widgetFile "exam")
 
 postExamR :: ExamId -> Handler Html
-postExamR exam_id = do
+postExamR examId = do
     entityExamList <- runDB $ selectList [] [Desc ExamTitle]
-    exam  <- runDB $ get404 exam_id
+    exam  <- runDB $ get404 examId
     ((res,_), _) <- runFormPost $ listEditMForm $ examQuestions exam
     let middleWidget = case res of
          (FormSuccess list) -> let newList = zip ([0..]::[Int]) list
@@ -126,7 +126,7 @@ tableWidget maybeAnswers exam = [whamlet|
                                 |]
 
 squareWidget :: [Bool] --my answers
-             -> Int   --answer index
+             -> Int     --answer index
              -> [Answer]
              -> Widget
 squareWidget list aIndex answerL = let square = if list !! aIndex then [whamlet|☒|]
@@ -138,13 +138,13 @@ squareWidget list aIndex answerL = let square = if list !! aIndex then [whamlet|
                                               |]
 
 evalWidget :: Exam
-            -> Int -- question index
+            -> Int         -- question index
             -> Maybe [Int] -- my possible answers
             -> Widget
-evalWidget exam qIndex maybeAnswers  = let correctResult = getAnswers exam qIndex
-                                           question = (examQuestions exam) !! qIndex
-                                           answerList  = questionAnswerList question
-                                           falseL  = [False, False, False, False]
+evalWidget exam qIndex maybeAnswers  = let correctResult     = getAnswers exam qIndex
+                                           question          = (examQuestions exam) !! qIndex
+                                           answerList        = questionAnswerList question
+                                           falseL            = [False, False, False, False]
                                            wid results index = squareWidget results index answerList in
                                            [whamlet|
                                                <tr>
