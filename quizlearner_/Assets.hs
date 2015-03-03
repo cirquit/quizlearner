@@ -43,7 +43,7 @@ leftWidget exams = toWidget [hamlet|
               $forall (Entity examId exam) <- exams
                   <li class=examList>
                     <a href=@{ExamR examId}> #{examTitle exam} </a> 
-                    <a class=xmllink href=@{XmlR examId}> <img src=@{StaticR images_xml_svg}> </a>
+                    <a class=xmllink href=@{XmlR examId}> <img src=@{StaticR images_xml_svg} title="Show XML" height="20px"> </a>
                             |]
 
 -- ###################################################################################
