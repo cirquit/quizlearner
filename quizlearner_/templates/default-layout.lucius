@@ -110,7 +110,7 @@ body {
   }
 }
 
-/* Testing tooltip */
+/* Evaluation tooltip */
 
 th.tooltips {
   position: relative;
@@ -149,6 +149,13 @@ th:hover.tooltips span {
   margin-left: -200px;
   z-index: 999;
 }
+
+/* Quizcreator */
+
+.questCreator {
+  list-style-type: none;
+}
+
 
 /*Inner question div*/
 

@@ -21,7 +21,7 @@ postQuizcreatorR = do
          (FormSuccess (Question content list)) -> [whamlet|
                                                    <span class=simpleWhite> #{show content}
                                                       $forall (Answer content isCorrect) <- list
-                                                          <span class=simpleWhite> #{show content} + #{show isCorrect}
+                                                          <span class=simpleWhite> #{show content} is #{show isCorrect}
                                                   |]
          _                  -> [whamlet| <span class=simpleWhite> Something went wrong...|]
     defaultLayout $ do $(widgetFile "quizcreator")
@@ -39,12 +39,11 @@ questionForm token = do
   let quest = Question <$> qNameResult <*> answerList
   let widget = [whamlet|
                   #{token}
-                          <ul>
-                            <li> Questiontext
-                                ^{fvInput qNameView}
+                          <ul class=questCreator>
+                            <li class=simpleWhite>Questiontext <span style="color:black"> ^{fvInput qNameView} </span>
                             $forall (tview, bview, c) <- answerViews
-                                <li> Answer Nr.#{show c} ^{fvInput tview}
-                                     Is it correct?      ^{fvInput bview}
+                                <li class=simpleWhite>Answer Nr.#{show c} <span style="color:black"> ^{fvInput tview} </span>
+                                                      Is it correct?      <span> ^{fvInput bview} </span>
                         <input type=submit value="Submit question!">
                |]
   return (quest, widget)
