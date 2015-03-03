@@ -141,25 +141,22 @@ evalWidget :: Exam
             -> Int -- question index
             -> Maybe [Int] -- my possible answers
             -> Widget
-evalWidget exam qIndex maybeAnswer  = let correctResult = getAnswers exam qIndex
-                                          question = (examQuestions exam) !! qIndex
-                                          answerList  = questionAnswerList question
-                                          falseL  = [False, False, False, False]
-                                          wid results index = squareWidget results index answerList in
-                                     [whamlet|
-                          <tr>
-                                    <th rowspan="2" class=tooltips> Nr. #{show qIndex}
-                                        <span> #{questionContent question}
-                            $maybe just <- maybeAnswer
-                                $with myResults <- toBoolList just
-                                    ^{wid myResults 0} ^{wid myResults 1} ^{wid myResults 2} ^{wid myResults 3}
-                                    <th rowspan="2"> #{show $ compareAnswers correctResult (Just myResults)}p
-                            $nothing
-                                    ^{wid falseL 0} ^{wid falseL 1} ^{wid falseL 2} ^{wid falseL 3}
-                                    <th rowspan="2"> #{show $ compareAnswers correctResult Nothing}p
-                          <tr style="background-color:#31914E;">
-                                    ^{wid correctResult 0} ^{wid correctResult 1} ^{wid correctResult 2} ^{wid correctResult 3}
-                     |]
-
-
- --   <a class="tooltips" href="#"> CSS Tooltips <span>What if it s reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaaaaaaaaaaaaaaaaaaaaaaally long?</span>
+evalWidget exam qIndex maybeAnswers  = let correctResult = getAnswers exam qIndex
+                                           question = (examQuestions exam) !! qIndex
+                                           answerList  = questionAnswerList question
+                                           falseL  = [False, False, False, False]
+                                           wid results index = squareWidget results index answerList in
+                                           [whamlet|
+                                               <tr>
+                                                         <th rowspan="2" class=tooltips> Nr. #{show qIndex}
+                                                             <span> #{questionContent question}
+                                                 $maybe just <- maybeAnswers
+                                                     $with myResults <- toBoolList just
+                                                         ^{wid myResults 0} ^{wid myResults 1} ^{wid myResults 2} ^{wid myResults 3}
+                                                         <th rowspan="2"> #{show $ compareAnswers correctResult (Just myResults)}p
+                                                 $nothing
+                                                         ^{wid falseL 0} ^{wid falseL 1} ^{wid falseL 2} ^{wid falseL 3}
+                                                         <th rowspan="2"> #{show $ compareAnswers correctResult Nothing}p
+                                               <tr style="background-color:#31914E;">
+                                                         ^{wid correctResult 0} ^{wid correctResult 1} ^{wid correctResult 2} ^{wid correctResult 3}
+                                           |]
