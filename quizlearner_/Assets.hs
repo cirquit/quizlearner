@@ -42,11 +42,19 @@ leftWidget exams = toWidget [hamlet|
           $else
               $forall (Entity examId exam) <- exams
                   <li class=examList>
-                    <a href=@{ExamR examId}> #{examTitle exam} </a> 
+                    <a href=@{ExamR examId}> #{examTitle exam} </a>
                     <a class=xmllink href=@{XmlR examId}> <img src=@{StaticR images_xml_svg} title="Show XML" height="20px"> </a>
                             |]
 
--- ###################################################################################
+unsignedIntField:: (Monad m, RenderMessage (HandlerSite m) FormMessage) => Field m Int
+unsignedIntField = checkBool (>0) msg intField
+  where msg = "This input can't be negative" :: Text
+
+unsignedDoubleField :: (Monad m, RenderMessage (HandlerSite m) FormMessage) => Field m Double
+unsignedDoubleField = checkBool (>0) msg doubleField
+  where msg = "This input can't be negative" :: Text
+
+-- ################################# ##################################################
 -- DB
 
 loadDB :: MonadIO m => ReaderT SqlBackend m ()
@@ -84,7 +92,9 @@ toDouble = fromIntegral
 floor' :: (RealFrac a) => a -> Integer
 floor' = floor
 
-
+urlify :: [Text] -> Text
+urlify = intercalate sep
+  where sep = pack "&="
 
 
 
