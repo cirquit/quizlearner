@@ -88,6 +88,12 @@ body {
    font-size: 20px;
 }
 
+.littleWhite {
+  color: white;
+  font-size: 12px;
+  margin:10px;
+}
+
 
 /* Left Exam List */
 
@@ -230,7 +236,7 @@ th:hover.tooltips span {
 }
 
 
-.tabs input[type=radio] {
+.tabs li > input[type=radio] {
           position: absolute;
           top: -9999px;
           left: -9999px;

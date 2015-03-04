@@ -1,6 +1,6 @@
 module Handler.Exam where
 
-import Assets (zipAnswers, titleWidget, iconWidget, leftWidget, toDouble, floor', postWidget, errorWidget)
+import Assets (zipAnswers, titleWidget, iconWidget, leftWidget, toDouble, floor', postWidget, errorWidget, spacingScript)
 import Import hiding ((!!), unzip, (\\), sortBy, repeat)
 import Data.List ((!!), unzip, (\\), sortBy, repeat)
 import Data.Ord (comparing)
@@ -81,15 +81,6 @@ checkboxesField' ioptlist = (multiSelectField ioptlist)
 
             |]
     }
-
-spacingScript :: Exam -> Widget
-spacingScript exam = toWidget [hamlet|
-    <script>
-        var divList = document.getElementsByClassName("tab-content");
-            for(i=0; i<divList.length; i++){
-                divList[i].style.top = 40*Math.ceil(#{length $ examQuestions exam}/10) + "px";
-            }
-                             |]
 
 -- | Evaluating the checked results
 -- | [1,3] -> [False, True, False, True]
