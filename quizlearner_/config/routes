@@ -7,5 +7,6 @@
 / HomeR GET
 /exam/#ExamId ExamR GET POST
 /xml/#ExamId XmlR GET
+/delete/#ExamId DeleteR GET POST
 /quizcreator/ QuizcreatorR GET POST
 /upload UploadR GET POST

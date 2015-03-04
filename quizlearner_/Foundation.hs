@@ -1,6 +1,6 @@
 module Foundation where
 
-import ClassyPrelude.Yesod 
+import ClassyPrelude.Yesod
 import Database.Persist.Sql (ConnectionPool, runSqlPool)
 import Model
 import Settings
@@ -23,7 +23,7 @@ data App = App
     , appConnPool    :: ConnectionPool -- ^ Database connection pool.
     , appHttpManager :: Manager
     , appLogger      :: Logger
-    } 
+    }
 
 instance HasHttpManager App where
     getHttpManager = appHttpManager

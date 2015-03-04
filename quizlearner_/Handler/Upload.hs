@@ -11,10 +11,10 @@ getUploadR = do
     entityExamList <- runDB $ selectList [] [Desc ExamTitle]
     ((_, widget), enctype) <- runFormPost form
     let formWidget = [whamlet|
-                         <form method=post enctype=#{enctype}>
-                             ^{widget}
-                             <p>
-                             <input type=submit>
+                         <div style="margin: 20px">
+                            <form method=post enctype=#{enctype}>
+                                <span class=simpleWhite> ^{widget}
+                                <input type=submit value="Upload!">
                      |]
     defaultLayout $ do $(widgetFile "upload")
 
@@ -27,11 +27,11 @@ postUploadR = do
             FormSuccess res -> Just res
             _ -> Nothing
     let formWidget = [whamlet|
+                    <div style="margin: 20px">
                          $maybe file <- msubmission
-                             <p>File received: #{fileName file}
+                             <span class=simpleWhite> File received: #{fileName file}
                          <form method=post enctype=#{enctype}>
-                             ^{widget}
-                             <p>
-                             <input type=submit>
+                             <span class=simpleWhite> ^{widget}
+                             <input type=submit value="Upload!">
                      |]
     defaultLayout $ do $(widgetFile "upload")

@@ -55,12 +55,13 @@ leftWidget exams = toWidget [hamlet|
     <p class=orangeTitle> [Exams]
     <ul class=examList style="padding-left: 0px;">
           $if null exams
-                  <p class=sadred> Couldn't find any exams in the DB!
+                  <p class=sadred> Couldn't find any exams in the DB! Please refresh!
           $else
               $forall (Entity examId exam) <- exams
                   <li class=examList>
                     <a href=@{ExamR examId}> #{examTitle exam} </a>
-                    <a class=xmllink href=@{XmlR examId}> <img src=@{StaticR images_xml_svg} title="Show XML" height="20px"> </a>
+                    <a href=@{XmlR examId}> <img src=@{StaticR images_xml_svg} title="Show XML" height="20px"> </a>
+                    <a href=@{DeleteR examId}> <img src=@{StaticR images_trashcan_svg} title="Delete exam" height="25px"> </a>
                             |]
 
 errorWidget  :: Text -> Widget
@@ -79,6 +80,10 @@ spacingScript = toWidget [hamlet|
                              |]
 
 -- | Custom Fields
+
+checkTextField :: (Monad m, RenderMessage (HandlerSite m) FormMessage) => Text -> Field m Text
+checkTextField text = checkBool (==text) msg textField
+        where msg = "The title is not correct, please try again" :: Text
 
 
 unsignedIntField:: (Monad m, RenderMessage (HandlerSite m) FormMessage) => Field m Int

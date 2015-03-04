@@ -37,6 +37,7 @@ postQuizcreatorR = do
                              (FormSuccess exam) -> do
                                  let middleWidget =  createExam exam
                                  deleteSession "examAttributes"
+                                 _ <- runDB $ insert exam
                                  defaultLayout $ do $(widgetFile "quizcreator")
                              _ -> do
                                  let middleWidget = errorWidget $ pack "Exam parsing"

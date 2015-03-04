@@ -10,21 +10,15 @@ body {
 }
 
 /* images */
-.xmllink {
-   color:#FFA500;
-   font-weight: bold;
-   text-decoration: none;
- }
-
  .xml {
   color: #111;
   font-size: 16px;
   font-family: 'DejaVu Sans Mono', sans serif;
-  margin:10px; 
-  padding:10px; 
-  background-color:#CCC; 
+  margin:10px;
+  padding:10px;
+  background-color:#CCC;
   width:85%;
-  border: solid 2px #DDD; 
+  border: solid 2px #DDD;
   -moz-box-shadow:    inset 3px 3px 6px #222;
   -webkit-box-shadow: inset 3px 3px 6px #222;
   box-shadow:         inset 3px 3px 6px #222;
@@ -72,7 +66,7 @@ body {
 .boldWhite {
   font-size: 24px;
   text-align: left;
-  color:#CCC;
+  color:#FFF;
   font-weight: bold;
   margin-left: 10px;
 }
@@ -190,6 +184,7 @@ th:hover.tooltips span {
 
 .questCreator {
   list-style-type: none;
+  text-align: center;
 }
 
 

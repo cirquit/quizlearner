@@ -3,7 +3,6 @@ module Handler.Exam where
 import Assets (zipAnswers, titleWidget, iconWidget, leftWidget, toDouble, floor', postWidget, errorWidget, spacingScript)
 import Import hiding ((!!), unzip, (\\), sortBy, repeat)
 import Data.List ((!!), unzip, (\\), sortBy, repeat)
-import Data.Ord (comparing)
 
 getExamR :: ExamId -> Handler Html
 getExamR examId = do
@@ -53,7 +52,7 @@ listEditMForm xs token = do
                         <input type="radio" name="tabs" id="tab#{fvId view}">
                         <label for="tab#{fvId view}">Q #{show c}
                         <div id="tab-content#{fvId view}" class="tab-content animated fadeIn">
-                            <p class=boldWhite> #{fvLabel view}: </p>
+                            <p class=boldWhite> #{fvLabel view} </p>
                             ^{fvInput view}
                             <br>
     <input class=button type=submit value="Testing">

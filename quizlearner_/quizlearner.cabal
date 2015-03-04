@@ -24,6 +24,7 @@ library
                      Handler.Quizcreator
                      Handler.Upload
                      Handler.Xml
+                     Handler.Delete
                      Assets
 
     if flag(dev) || flag(library-only)
