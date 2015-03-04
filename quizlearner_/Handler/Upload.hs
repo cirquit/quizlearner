@@ -2,9 +2,12 @@ module Handler.Upload where
 
 import Assets (titleWidget, iconWidget, leftWidget)
 import Import
+import XMLParsing
+import Data.Conduit
 
 form :: Html -> MForm Handler (FormResult FileInfo, Widget)
 form = renderDivs $ fileAFormReq "File"
+
 
 getUploadR :: Handler Html
 getUploadR = do
@@ -17,6 +20,7 @@ getUploadR = do
                                 <input type=submit value="Upload!">
                      |]
     defaultLayout $ do $(widgetFile "upload")
+
 
 
 postUploadR :: Handler Html

@@ -1,10 +1,13 @@
 {-# LANGUAGE OverloadedStrings #-}
-import Prelude hiding (readFile)
+
+module XMLParsing where
+
+import Prelude hiding (readFile, FilePath())
 import Text.XML
 import Text.XML.Cursor
 import Data.Text as T hiding (map, length, zipWith)
 import Data.List.Split as S (chunksOf)
-import Import
+import Import hiding (zipWith, putStrLn, elem, length, readFile, unpack)
 
 makeAnswerLists :: Cursor -> [[Answer]]
 makeAnswerLists cursor = zipWith (zipWith makeAnswer) aContents aCorrects
@@ -65,9 +68,9 @@ getAnswerContents cursor = S.chunksOf 4 $
 
 
 
-main :: IO ()
-main = do
-    doc <- readFile def "test2.xml"
+parse :: FilePath -> IO ()
+parse file = do
+    doc <- readFile def file
     let cursor = fromDocument doc
     putStrLn $ show $ makeExam cursor
     

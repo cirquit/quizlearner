@@ -1,6 +1,6 @@
 module Assets where
 
-import Import hiding (images_quizCreator_svg, images_uploadXML_svg, images_xml_svg)
+import Import hiding (images_quizCreator_svg, images_uploadXML_svg, images_xml_svg, images_trashcan_svg)
 import Prelude (reads)
 
 
