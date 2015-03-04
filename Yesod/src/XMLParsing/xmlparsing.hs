@@ -2,19 +2,19 @@
 import Prelude hiding (readFile)
 import Text.XML
 import Text.XML.Cursor
-import Text.HTML.DOM
-import Data.Text as T hiding (map, length)
+-- import Text.HTML.DOM
+import Data.Text as T hiding (map, length, zipWith)
 import Data.List.Split as S (chunksOf)
-import Text.XML.HaXml
+-- import Text.XML.HaXml
 
 
-data Exam = Exam {examTitle :: Text, examMaxScore :: Int, examTime :: Int, examPassPercentage :: Double, examQuestions :: [Question]}
+data Exam = Exam {examTitle :: Text, examMaxScore :: Int, examMaxTime :: Int, examPassPercentage :: Double, examQuestions :: [Question]}
     deriving Show
 
 data Question = Question {questionContent :: Text, questionAnswerList :: [Answer]}
     deriving Show
 
-data Answer = Answer {answerContent :: Text, answerCorrect :: Bool}
+data Answer = Answer {answerContent :: Text, answerIsCorrect :: Bool}
     deriving Show
 
 
@@ -22,23 +22,22 @@ data Answer = Answer {answerContent :: Text, answerCorrect :: Bool}
 
 
 makeAnswerLists :: Cursor -> [[Answer]]
-makeAnswerLists cursor = zipWith3 (zipWith3 makeAnswer) aIdentities aContents aCorrects
+makeAnswerLists cursor = zipWith (zipWith makeAnswer) aContents aCorrects
     where
-        makeAnswer :: Text -> Text -> Text -> Answer
-        makeAnswer identity content correct = Answer {
+        makeAnswer :: Text -> Text -> Answer
+        makeAnswer content correct = Answer {
                                               answerContent  = content, 
-                                              answerCorrect  = if correct=="true" then True else False}
+                                              answerIsCorrect  = if correct=="true" then True else False}
         aContents   = getAnswerContents cursor
         aCorrects   = getAnswerAttributes cursor "correct"    
 
 
 
 makeQuestionList :: Cursor -> [Question]
-makeQuestionList cursor = zipWith3 makeQuestion qIdentities qContents answerLists
+makeQuestionList cursor = zipWith makeQuestion qContents answerLists
     where
-        makeQuestion :: Text -> Text -> [Answer] -> Question
-        makeQuestion identity content answers = Question {
-                                                questionIdentity   = identity,
+        makeQuestion :: Text -> [Answer] -> Question
+        makeQuestion content answers = Question {
                                                 questionContent    = content,
                                                 questionAnswerList = answers}
         qContents   = getQuestionAttributes cursor "content"
@@ -49,7 +48,7 @@ makeExam :: Cursor -> Exam
 makeExam cursor = Exam {
                   examTitle          = T.concat $ attribute "title" cursor,
                   examMaxScore       = 4 * (length $ makeAnswerLists cursor),
-                  examTime           = read (T.unpack $ T.concat $ attribute "time" cursor)::Int,
+                  examMaxTime        = read (T.unpack $ T.concat $ attribute "time" cursor)::Int,
                   examPassPercentage = read (T.unpack $ T.concat $ attribute "passpercentage" cursor)::Double,
                   examQuestions      = makeQuestionList cursor}
 
@@ -85,8 +84,7 @@ main :: IO ()
 main = do
     doc <- readFile def "test2.xml"
     let cursor = fromDocument doc
-    -- putStrLn $ show $ makeExam cursor
-    putStrLn $ render doc
-
+    putStrLn $ show $ makeExam cursor
+    
 
 

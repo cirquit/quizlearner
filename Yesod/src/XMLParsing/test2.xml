@@ -1,46 +1,45 @@
-<quiz title="Meine Klausur" qcount="24" time="90" passpercentage="0.5">
+<quiz title="Haskell Basics" qcount="21" time="90" passpercentage="0.8">
 
-    <question content="Wieviel ist 2+4?">
-        <answer correct="false">2</answer>
-        <answer correct="true">6</answer>
-        <answer correct="false">8</answer>
-        <answer correct="false">9</answer>
+    <question content="Was ist der allgemeinste Typ von (compare . fst)?">
+        <answer correct="false">Eq b => (a, b) -> b -> Ordering</answer>
+        <answer correct="true">Ord b => (b, b1) -> b -> Ordering</answer>
+        <answer correct="false">Ord a => (a,b) -> b -> Ordering</answer>
+        <answer correct="false">a -> b -> Ordering </answer>
     </question>
 
-    <question content="Wieviel ist 2+7?">
-        <answer correct="false">2</answer>
-        <answer correct="false">0</answer>
-        <answer correct="false">8</answer>
-        <answer correct="true">9</answer>
+    <question content="Zu was ist zipWith (++) [['h','a','l','l','o']] ['w':'e':'l':'t':[]] äquivalent?">
+        <answer correct="false">["hallo", "welt"]</answer>
+        <answer correct="false">"hallowelt"</answer>
+        <answer correct="true">("hallo" ++ "welt"):[]</answer>
+        <answer correct="true">["hallowelt"]</answer>
     </question>
 
-    <question content="Wieviel ist 1+4?">
-        <answer correct="true">5</answer>
-        <answer correct="false">6</answer>
-        <answer correct="true">5</answer>
-        <answer correct="false">9</answer>
+    <question content="Welchen Typ hat foldl compare?">
+        <answer correct="true">Ordering -> [Ordering] -> Ordering</answer>
+        <answer correct="false">Ord a => a -> [a] -> a</answer>
+        <answer correct="false">[Ordering] -> Ordering -> Ordering</answer>
+        <answer correct="false">Ord a => a -> [a] -> Ordering</answer>
     </question>
 
-    <question content="Wieviel ist 2+4?">
-        <answer correct="false">2</answer>
-        <answer correct="true">6</answer>
-        <answer correct="false">8</answer>
-        <answer correct="false">9</answer>
+    <question content="Was ist der allgemeinste Typ von Just $ Just Nothing?">
+        <answer correct="false">a</answer>
+        <answer correct="false">Maybe a</answer>
+        <answer correct="false">Maybe (Maybe a)</answer>
+        <answer correct="true">Maybe (Maybe (Maybe a))</answer>
     </question>
 
-    <question content="Wieviel ist 2+7?">
-        <answer correct="false">2</answer>
-        <answer correct="false">0</answer>
-        <answer correct="false">8</answer>
-        <answer correct="true">9</answer>
+    <question content="Zu was ist scanl (+) 0 [1..10] äquivalent?">
+        <answer correct="true">foldl (\x y -> x++[sum y]) [] (inits [1..10])</answer>
+        <answer correct="true">take 11 $ unfoldr (\(x,y) -> Just (x,(x+y,y+1))) (0,1)</answer>
+        <answer correct="true">[0,1,3,6,10,15,21,28,36,45,55]</answer>
+        <answer correct="true">map sum $ inits [1..10]</answer>
     </question>
 
-    <question content="Wieviel ist 1+4?">
-        <answer correct="true">5</answer>
-        <answer correct="false">6</answer>
-        <answer correct="true">5</answer>
-        <answer correct="false">9</answer>
+    <question content="Welchen allgemeinen Typ hat (*) 1.6 ?">
+        <answer correct="false">Num b => b -> b</answer>
+        <answer correct="false">Integral a => a -> a</answer>
+        <answer correct="true">Fractional a => a -> a</answer>
+        <answer correct="false">Double -> Double</answer>
     </question>
-</quiz>
 </quiz>
 

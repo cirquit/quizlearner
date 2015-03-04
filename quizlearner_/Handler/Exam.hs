@@ -79,7 +79,7 @@ checkboxesField' ioptlist = (multiSelectField ioptlist)
             [whamlet|
                 <span ##{theId}>
                     $forall opt <- opts
-                        <label>
+                        <div>
                             <input type=checkbox name=#{name} value=#{optionExternalValue opt} *{attrs} :optselected val opt:checked>
                             <span class=simpleWhite> #{optionDisplay opt}
             |]
@@ -102,8 +102,8 @@ toBoolList xs = map snd $ sortBy (comparing fst) $ ts ++ fs
         fs = zip ys (repeat False)
 
 compareAnswers :: [Bool] -> Maybe [Bool] -> Int
-compareAnswers xs (Just zs) = foldl' (\ys (x,y) -> if x == y then ys + 1 else ys) 0 (zip xs zs)
-compareAnswers xs Nothing   = foldl' (\ys (x,y) -> if x == y then ys + 1 else ys) 0 (zip xs fs)
+compareAnswers xs (Just zs) = max 0 $ foldl' (\ys (x,y) -> if x == y then ys + 1 else ys - 1) 0 (zip xs zs)
+compareAnswers xs Nothing   = max 0 $ foldl' (\ys (x,y) -> if x == y then ys + 1 else ys - 1) 0 (zip xs fs)
   where fs = [False, False, False, False]
 
 getAnswers :: Exam -> Int -> [Bool]
