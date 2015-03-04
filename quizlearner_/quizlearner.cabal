@@ -88,6 +88,8 @@ library
                  , resourcet
                  , stm
                  , split                         >= 0.2.2
+                 , xml-conduit
+                 , html-conduit
 
 executable         quizlearner
     if flag(library-only)
@@ -138,3 +140,5 @@ test-suite test
                  , resouret
                  , stm
                  , split                         >= 0.2.2
+                 , xml-conduit
+                 , html-conduit

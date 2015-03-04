@@ -2,9 +2,12 @@ module Handler.Upload where
 
 import Assets (titleWidget, iconWidget, leftWidget)
 import Import
+import XMLParsing
+import Data.Conduit
 
 form :: Html -> MForm Handler (FormResult FileInfo, Widget)
 form = renderDivs $ fileAFormReq "File"
+
 
 getUploadR :: Handler Html
 getUploadR = do
@@ -18,6 +21,9 @@ getUploadR = do
                      |]
     defaultLayout $ do $(widgetFile "upload")
 
+-- f :: MonadResource m => Source m ByteString -> ByteString
+-- f (Data.Conduit.ConduitM _ ) = error "..."
+
 postUploadR :: Handler Html
 postUploadR = do
     entityExamList <- runDB $ selectList [] [Desc ExamTitle]
@@ -27,7 +33,7 @@ postUploadR = do
             _ -> Nothing
     let formWidget = [whamlet|
                          $maybe file <- msubmission
-                             <p>File received: #{fileName file}
+                             <p>File received: #{show 5}
                          <form method=post enctype=#{enctype}>
                              ^{widget}
                              <p>
