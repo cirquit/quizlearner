@@ -51,6 +51,7 @@ postQuizcreatorR = do
                                  deleteSession "examAttributes"
                                  redirect QuizcreatorR
 
+
 examForm :: TempExam -> Html -> MForm Handler ((FormResult Exam), Widget)
 examForm (TempExam title maxScore maxTime passPercentage questCount) token = do
   let fourTimes = [1..4] :: [Int]
@@ -69,13 +70,17 @@ examForm (TempExam title maxScore maxTime passPercentage questCount) token = do
   let questionViews = zip3 qTextViews answerViews ([1..]::[Int]) -- [(q1, [(t1,b2,1),(t2,b2,2),(t3,b3,3),(t4,b4,4)]),...]
   let widget = [whamlet|
       #{token}
-              <ul class=questCreator>
+              <table class=questCreator>
                   $forall (qView, aList,n) <- questionViews
-                      <br>
-                      <li class=simpleWhite>Question Nr. #{show n} <span style="color:black"> ^{fvInput qView} </span>
+                          <tr>
+                              <td class=questionTD>Question Nr. #{show n}: 
+                              <td style="color:black"> ^{fvInput qView}
                       $forall (tview, bview, c) <- aList
-                          <li class=simpleWhite>Answer Nr.#{show c} <span style="color:black"> ^{fvInput tview} </span>
-                                                Is it correct?      <span> ^{fvInput bview} </span>
+                          <tr>
+                              <td class=smallWhite>Answer Nr.#{show c}:
+                              <td style="color:black;"> ^{fvInput tview}
+                              <td class=smallWhite>Is it correct?
+                              <td class=smallWhite>^{fvInput bview}
             <input type=submit value="Submit question!">
                |]
   return (exam, widget)

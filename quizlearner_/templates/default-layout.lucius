@@ -83,6 +83,12 @@ body {
   margin:10px;
 }
 
+.smallWhite {
+  font-size: 14px;
+  color: white;
+  text-align: right;
+}
+
 .simpleOrange {
    color:#FFA500;
    font-size: 20px;
@@ -167,7 +173,8 @@ th.tooltips span:after {
   top: 100%;
   left: 50%;
   margin-left: -8px;
-  width: 0; height: 0;
+  width: 0; 
+  height: 0;
   border-top: 8px solid #333;
   border-right: 8px solid transparent;
   border-left: 8px solid transparent;
@@ -189,9 +196,18 @@ th:hover.tooltips span {
 /* Quizcreator */
 
 .questCreator {
-  list-style-type: none;
+  margin:20px;
+  border-collapse: separate;
+  border-spacing: 10px;
 }
 
+.questionTD {
+  background:#CCC; 
+  padding:4px; 
+  text-align:right;
+  font-size: 14px;
+  color: black;
+}
 
 /*Inner question div*/
 
