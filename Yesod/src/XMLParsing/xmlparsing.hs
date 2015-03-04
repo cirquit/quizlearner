@@ -27,7 +27,7 @@ makeAnswerLists cursor = zipWith (zipWith makeAnswer) aContents aCorrects
         makeAnswer :: Text -> Text -> Answer
         makeAnswer content correct = Answer {
                                               answerContent  = content, 
-                                              answerIsCorrect  = if correct=="true" then True else False}
+                                              answerIsCorrect  = if elem correct ["true","True"] then True else False}
         aContents   = getAnswerContents cursor
         aCorrects   = getAnswerAttributes cursor "correct"    
 
