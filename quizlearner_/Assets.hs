@@ -69,6 +69,15 @@ errorWidget text = [whamlet|
          <a href=@{HomeR} style="margin:10px"> <label class=simpleOrange> Get back! </label>
 |]
 
+spacingScript :: Widget
+spacingScript = toWidget [hamlet|
+    <script>
+        var divList = document.getElementsByClassName("tab-content");
+            for(i=0; i<divList.length; i++){
+                divList[i].style.top = 40*Math.ceil(divList.length/10) + "px";
+            }
+                             |]
+
 -- | Custom Fields
 
 
@@ -252,3 +261,19 @@ q9_a4 = Answer {answerContent="2", answerIsCorrect=True }
 --     return $ permutations list !! seed
 --
 --     shuffled_answers <- liftIO $ shuffle_answers $ answer_list snd_q
+
+
+-- examForm with labels (not really working - hamlet only)
+--        #{token}
+--          <ul class="tabs">
+--              $forall (qView, aList,n) <- questionViews
+--                  <li>
+--                      <input type="radio" name="tabs" id="tab#{fvId qView}">
+--                      <label for="tab#{fvId qView}">Q #{show n}
+--                      <div id="tab-content#{fvId qView}" class="tab-content animated fadeIn">
+--                          <p class=simpleWhite> ^{fvInput qView} </p>
+--                              <span ##{fvId qView}>
+--                                  $forall (tview, bview, c) <- aList
+--                                     <div>
+--                                         <span class=littleWhite>Answer Nr.#{show c} <span style="color:black"> ^{fvInput tview} </span> <span class=littleWhite>Is it correct? ^{fvInput bview} </span>
+--            <input type=submit value="Submit question!">)

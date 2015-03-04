@@ -9,6 +9,6 @@
       <!-- Middle Div-->
       <div id=question class=front>
           ^{middleWidget}
-          ^{spacingScript exam}
+          ^{spacingScript}
       <!-- Lower Div-->
       <div id=buttons class=front>

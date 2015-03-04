@@ -21,8 +21,7 @@ getUploadR = do
                      |]
     defaultLayout $ do $(widgetFile "upload")
 
--- f :: MonadResource m => Source m ByteString -> ByteString
--- f (Data.Conduit.ConduitM _ ) = error "..."
+
 
 postUploadR :: Handler Html
 postUploadR = do

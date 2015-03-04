@@ -3,7 +3,7 @@ module Handler.Quizcreator where
 import Import
 import Assets (titleWidget, iconWidget, leftWidget, unsignedDoubleField,
                unsignedIntField,  maybeInt, maybeDouble, encodeExamAttributes,
-               createExam, postWidget, errorWidget)
+               createExam, postWidget, errorWidget, spacingScript)
 import Data.Text (splitOn)
 import Data.List.Split (chunksOf)
 import Data.List (cycle)
