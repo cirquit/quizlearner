@@ -87,6 +87,7 @@ library
                  , conduit-extra
                  , resourcet
                  , stm
+                 , split                         >= 0.2.2
 
 executable         quizlearner
     if flag(library-only)
@@ -136,3 +137,4 @@ test-suite test
                  , conduit-extra
                  , resouret
                  , stm
+                 , split                         >= 0.2.2

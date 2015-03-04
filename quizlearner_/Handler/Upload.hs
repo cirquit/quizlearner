@@ -1,6 +1,6 @@
 module Handler.Upload where
 
-import Assets (loadDB, titleWidget, iconWidget, leftWidget)
+import Assets (titleWidget, iconWidget, leftWidget)
 import Import
 
 form :: Html -> MForm Handler (FormResult FileInfo, Widget)
