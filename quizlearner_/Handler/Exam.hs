@@ -1,9 +1,9 @@
 module Handler.Exam where
 
-import Assets (zipAnswers, titleWidget, iconWidget, leftWidget, toDouble, floor')
+import Assets (zipAnswers, titleWidget, iconWidget, leftWidget, toDouble, floor', postWidget, errorWidget)
 import Import hiding ((!!), unzip, (\\), sortBy, repeat)
 import Data.List ((!!), unzip, (\\), sortBy, repeat)
-import Data.Ord (comparing)
+import Data.Ord (comparing) 
 
 getExamR :: ExamId -> Handler Html
 getExamR examId = do

@@ -37,6 +37,7 @@ createExam  (Exam title maxScore maxTime passPercentage qList) = [whamlet|
             $forall (Answer aContent isCorrect) <- aList
                  <p class=simpleWhite> Answer: #{aContent} #{show isCorrect}
                                                                   |]
+
 postWidget :: Enctype -> Widget -> Widget
 postWidget enctype widget =  [whamlet|
     <form method=post enctype=#{enctype}>
