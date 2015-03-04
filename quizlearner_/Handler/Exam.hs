@@ -1,9 +1,9 @@
 module Handler.Exam where
 
-import Assets (zipAnswers, titleWidget, iconWidget, leftWidget, toDouble, floor',
-               postWidget, errorWidget)
-import Import hiding (unzip)
-import Data.List ((!!), unzip)
+import Assets (zipAnswers, titleWidget, iconWidget, leftWidget, toDouble, floor')
+import Import hiding ((!!), unzip, (\\), sortBy, repeat)
+import Data.List ((!!), unzip, (\\), sortBy, repeat)
+import Data.Ord (comparing)
 
 getExamR :: ExamId -> Handler Html
 getExamR examId = do
@@ -93,10 +93,11 @@ spacingScript exam = toWidget [hamlet|
 -- | Evaluating the checked results
 -- | [1,3] -> [False, True, False, True]
 toBoolList :: [Int] -> [Bool]
-toBoolList xs = snd $ unzip $ acc xs [(0, False), (1, False), (2,False), (3,False)]
-  where acc :: [Int] -> [(Int, Bool)] -> [(Int, Bool)]
-        acc []     bs = bs
-        acc (z:zs) bs = acc zs (foldr (\(n,y) ys -> if n == z then (n,True):ys else (n,y):ys) [] bs)
+toBoolList xs = map snd $ sortBy (comparing fst) $ ts ++ fs
+    where
+        ys = [0..3] \\ xs
+        ts = zip xs (repeat True)
+        fs = zip ys (repeat False)
 
 compareAnswers :: [Bool] -> Maybe [Bool] -> Int
 compareAnswers xs (Just zs) = foldl' (\ys (x,y) -> if x == y then ys + 1 else ys) 0 (zip xs zs)
