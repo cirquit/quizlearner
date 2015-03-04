@@ -18,7 +18,6 @@ getXmlR :: ExamId -> Handler Html
 getXmlR examId = do
     entityExamList <- runDB $ selectList [] [Desc ExamTitle]
     exam <- runDB $ get404 examId
-    let e = "<exam>" :: String
     let middleWidget = displayXML exam
     defaultLayout $ do $(widgetFile "xml")
 

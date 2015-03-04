@@ -1,10 +1,10 @@
 module Assets where
 
 import Import hiding (images_quizCreator_svg, images_uploadXML_svg, images_xml_svg)
+import Prelude (reads)
 
 
--- ###################################################################################
--- Static Files
+-- | Static Files
 
 staticFiles "static"
 
@@ -24,8 +24,24 @@ q_creator_title = pack "Click this to create a new exam"
 upload_xml_title :: Text
 upload_xml_title = pack "Click this to upload an XML file"
 
--- ###################################################################################
--- Widgets
+-- | Widgets
+
+createExam :: Exam -> Widget
+createExam  (Exam title maxScore maxTime passPercentage qList) = [whamlet|
+    <p class=simpleWhite> Examtitle: #{title}
+    <p class=simpleWhite> MaxScore: #{show maxScore}
+    <p class=simpleWhite> MaxTime: #{show maxTime}
+    <p class=simpleWhite> PassPercentage: #{show passPercentage}
+    $forall (Question content aList) <- qList
+        <p class=simpleWhite> Question: #{content}
+            $forall (Answer aContent isCorrect) <- aList
+                 <p class=simpleWhite> Answer: #{aContent} #{show isCorrect}
+                                                                  |]
+postWidget :: Enctype -> Widget -> Widget
+postWidget enctype widget =  [whamlet|
+    <form method=post enctype=#{enctype}>
+        ^{widget}
+                             |]
 
 titleWidget :: Widget
 titleWidget = toWidget [hamlet|
@@ -46,6 +62,15 @@ leftWidget exams = toWidget [hamlet|
                     <a class=xmllink href=@{XmlR examId}> <img src=@{StaticR images_xml_svg} title="Show XML" height="20px"> </a>
                             |]
 
+errorWidget  :: Text -> Widget
+errorWidget text = [whamlet|
+    <span class=simpleWhite> Something went wrong...in #{text}
+         <a href=@{HomeR} style="margin:10px"> <label class=simpleOrange> Get back! </label>
+|]
+
+-- | Custom Fields
+
+
 unsignedIntField:: (Monad m, RenderMessage (HandlerSite m) FormMessage) => Field m Int
 unsignedIntField = checkBool (>0) msg intField
   where msg = "This input can't be negative" :: Text
@@ -54,8 +79,7 @@ unsignedDoubleField :: (Monad m, RenderMessage (HandlerSite m) FormMessage) => F
 unsignedDoubleField = checkBool (>0) msg doubleField
   where msg = "This input can't be negative" :: Text
 
--- ################################# ##################################################
--- DB
+-- | DB
 
 loadDB :: MonadIO m => ReaderT SqlBackend m ()
 loadDB = do
@@ -64,9 +88,7 @@ loadDB = do
     _ <- insert $ exam_3
     liftIO $ putStrLn "The function load_DB was called!"
 
-
--- ###################################################################################
--- Helper
+-- | Helper
 
 cookie_to_textbool :: Char -> Text
 cookie_to_textbool x = if x == '1' then pack "True"
@@ -93,15 +115,18 @@ toDouble = fromIntegral
 floor' :: (RealFrac a) => a -> Integer
 floor' = floor
 
-urlify :: [Text] -> Text
-urlify = intercalate sep
-  where sep = pack "&="
+maybeRead :: Read a => String -> Maybe a
+maybeRead (reads -> [(x,"")]) = Just x
+maybeRead _ = Nothing
 
+maybeInt :: String -> Maybe Int
+maybeInt = maybeRead
 
+maybeDouble :: String -> Maybe Double
+maybeDouble = maybeRead
 
-
-
-
+encodeExamAttributes :: Text -> Int -> Int -> Double -> Int -> Text
+encodeExamAttributes a b c d e = a ++ pack (' ':show b) ++ pack (' ':show c) ++ pack (' ':show d) ++ pack (' ':show e)
 
 
 
