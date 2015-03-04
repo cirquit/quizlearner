@@ -33,10 +33,10 @@ displayXML exam = let eTitle  = examTitle exam
                         <div class=xml>
                             &lt;<span class=xmlRed>quiz</span> title="#{eTitle}" qcount="#{qcount}" time="#{time}" passpercentage="#{percent}"&gt;<br>
                             $forall q <- examQuestions exam
-                                ^{spaces}&lt;<span class=xmlRed>question</span> content=#{questionContent q}&gt; <br>
+                                ^{spaces}&lt;<span class=xmlRed>question</span> content="#{questionContent q}"&gt; <br>
                                 $forall a <- questionAnswerList q
                                     ^{spaces}^{spaces}&lt;<span class=xmlRed>answer</span> 
-                                    correct=#{show $ answerIsCorrect a}&gt;#{answerContent a}&lt;<span class=xmlRed>/answer</span>&gt;<br>
+                                    correct="#{show $ answerIsCorrect a}"&gt;#{answerContent a}&lt;<span class=xmlRed>/answer</span>&gt;<br>
                                 ^{spaces}&lt;<span class=xmlRed>/question</span>&gt;<br>
                             &lt;<span class=xmlRed>/quiz</span>&gt;
 
