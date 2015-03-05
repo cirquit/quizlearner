@@ -52,7 +52,7 @@ maybeDouble :: String -> Maybe Double
 maybeDouble = maybeRead
 
 encodeExamAttributes :: Text -> Int -> Int -> Double -> Int -> Text
-encodeExamAttributes a b c d e = a ++ pack (' ':show b) ++ pack (' ':show c) ++ pack (' ':show d) ++ pack (' ':show e)
+encodeExamAttributes a b c d e = a ++ pack ("($)" ++ show b) ++ pack ("($)" ++ show c) ++ pack ("($)" ++ show d) ++ pack ("($)" ++ show e)
 
 
 
