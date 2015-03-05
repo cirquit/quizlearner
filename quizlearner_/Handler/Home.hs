@@ -1,17 +1,16 @@
 module Handler.Home where
 
 import Import
-import Assets (loadDB, titleWidget, iconWidget, leftWidget)
-
-middleWidget :: Widget
-middleWidget = toWidget [hamlet| <p class=boldWhite> Click on an exam to start! |]
+import Assets (exampleDB)
+import Widgets (titleWidget, iconWidget, leftWidget)
 
 getHomeR :: Handler Html
 getHomeR = do
-        --runDB (deleteWhere [ExamTitle !=. ""])
-        entityExamList <- runDB (selectList [] [Desc ExamTitle])
-        if null entityExamList then runDB $ loadDB
-                               else liftIO $ putStrLn "loadDB was not called because there are already some exams!"
-        defaultLayout $ do
-            setTitle "Quizlearner"
-            $(widgetFile "home")
+    --runDB (deleteWhere [ExamTitle !=. ""])
+    entityExamList <- runDB (selectList [] [Asc ExamTitle])
+    if null entityExamList then runDB $ exampleDB
+                           else liftIO $ putStrLn "loadDB was not called because there are already some exams!"
+    let middleWidget = [whamlet| <p class=boldWhite> Click on an exam to start!|]
+    defaultLayout $ do
+        setTitle "Quizlearner"
+        $(widgetFile "home")

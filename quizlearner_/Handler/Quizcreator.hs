@@ -1,14 +1,15 @@
 module Handler.Quizcreator where
 
 import Import
-import Assets (titleWidget, iconWidget, leftWidget, unsignedDoubleField,
-               unsignedIntField,  maybeInt, maybeDouble, encodeExamAttributes,
-               createExam, postWidget, errorWidget, spacingScript)
+import Assets (unsignedDoubleField, unsignedIntField,  maybeInt,
+               maybeDouble, encodeExamAttributes)
+import Widgets (titleWidget, iconWidget, leftWidget, postWidget,
+                errorWidget, spacingScript, showExamWidget)
 import Data.Text (splitOn)
 import Data.List.Split (chunksOf)
 import Data.List (cycle)
 
-data TempExam = TempExam {
+data ExamAttributes = ExamAttributes {
                     title    :: Text
                   , maxScore :: Int
                   , maxTime  :: Int
@@ -18,10 +19,10 @@ data TempExam = TempExam {
 
 getQuizcreatorR :: Handler Html
 getQuizcreatorR =  do
-    entityExamList <- runDB $ selectList [] [Desc ExamTitle]
+    entityExamList <- runDB $ selectList [] [Asc ExamTitle]
     mayAttributes  <- lookupSession "examAttributes"
     let generatePost = case mayAttributes of
-                           (Just text) -> generateFormPost $ examForm $ toTempExam text
+                           (Just text) -> generateFormPost $ examForm $ toExamAttributes text
                            _           -> generateFormPost $ examAttributesForm
     (widget, enctype) <- generatePost
     let middleWidget = postWidget enctype widget
@@ -29,22 +30,22 @@ getQuizcreatorR =  do
 
 postQuizcreatorR :: Handler Html
 postQuizcreatorR = do
-    entityExamList <- runDB $ selectList [] [Desc ExamTitle]
+    entityExamList <- runDB $ selectList [] [Asc ExamTitle]
     mayAttributes  <- lookupSession "examAttributes"
     case mayAttributes of
-       (Just text) -> do ((res, _), _) <- runFormPost $ examForm $ toTempExam text
+       (Just text) -> do ((res, _), _) <- runFormPost $ examForm $ toExamAttributes text
                          case res of
                              (FormSuccess exam) -> do
-                                 let middleWidget =  createExam exam
+                                 let middleWidget = showExamWidget exam
                                  deleteSession "examAttributes"
                                  _ <- runDB $ insert exam
                                  defaultLayout $ do $(widgetFile "quizcreator")
                              _ -> do
-                                 let middleWidget = errorWidget $ pack "Exam parsing"
-                                 defaultLayout $ do $(widgetFile "quizcreator")
+                                  let middleWidget = errorWidget $ pack "Exam parsing"
+                                  defaultLayout $ do $(widgetFile "quizcreator")
        _           -> do ((res, _), _) <- runFormPost examAttributesForm
                          case res of
-                             (FormSuccess (TempExam a b c d e)) -> do
+                             (FormSuccess (ExamAttributes a b c d e)) -> do
                                  let message = encodeExamAttributes a b c d e
                                  setSession "examAttributes" message
                                  redirect QuizcreatorR
@@ -53,28 +54,27 @@ postQuizcreatorR = do
                                  redirect QuizcreatorR
 
 
-examForm :: TempExam -> Html -> MForm Handler ((FormResult Exam), Widget)
-examForm (TempExam title maxScore maxTime passPercentage questCount) token = do
-  let fourTimes = [1..4] :: [Int]
-  let qTimes = [1..questCount] :: [Int]
-  let nTimes = [1..4*questCount] :: [Int]
-  qTextFields <- forM qTimes (\_ -> mreq textField "" Nothing)
-  aTextFields <- forM nTimes (\_ -> mreq textField "" Nothing)
-  aBoolFields <- forM nTimes (\_ -> mreq boolField "" (Just False))
+examForm :: ExamAttributes -> Html -> MForm Handler ((FormResult Exam), Widget)
+examForm (ExamAttributes title maxScore maxTime passPercentage questCount) token = do
+  let nTimes :: Int -> [Int]
+      nTimes n = [1..n]
+  qTextFields <- forM (nTimes questCount) (\_ -> mreq textField "" Nothing)
+  aTextFields <- forM (nTimes (4 * questCount)) (\_ -> mreq textField "" Nothing)
+  aBoolFields <- forM (nTimes (4 * questCount)) (\_ -> mreq boolField "" (Just False))
   let (qTextResults, qTextViews) = unzip qTextFields
   let (aTextResults, aTextViews) = unzip aTextFields
   let (aBoolResults, aBoolViews) = unzip aBoolFields
   let answerResList =  zipWith (\(FormSuccess x) (FormSuccess y) -> Answer x y) aTextResults aBoolResults
   let questions = FormSuccess $ zipWith (\(FormSuccess q) as -> Question q as) qTextResults (chunksOf 4 answerResList)
   let exam = Exam title maxScore maxTime passPercentage <$> questions
-  let answerViews = zipWith3 (\x y z -> zip3 x y z) (chunksOf 4 aTextViews) (chunksOf 4 aBoolViews) (cycle [fourTimes])-- [[(t1,b1,1),(t2,b2,2),(t3,b3,3), (t4,b4,4)],...]
-  let questionViews = zip3 qTextViews answerViews ([1..]::[Int]) -- [(q1, [(t1,b2,1),(t2,b2,2),(t3,b3,3),(t4,b4,4)]),...]
+  let answerViews = zipWith3 (\x y z -> zip3 x y z) (chunksOf 4 aTextViews) (chunksOf 4 aBoolViews) (cycle [(nTimes 4)])
+  let questionViews = zip3 qTextViews answerViews ([1..]::[Int])
   let widget = [whamlet|
-      #{token}
+          #{token}
               <table class=questCreator>
                   $forall (qView, aList,n) <- questionViews
                           <tr>
-                              <td class=questionTD>Question Nr. #{show n}: 
+                              <td class=questionTD>Question Nr. #{show n}:
                               <td style="color:black"> ^{fvInput qView}
                       $forall (tview, bview, c) <- aList
                           <tr>
@@ -86,31 +86,31 @@ examForm (TempExam title maxScore maxTime passPercentage questCount) token = do
                |]
   return (exam, widget)
 
-examAttributesForm :: Html -> MForm Handler ((FormResult TempExam), Widget)
+examAttributesForm :: Html -> MForm Handler ((FormResult ExamAttributes), Widget)
 examAttributesForm token = do
-  (eTitleResult, eTitleView) <- mreq textField "" Nothing
-  (eScoreResult, eScoreView) <- mreq unsignedIntField "" (Just 100)
-  (eTimeResult, eTimeView)   <- mreq unsignedIntField "" (Just 60)
-  (ePassResult, ePassView)   <- mreq unsignedDoubleField "" (Just 50.0)
-  (eCountResult, eCountView) <- mreq unsignedIntField "" (Just 5)
-  let tempExam = TempExam <$> eTitleResult <*> eScoreResult <*> eTimeResult <*> ePassResult <*> eCountResult
-  let widget = [whamlet|
-      #{token}
-          <ul class=questCreator>
-              <li class=simpleWhite> Examtitle <span style="color:black"> ^{fvInput eTitleView} </span>
-              <li class=simpleWhite> Max. exam score <span style="color:black"> ^{fvInput eScoreView} </span>p
-              <li class=simpleWhite> Max. time <span style="color:black"> ^{fvInput eTimeView} </span>min
-              <li class=simpleWhite> Passing percentage <span style="color:black"> ^{fvInput ePassView}</span>%
-              <li class=simpleWhite> Number of questions <span style="color:black"> ^{fvInput eCountView} </span>
-      <input type=submit value="Start exam creaton!">
-               |]
-  return (tempExam, widget)
+    (eTitleResult, eTitleView) <- mreq textField "" Nothing
+    (eScoreResult, eScoreView) <- mreq unsignedIntField "" (Just 100)
+    (eTimeResult, eTimeView)   <- mreq unsignedIntField "" (Just 60)
+    (ePassResult, ePassView)   <- mreq unsignedDoubleField "" (Just 50.0)
+    (eCountResult, eCountView) <- mreq unsignedIntField "" (Just 5)
+    let examAttributes = ExamAttributes <$> eTitleResult <*> eScoreResult <*> eTimeResult <*> ePassResult <*> eCountResult
+    let widget = [whamlet|
+        #{token}
+            <ul class=questCreator>
+                <li class=simpleWhite> Examtitle <span style="color:black"> ^{fvInput eTitleView} </span>
+                <li class=simpleWhite> Max. exam score <span style="color:black"> ^{fvInput eScoreView} </span>p
+                <li class=simpleWhite> Max. time <span style="color:black"> ^{fvInput eTimeView} </span>min
+                <li class=simpleWhite> Passing percentage <span style="color:black"> ^{fvInput ePassView}</span>%
+                <li class=simpleWhite> Number of questions <span style="color:black"> ^{fvInput eCountView} </span>
+        <input type=submit value="Start exam creaton!">
+                 |]
+    return (examAttributes, widget)
 
 
-toTempExam :: Text -> TempExam
-toTempExam (splitOn (pack " ") -> [a, b, c, d, e]) = let (Just maxScore)       = maybeInt $ unpack b
-                                                         (Just maxTime)        = maybeInt $ unpack c
-                                                         (Just passPercentage) = maybeDouble $ unpack d
-                                                         (Just questCount)     = maybeInt $ unpack e in
-                                                     TempExam a maxScore maxTime passPercentage questCount
-toTempExam _                                       = TempExam (pack "Error in reading exam cookie") 0 0 0.0 0
+toExamAttributes :: Text -> ExamAttributes
+toExamAttributes (splitOn (pack " ") -> [a, b, c, d, e]) = let (Just maxScore)       = maybeInt $ unpack b
+                                                               (Just maxTime)        = maybeInt $ unpack c
+                                                               (Just passPercentage) = maybeDouble $ unpack d
+                                                               (Just questCount)     = maybeInt $ unpack e in
+                                                           ExamAttributes a maxScore maxTime passPercentage questCount
+toExamAttributes _                                       = ExamAttributes (pack "Error in reading exam cookie") 0 0 0.0 0

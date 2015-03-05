@@ -26,6 +26,8 @@ library
                      Handler.Xml
                      Handler.Delete
                      Assets
+                     Widgets
+                     XMLParsing
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT

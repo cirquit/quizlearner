@@ -190,14 +190,9 @@ th:hover.tooltips span {
 /* Quizcreator */
 
 .questCreator {
-<<<<<<< HEAD
-  list-style-type: none;
-  text-align: center;
-=======
   margin:20px;
   border-collapse: separate;
   border-spacing: 10px;
->>>>>>> 3dd71bba6c8dd39b58b1e61b2207771f308d10b4
 }
 
 .questionTD {

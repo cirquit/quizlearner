@@ -1,7 +1,8 @@
 module Handler.Xml where
 
-import Assets
+--import Assets
 import Import
+import Widgets
 
 {-
 data Exam = Exam {examTitle :: Text, examMaxScore :: Int, examTime :: Int, examPassPercentage :: Double, examQuestions :: [Question]}
@@ -16,7 +17,7 @@ data Answer = Answer {answerContent :: Text, answerCorrect :: Bool}
 
 getXmlR :: ExamId -> Handler Html
 getXmlR examId = do
-    entityExamList <- runDB $ selectList [] [Desc ExamTitle]
+    entityExamList <- runDB $ selectList [] [Asc ExamTitle]
     exam <- runDB $ get404 examId
     let middleWidget = displayXML exam
     defaultLayout $ do $(widgetFile "xml")
@@ -35,7 +36,7 @@ displayXML exam = let eTitle  = examTitle exam
                             $forall q <- examQuestions exam
                                 ^{spaces}&lt;<span class=xmlRed>question</span> content="#{questionContent q}"&gt; <br>
                                 $forall a <- questionAnswerList q
-                                    ^{spaces}^{spaces}&lt;<span class=xmlRed>answer</span> 
+                                    ^{spaces}^{spaces}&lt;<span class=xmlRed>answer</span>
                                     correct="#{show $ answerIsCorrect a}"&gt;#{answerContent a}&lt;<span class=xmlRed>/answer</span>&gt;<br>
                                 ^{spaces}&lt;<span class=xmlRed>/question</span>&gt;<br>
                             &lt;<span class=xmlRed>/quiz</span>&gt;

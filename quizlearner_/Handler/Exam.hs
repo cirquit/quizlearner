@@ -1,12 +1,13 @@
 module Handler.Exam where
 
-import Assets (zipAnswers, titleWidget, iconWidget, leftWidget, toDouble, floor', postWidget, errorWidget, spacingScript)
+import Assets (zipAnswers, toDouble, floor')
+import Widgets (titleWidget, iconWidget, leftWidget, postWidget, errorWidget, spacingScript)
 import Import hiding ((!!), unzip, (\\), sortBy, repeat)
 import Data.List ((!!), unzip, (\\), sortBy, repeat)
 
 getExamR :: ExamId -> Handler Html
 getExamR examId = do
-    entityExamList <- runDB $ selectList [] [Desc ExamTitle]
+    entityExamList <- runDB $ selectList [] [Asc ExamTitle]
     exam <-  runDB $ get404 examId
     (widget, enctype) <-generateFormPost $ listEditMForm $ examQuestions exam
     let middleWidget = postWidget enctype widget
@@ -14,7 +15,7 @@ getExamR examId = do
 
 postExamR :: ExamId -> Handler Html
 postExamR examId = do
-    entityExamList <- runDB $ selectList [] [Desc ExamTitle]
+    entityExamList <- runDB $ selectList [] [Asc ExamTitle]
     exam  <- runDB $ get404 examId
     ((res,_), _) <- runFormPost $ listEditMForm $ examQuestions exam
     let middleWidget = case res of
@@ -55,7 +56,7 @@ listEditMForm xs token = do
                             <p class=boldWhite> #{fvLabel view} </p>
                             ^{fvInput view}
                             <br>
-    <input class=button type=submit value="Testing">
+            <input class=button type=submit value="Testing">
                  |]
     return ((FormSuccess checkResults), widget)
 
@@ -80,6 +81,8 @@ checkboxesField' ioptlist = (multiSelectField ioptlist)
 
             |]
     }
+
+-- | Exam evaluation
 
 -- | Evaluating the checked results
 -- | [1,3] -> [False, True, False, True]
@@ -115,22 +118,16 @@ tableWidget maybeAnswers exam = [whamlet|
             ^{evalWidget exam c may}
                                 |]
 
-squareWidget :: [Bool] --my answers
-             -> Int     --answer index
-             -> [Answer]
-             -> Widget
-squareWidget list aIndex answerL = let square = if list !! aIndex then [whamlet|☒|]
-                                                                  else [whamlet|☐|]
-                                       answer = answerL !! aIndex in
-                                              [whamlet|
-                                                  <th class=tooltips>^{square}
-                                                      <span> #{answerContent answer}
-                                              |]
+squareWidget :: [Bool] -> Int -> [Answer] -> Widget
+squareWidget myAnswerL aIndex correctAnswerL = let square = if myAnswerL !! aIndex then [whamlet|☒|]
+                                                                                   else [whamlet|☐|]
+                                                   answer = correctAnswerL !! aIndex in
+                                               [whamlet|
+                                                   <th class=tooltips>^{square}
+                                                       <span> #{answerContent answer}
+                                               |]
 
-evalWidget :: Exam
-            -> Int         -- question index
-            -> Maybe [Int] -- my possible answers
-            -> Widget
+evalWidget :: Exam -> Int -> Maybe [Int] -> Widget
 evalWidget exam qIndex maybeAnswers  = let correctResult     = getAnswers exam qIndex
                                            question          = (examQuestions exam) !! qIndex
                                            answerList        = questionAnswerList question
