@@ -82,7 +82,9 @@ examForm (ExamAttributes title maxScore maxTime passPercentage questCount) token
                               <td style="color:black;"> ^{fvInput tview}
                               <td class=smallWhite>Is it correct?
                               <td class=smallWhite>^{fvInput bview}
-            <input type=submit value="Submit question!">
+                              <td>
+                  <tr>
+                  <td style="text-align:right;"><input type=submit value="Submit question!">
                |]
   return (exam, widget)
 
@@ -96,13 +98,28 @@ examAttributesForm token = do
     let examAttributes = ExamAttributes <$> eTitleResult <*> eScoreResult <*> eTimeResult <*> ePassResult <*> eCountResult
     let widget = [whamlet|
         #{token}
-            <ul class=questCreator>
-                <li class=simpleWhite> Examtitle <span style="color:black"> ^{fvInput eTitleView} </span>
-                <li class=simpleWhite> Max. exam score <span style="color:black"> ^{fvInput eScoreView} </span>p
-                <li class=simpleWhite> Max. time <span style="color:black"> ^{fvInput eTimeView} </span>min
-                <li class=simpleWhite> Passing percentage <span style="color:black"> ^{fvInput ePassView}</span>%
-                <li class=simpleWhite> Number of questions <span style="color:black"> ^{fvInput eCountView} </span>
-        <input type=submit value="Start exam creaton!">
+            <table class=questCreator>
+                <tr>
+                    <td class=smallWhite> Exam Title: 
+                    <td style="color:black"> ^{fvInput eTitleView} 
+                <tr>
+                    <td class=smallWhite> Maximum Score: 
+                    <td style="color:black"> ^{fvInput eScoreView}
+                    <td class=smallWhite style="text-align:left;"> Points
+                <tr>
+                    <td class=smallWhite> Maximum Time:
+                    <td style="color:black"> ^{fvInput eTimeView}
+                    <td class=smallWhite style="text-align:left;"> Minutes
+                <tr>
+                    <td class=smallWhite> Passing Percentage:
+                    <td span style="color:black"> ^{fvInput ePassView}
+                    <td class=smallWhite style="text-align:left;"> %
+                <tr>
+                    <td class=smallWhite> Number of Questions: 
+                    <td span style="color:black"> ^{fvInput eCountView}
+                <tr>
+                    <td>
+                    <td style="text-align:right;"><input type=submit value="Start exam creation">
                  |]
     return (examAttributes, widget)
 
