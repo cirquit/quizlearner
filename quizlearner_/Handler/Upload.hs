@@ -2,7 +2,21 @@ module Handler.Upload where
 
 import Widgets (titleWidget, iconWidget, leftWidget)
 import Import
---import XMLParsing
+import Data.Conduit.Binary
+--import qualified Data.ByteString.Lazy as LB
+--import qualified Data.Text.Lazy as LT
+--import qualified Data.Text.Lazy.Encoding as LT
+--
+import Data.Maybe
+import qualified Data.ByteString.Lazy as LB
+import Data.Default
+import Data.Text (Text)
+import qualified Data.Text as Text
+import qualified Data.Text.Lazy as LT
+import qualified Data.Text.Lazy.Encoding as LT
+import Control.Exception hiding (Handler(), try)
+--import Text.Blaze
+import XMLParsing
 --import Data.Conduit
 
 form :: Html -> MForm Handler (FormResult FileInfo, Widget)
@@ -28,6 +42,9 @@ postUploadR = do
     let msubmission = case result of
                           FormSuccess res -> Just res
                           _               -> Nothing
+    bytes   <- runResourceT $ fileSource (fromJust msubmission) $$ sinkLbs
+    text <- liftIO $ preview bytes
+    runDB $ insert $ makeExam $ encodeUtf8 text
     let formWidget = [whamlet|
         <div style="margin: 20px">
              $maybe file <- msubmission
@@ -37,3 +54,11 @@ postUploadR = do
                  <input type=submit value="Upload!">
                      |]
     defaultLayout $ do $(widgetFile "upload")
+
+
+
+preview bytes = do
+    eText <- try . evaluate $ LT.decodeUtf8 bytes :: IO (Either SomeException LT.Text)
+    return $ case eText of
+      Left _ -> LT.pack "This is not happening"
+      Right text -> text
