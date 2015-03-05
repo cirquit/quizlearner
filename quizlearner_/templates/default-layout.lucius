@@ -193,6 +193,7 @@ th:hover.tooltips span {
   margin:20px;
   border-collapse: separate;
   border-spacing: 10px;
+  empty-cells: show;
 }
 
 .questionTD {
