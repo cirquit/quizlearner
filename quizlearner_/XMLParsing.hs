@@ -32,8 +32,8 @@ makeQuestionList cursor = zipWith makeQuestion qContents answerLists
         answerLists = makeAnswerLists cursor
 
 
-makeExam :: Cursor -> Exam
-makeExam cursor = Exam {
+makeExam bs = let cursor = fromDocument $ parseLBS_ def bs in
+                  Exam {
                   examTitle          = T.concat $ attribute "title" cursor,
                   examMaxScore       = 4 * (length $ makeAnswerLists cursor),
                   examMaxTime        = read (T.unpack $ T.concat $ attribute "time" cursor)::Int,
@@ -68,11 +68,10 @@ getAnswerContents cursor = S.chunksOf 4 $
 
 
 
-parse :: FilePath -> IO ()
-parse file = do
-    doc <- readFile def file
-    let cursor = fromDocument doc
-    putStrLn $ show $ makeExam cursor
-    
+--parse :: FilePath -> IO ()
+--parse file = do
+--    doc <- readFile def file
+--    let cursor = fromDocument doc
+--    putStrLn $ show $ makeExam cursor
 
 

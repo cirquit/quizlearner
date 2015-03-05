@@ -47,6 +47,7 @@ postQuizcreatorR = do
                          case res of
                              (FormSuccess (ExamAttributes a b c d e)) -> do
                                  let message = encodeExamAttributes a b c d e
+                                 liftIO $ putStrLn message
                                  setSession "examAttributes" message
                                  redirect QuizcreatorR
                              _ -> do
@@ -125,9 +126,11 @@ examAttributesForm token = do
 
 
 toExamAttributes :: Text -> ExamAttributes
-toExamAttributes (splitOn (pack " ") -> [a, b, c, d, e]) = let (Just maxScore)       = maybeInt $ unpack b
-                                                               (Just maxTime)        = maybeInt $ unpack c
-                                                               (Just passPercentage) = maybeDouble $ unpack d
-                                                               (Just questCount)     = maybeInt $ unpack e in
-                                                           ExamAttributes a maxScore maxTime passPercentage questCount
+toExamAttributes (splitOn (pack "($)") -> [a, b, c, d, e]) = let (Just maxScore)       = maybeInt $ unpack b
+                                                                 (Just maxTime)        = maybeInt $ unpack c
+                                                                 (Just passPercentage) = maybeDouble $ unpack d
+                                                                 (Just questCount)     = maybeInt $ unpack e in
+                                                             ExamAttributes a maxScore maxTime passPercentage questCount
 toExamAttributes _                                       = ExamAttributes (pack "Error in reading exam cookie") 0 0 0.0 0
+
+
