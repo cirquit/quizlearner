@@ -8,14 +8,15 @@ import Text.XML.Cursor
 import Data.Text as T hiding (map, length, zipWith)
 import Data.List.Split as S (chunksOf)
 import Import hiding (zipWith, putStrLn, elem, length, readFile, unpack)
+import Data.ByteString.Lazy.Internal as LB
 
 makeAnswerLists :: Cursor -> [[Answer]]
 makeAnswerLists cursor = zipWith (zipWith makeAnswer) aContents aCorrects
     where
         makeAnswer :: Text -> Text -> Answer
-        makeAnswer content correct = Answer {
-                                              answerContent  = content, 
-                                              answerIsCorrect  = if elem correct ["true","True"] then True else False}
+        makeAnswer cont correct = Answer {
+                                          answerContent  = cont, 
+                                          answerIsCorrect  = if elem correct ["true","True"] then True else False}
         aContents   = getAnswerContents cursor
         aCorrects   = getAnswerAttributes cursor "correct"    
 
@@ -25,20 +26,22 @@ makeQuestionList :: Cursor -> [Question]
 makeQuestionList cursor = zipWith makeQuestion qContents answerLists
     where
         makeQuestion :: Text -> [Answer] -> Question
-        makeQuestion content answers = Question {
-                                                questionContent    = content,
-                                                questionAnswerList = answers}
+        makeQuestion cont answers = Question {
+                                              questionContent    = cont,
+                                              questionAnswerList = answers}
         qContents   = getQuestionAttributes cursor "content"
         answerLists = makeAnswerLists cursor
 
-
-makeExam bs = let cursor = fromDocument $ parseLBS_ def bs in
-                  Exam {
-                  examTitle          = T.concat $ attribute "title" cursor,
-                  examMaxScore       = 4 * (length $ makeAnswerLists cursor),
-                  examMaxTime        = read (T.unpack $ T.concat $ attribute "time" cursor)::Int,
-                  examPassPercentage = read (T.unpack $ T.concat $ attribute "passpercentage" cursor)::Double,
-                  examQuestions      = makeQuestionList cursor}
+makeExam :: LB.ByteString -> Maybe Exam
+makeExam bs = case parseLBS def bs of 
+                   Right doc -> let cursor = fromDocument $ doc in
+                                    Just $ Exam {
+                                    examTitle          = T.concat $ attribute "title" cursor,
+                                    examMaxScore       = 4 * (length $ makeAnswerLists cursor),
+                                    examMaxTime        = read (T.unpack $ T.concat $ attribute "time" cursor)::Int,
+                                    examPassPercentage = read (T.unpack $ T.concat $ attribute "passpercentage" cursor)::Double,
+                                    examQuestions      = makeQuestionList cursor}
+                   Left _    -> Nothing
 
 
 getQuestionAttributes :: Cursor -> Name -> [Text]
