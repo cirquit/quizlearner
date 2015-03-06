@@ -85,6 +85,7 @@ checkboxesField' ioptlist = (multiSelectField ioptlist)
 -- | Exam evaluation
 
 -- | Evaluating the checked results
+-- | Sets True for given indices, False otherwise
 -- | [1,3] -> [False, True, False, True]
 toBoolList :: [Int] -> [Bool]
 toBoolList xs = map snd $ sortBy (comparing fst) $ ts ++ fs
