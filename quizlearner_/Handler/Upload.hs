@@ -28,8 +28,9 @@ postUploadR = do
                                                defaultLayout $ do $(widgetFile "upload")
                                        Nothing      -> do
                                                entityExamList <- runDB $ selectList [] [Asc ExamTitle]
-                                               let formWidget = [whamlet|<span class=smallWhite> Error occured, please check if it is a
-                                                                             <a href=@{HomeR}> valid </a> xml file.
+                                               let formWidget = [whamlet|<span class=smallWhite> An error occured. 
+                                                                            Please make sure you selected a 
+                                                                            <a href=@{ExampleXMLR} style="font-weight:bold;"> valid XML file. </a>
                                                                 |] >> postWidget enctype widget
                                                defaultLayout $ do $(widgetFile "upload")
         _                       -> do
@@ -44,8 +45,8 @@ fileMForm token = do
     let widget = [whamlet|
         #{token}
             <div style="margin: 20px">
-                   <span class=simpleWhite> ^{fvInput fileView}
-                   <input type=submit value="Upload">
+                   <span class=smallWhite> ^{fvInput fileView}
+                   <input style="margin-top:10px;" type=submit value="Upload">
                  |]
     return (fileResult, widget)
 
