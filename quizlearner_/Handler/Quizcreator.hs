@@ -30,24 +30,22 @@ getQuizcreatorR =  do
 
 postQuizcreatorR :: Handler Html
 postQuizcreatorR = do
-    entityExamList <- runDB $ selectList [] [Asc ExamTitle]
     mayAttributes  <- lookupSession "examAttributes"
     case mayAttributes of
        (Just text) -> do ((res, _), _) <- runFormPost $ examForm $ toExamAttributes text
                          case res of
                              (FormSuccess exam) -> do
-                                 let middleWidget = showExamWidget exam
                                  deleteSession "examAttributes"
                                  _ <- runDB $ insert exam
-                                 defaultLayout $ do $(widgetFile "quizcreator")
+                                 redirect QuizcreatorR
                              _ -> do
-                                  let middleWidget = errorWidget $ pack "Exam parsing"
+                                  entityExamList <- runDB $ selectList [] [Asc ExamTitle]
+                                  let middleWidget = errorWidget "Exam parsing"
                                   defaultLayout $ do $(widgetFile "quizcreator")
        _           -> do ((res, _), _) <- runFormPost examAttributesForm
                          case res of
                              (FormSuccess (ExamAttributes a b c d e)) -> do
                                  let message = encodeExamAttributes a b c d e
-                                 liftIO $ putStrLn message
                                  setSession "examAttributes" message
                                  redirect QuizcreatorR
                              _ -> do
@@ -116,7 +114,7 @@ examAttributesForm token = do
                     <td span style="color:black"> ^{fvInput ePassView}
                     <td class=smallWhite style="text-align:left;"> %
                 <tr>
-                    <td class=smallWhite> Number of Questions: 
+                    <td class=smallWhite> Number of Questions:
                     <td span style="color:black"> ^{fvInput eCountView}
                 <tr>
                     <td>
@@ -126,7 +124,7 @@ examAttributesForm token = do
 
 
 toExamAttributes :: Text -> ExamAttributes
-toExamAttributes (splitOn (pack "($)") -> [a, b, c, d, e]) = let (Just maxScore)       = maybeInt $ unpack b
+toExamAttributes ((splitOn "($)") -> [a, b, c, d, e])     =  let (Just maxScore)       = maybeInt $ unpack b
                                                                  (Just maxTime)        = maybeInt $ unpack c
                                                                  (Just passPercentage) = maybeDouble $ unpack d
                                                                  (Just questCount)     = maybeInt $ unpack e in
