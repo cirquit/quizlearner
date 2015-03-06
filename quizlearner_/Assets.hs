@@ -6,17 +6,17 @@ import Prelude (reads)
 -- | Custom Fields
 
 checkTextField :: (Monad m, RenderMessage (HandlerSite m) FormMessage) => Text -> Field m Text
-checkTextField text = checkBool (==text) msg textField
-        where msg = "The title is not correct, please try again" :: Text
+checkTextField text = checkBool (==text) MsgTitleMisMatch textField
+        --where msg = MsgTitleMisMatch :: Text
 
 
 unsignedIntField:: (Monad m, RenderMessage (HandlerSite m) FormMessage) => Field m Int
-unsignedIntField = checkBool (>0) msg intField
-  where msg = "This input can't be negative" :: Text
+unsignedIntField = checkBool (>0) MsgInputNeg intField
+  --where msg = "This input can't be negative" :: Text
 
 unsignedDoubleField :: (Monad m, RenderMessage (HandlerSite m) FormMessage) => Field m Double
-unsignedDoubleField = checkBool (>0) msg doubleField
-  where msg = "This input can't be negative" :: Text
+unsignedDoubleField = checkBool (>0) MsgInputNeg doubleField
+  --where msg = "This input can't be negative" :: Text
 
 -- | DB
 
@@ -25,7 +25,6 @@ exampleDB = do
     _ <- insert $ exam_1
     _ <- insert $ exam_2
     _ <- insert $ exam_3
-    liftIO $ putStrLn "The function load_DB was called!"
 
 -- | Helper
 

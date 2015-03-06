@@ -23,18 +23,18 @@ postUploadR = do
                                        Just newExam -> do
                                                _     <- runDB $ insert newExam
                                                entityExamList <- runDB $ selectList [] [Asc ExamTitle]
-                                               let formWidget = [whamlet| <span class=simpleWhite> File received: #{fileName fileInfo}|]
+                                               let formWidget = [whamlet| <span class=simpleWhite>_{MsgFileRec $ fileName fileInfo}|]
                                                                  >> postWidget enctype widget
                                                defaultLayout $ do $(widgetFile "upload")
                                        Nothing      -> do
                                                entityExamList <- runDB $ selectList [] [Asc ExamTitle]
-                                               let formWidget = [whamlet|<span class=smallWhite> Error occured, please check if it is a
-                                                                             <a href=@{HomeR}> valid </a> xml file.
+                                               let formWidget = [whamlet|<span class=smallWhite> _{MsgErrInXML_P1}
+                                                                             <a href=@{HomeR}> _{MsgErrInXML_P2}
                                                                 |] >> postWidget enctype widget
                                                defaultLayout $ do $(widgetFile "upload")
         _                       -> do
                                       entityExamList <- runDB $ selectList [] [Asc ExamTitle]
-                                      let formWidget = [whamlet|<span class=smallWhite> Please choose a xml file to upload.|]
+                                      let formWidget = [whamlet|<span class=smallWhite> _{MsgChooseXML}|]
                                                        >> postWidget enctype widget
                                       defaultLayout $ do $(widgetFile "upload")
 
@@ -45,7 +45,7 @@ fileMForm token = do
         #{token}
             <div style="margin: 20px">
                    <span class=simpleWhite> ^{fvInput fileView}
-                   <input type=submit value="Upload">
+                   <input type=submit value=_{Upload}>
                  |]
     return (fileResult, widget)
 

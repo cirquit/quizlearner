@@ -9,12 +9,12 @@ checkTitle title token = do
   (textResult, textView) <- mreq (checkTextField title) "" Nothing
   let widget = [whamlet|
       #{token}
-              <span class=simpleWhite> Do you really want to delete this exam?
+              <span class=simpleWhite> _{MsgConfirmDelExam}
               <br>
-              <span class=simpleWhite> Please type the examtitle correctly and click delete.
+              <span class=simpleWhite> _{MsgConfirmDelExam2}
               <br>
               <span style="margin:10px; color:black;"> ^{fvInput textView}
-          <input type=submit value="Delete exam!">
+          <input type=submit value=_{MsgDelExam}>
                |]
   return (textResult, widget)
 
@@ -33,15 +33,15 @@ postDeleteR examId = do
     case res of
         FormSuccess _ -> do runDB $ delete examId
                             let middleWidget = [whamlet|
-                                <span class=simpleWhite> You successfully deleted #{examTitle exam}!
-                                <a href=@{HomeR} style="margin:10px;"> <label class=simpleOrange> Get back! </label>
+                                <span class=simpleWhite> _{MsgSuccessDelete $ examTitle exam}
+                                <a href=@{HomeR} style="margin:10px;"> <label class=simpleOrange> _{MsgGetBack} </label>
                                                |]
                             entityExamList <- runDB $ selectList [] [Asc ExamTitle]
                             defaultLayout $ do $(widgetFile "delete")
         _             -> do let middleWidget = [whamlet|
                                 <form method=post enctype=#{enctype}>
                                     ^{widget}
-                                <span class=sadred> Sorry, the input does not match the title
+                                <span class=sadred> _{MsgTitleMisMatch}
                                                |]
                             entityExamList <- runDB $ selectList [] [Asc ExamTitle]
                             defaultLayout $ do $(widgetFile "delete")

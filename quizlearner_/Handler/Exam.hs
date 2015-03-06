@@ -28,10 +28,10 @@ postExamR examId = do
      ^{tableWidget newList exam}
          <p class=boldWhite> #{show accPoints}p | #{show roundPercent}%
      $if passed
-         <p class=green> Congratulations, you passed the test!
+         <p class=green> _{MsgPassedExam}
      $else
-         <p class=sadred> Sorry, you didn't pass.
-     <a href=@{HomeR} style="margin:10px;"> <label class=simpleOrange> Get back! </label>
+         <p class=sadred> _{MsgNotPassExam}
+     <a href=@{HomeR} style="margin:10px;"> <label class=simpleOrange> _{MsgGetBack} </label>
                                    |]
          _                  -> [whamlet|
      ^{errorWidget $ pack "Evaluation"}
@@ -51,12 +51,12 @@ listEditMForm xs token = do
                 $forall (c,view) <- numeratedViews
                     <li>
                         <input type="radio" name="tabs" id="tab#{fvId view}">
-                        <label for="tab#{fvId view}">Q #{show c}
+                        <label for="tab#{fvId view}">_{MsgQ} #{show c}
                         <div id="tab-content#{fvId view}" class="tab-content animated fadeIn">
                             <p class=boldWhite> #{fvLabel view} </p>
                             ^{fvInput view}
                             <br>
-            <input class=button type=submit value="Testing">
+            <input class=button type=submit value=_{MsgEvaluate}>
                  |]
     return ((FormSuccess checkResults), widget)
 
@@ -111,9 +111,9 @@ tableWidget :: [(Int, FormResult (Maybe [Int]))] -> Exam -> Widget
 tableWidget maybeAnswers exam = [whamlet|
     <table class=evalTable>
         <tr>
-            <th> Question
-            <th colspan="4"> Answers
-            <th> Points
+            <th> _{MsgQuestion}
+            <th colspan="4"> _{Answer 4}
+            <th> _{MsgPoints}
         $forall (c,(FormSuccess may)) <- maybeAnswers
             ^{evalWidget exam c may}
                                 |]
@@ -135,7 +135,7 @@ evalWidget exam qIndex maybeAnswers  = let correctResult     = getAnswers exam q
                                            wid results index = squareWidget results index answerList in
                                            [whamlet|
                                                <tr>
-                                                         <th rowspan="2" class=tooltips> Nr. #{show qIndex}
+                                                         <th rowspan="2" class=tooltips> _{Nr}. #{show qIndex}
                                                              <span> #{questionContent question}
                                                  $maybe just <- maybeAnswers
                                                      $with myResults <- toBoolList just
