@@ -2,7 +2,7 @@ module Handler.Exam where
 
 import Assets (zipAnswers, toDouble, floor')
 import Widgets (titleWidget, iconWidget, leftWidget, postWidget, errorWidget, spacingScript)
-import Import hiding ((!!), unzip, (\\), sortBy, repeat)
+import Import hiding (unzip, (\\), sortBy, repeat)
 import Data.List ((!!), unzip, (\\), sortBy, repeat)
 
 getExamR :: ExamId -> Handler Html

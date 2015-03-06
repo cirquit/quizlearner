@@ -22,9 +22,9 @@ unsignedDoubleField = checkBool (>0) msg doubleField
 
 exampleDB :: MonadIO m => ReaderT SqlBackend m ()
 exampleDB = do
-    _ <- insert $ exam_1
-    _ <- insert $ exam_2
-    _ <- insert $ exam_3
+    insert $ exam_1
+    insert $ exam_2
+    insert $ exam_3
     liftIO $ putStrLn "The function load_DB was called!"
 
 -- | Helper
