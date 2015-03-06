@@ -21,7 +21,7 @@ postExamR examId = do
     let middleWidget = case res of
          (FormSuccess list) -> let newList = zip ([0..]::[Int]) list
                                    accPoints  = toDouble (calculatePoints newList exam)
-                                   accPercent = accPoints / toDouble (examMaxScore exam)
+                                   accPercent = accPoints / toDouble ((4*) $ length $ examQuestions  exam)
                                    passed = accPercent >= examPassPercentage exam
                                    roundPercent = (toDouble  $ floor' $ accPercent * 10000) / 100 in
                                    [whamlet|

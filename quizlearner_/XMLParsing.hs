@@ -33,12 +33,10 @@ makeQuestionList cursor = zipWith makeQuestion qContents answerLists
         answerLists = makeAnswerLists cursor
 
 makeExam :: LB.ByteString -> Maybe Exam
-makeExam bs = case parseLBS def bs of 
+makeExam bs = case parseLBS def bs of
                    Right doc -> let cursor = fromDocument $ doc in
                                     Just $ Exam {
                                     examTitle          = T.concat $ attribute "title" cursor,
-                                    examMaxScore       = 4 * (length $ makeAnswerLists cursor),
-                                    examMaxTime        = read (T.unpack $ T.concat $ attribute "time" cursor)::Int,
                                     examPassPercentage = read (T.unpack $ T.concat $ attribute "passpercentage" cursor)::Double,
                                     examQuestions      = makeQuestionList cursor}
                    Left _    -> Nothing

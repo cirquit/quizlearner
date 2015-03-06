@@ -10,8 +10,6 @@ Email
     UniqueEmail email
 Exam
     title        Text
-    maxScore     Int
-    maxTime      Int
     passPercentage Double
     questions     [Question]
     deriving Show
