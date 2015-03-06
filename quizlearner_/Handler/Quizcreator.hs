@@ -4,7 +4,7 @@ import Import
 import Assets (unsignedDoubleField, unsignedIntField,  maybeInt,
                maybeDouble, encodeExamAttributes)
 import Widgets (titleWidget, iconWidget, leftWidget, postWidget,
-                errorWidget, spacingScript, showExamWidget)
+                errorWidget, spacingScript)
 import Data.Text (splitOn)
 import Data.List.Split (chunksOf)
 import Data.List (cycle)
@@ -45,8 +45,7 @@ postQuizcreatorR = do
        _           -> do ((res, _), _) <- runFormPost examAttributesForm
                          case res of
                              (FormSuccess (ExamAttributes a b c d e)) -> do
-                                 let message = encodeExamAttributes a b c d e
-                                 setSession "examAttributes" message
+                                 setSession "examAttributes" $ encodeExamAttributes a b c d e
                                  redirect QuizcreatorR
                              _ -> do
                                  deleteSession "examAttributes"

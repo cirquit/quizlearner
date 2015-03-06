@@ -1,20 +1,6 @@
 module Widgets where
 
-import Import --hiding (images_quizCreator_svg, images_uploadXML_svg, images_xml_svg, images_trashcan_svg)
-
---staticFiles "static"
-
-showExamWidget :: Exam -> Widget
-showExamWidget  (Exam title maxScore maxTime passPercentage qList) = [whamlet|
-    <p class=simpleWhite> Examtitle: #{title}
-    <p class=simpleWhite> MaxScore: #{show maxScore}
-    <p class=simpleWhite> MaxTime: #{show maxTime}
-    <p class=simpleWhite> PassPercentage: #{show passPercentage}
-    $forall (Question content aList) <- qList
-        <p class=simpleWhite> Question: #{content}
-            $forall (Answer aContent isCorrect) <- aList
-                 <p class=simpleWhite> Answer: #{aContent} #{show isCorrect}
-                                                                  |]
+import Import
 
 postWidget :: Enctype -> Widget -> Widget
 postWidget enctype widget =  [whamlet|
