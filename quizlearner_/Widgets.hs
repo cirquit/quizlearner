@@ -1,8 +1,8 @@
 module Widgets where
 
-import Import hiding (images_quizCreator_svg, images_uploadXML_svg, images_xml_svg, images_trashcan_svg)
+import Import --hiding (images_quizCreator_svg, images_uploadXML_svg, images_xml_svg, images_trashcan_svg)
 
-staticFiles "static"
+--staticFiles "static"
 
 showExamWidget :: Exam -> Widget
 showExamWidget  (Exam title maxScore maxTime passPercentage qList) = [whamlet|
