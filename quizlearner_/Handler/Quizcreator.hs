@@ -63,14 +63,14 @@ examForm (ExamAttributes title maxScore maxTime passPercentage questCount) token
   aTextFields <- forM (nTimes (4 * questCount)) (\_ -> mreq textField "" Nothing)
   aBoolFields <- forM (nTimes (4 * questCount)) (\_ -> mreq boolField "" (Just False))
   let (qTextResults, qTextViews) = unzip qTextFields
-  let (aTextResults, aTextViews) = unzip aTextFields
-  let (aBoolResults, aBoolViews) = unzip aBoolFields
-  let answerResList =  zipWith (\(FormSuccess x) (FormSuccess y) -> Answer x y) aTextResults aBoolResults
-  let questions = FormSuccess $ zipWith (\(FormSuccess q) as -> Question q as) qTextResults (chunksOf 4 answerResList)
-  let exam = Exam title maxScore maxTime passPercentage <$> questions
-  let answerViews = zipWith3 (\x y z -> zip3 x y z) (chunksOf 4 aTextViews) (chunksOf 4 aBoolViews) (cycle [(nTimes 4)])
-  let questionViews = zip3 qTextViews answerViews ([1..]::[Int])
-  let widget = [whamlet|
+      (aTextResults, aTextViews) = unzip aTextFields
+      (aBoolResults, aBoolViews) = unzip aBoolFields
+      answerResList =  zipWith (\(FormSuccess x) (FormSuccess y) -> Answer x y) aTextResults aBoolResults
+      questions     = FormSuccess $ zipWith (\(FormSuccess q) as -> Question q as) qTextResults (chunksOf 4 answerResList)
+      exam          = Exam title maxScore maxTime passPercentage <$> questions
+      answerViews   = zipWith3 (\x y z -> zip3 x y z) (chunksOf 4 aTextViews) (chunksOf 4 aBoolViews) (cycle [(nTimes 4)])
+      questionViews = zip3 qTextViews answerViews ([1..]::[Int])
+      widget        = [whamlet|
           #{token}
               <table class=questCreator>
                   $forall (qView, aList,n) <- questionViews
@@ -86,7 +86,7 @@ examForm (ExamAttributes title maxScore maxTime passPercentage questCount) token
                               <td>
                   <tr>
                   <td style="text-align:right;"><input type=submit value="Submit question!">
-               |]
+                      |]
   return (exam, widget)
 
 examAttributesForm :: Html -> MForm Handler ((FormResult ExamAttributes), Widget)
@@ -97,7 +97,7 @@ examAttributesForm token = do
     (ePassResult, ePassView)   <- mreq unsignedDoubleField "" (Just 50.0)
     (eCountResult, eCountView) <- mreq unsignedIntField "" (Just 5)
     let examAttributes = ExamAttributes <$> eTitleResult <*> eScoreResult <*> eTimeResult <*> ePassResult <*> eCountResult
-    let widget = [whamlet|
+        widget = [whamlet|
         #{token}
             <table class=questCreator>
                 <tr>
@@ -131,6 +131,6 @@ toExamAttributes (splitOn (pack "($)") -> [a, b, c, d, e]) = let (Just maxScore)
                                                                  (Just passPercentage) = maybeDouble $ unpack d
                                                                  (Just questCount)     = maybeInt $ unpack e in
                                                              ExamAttributes a maxScore maxTime passPercentage questCount
-toExamAttributes _                                       = ExamAttributes (pack "Error in reading exam cookie") 0 0 0.0 0
+toExamAttributes _                                         = ExamAttributes (pack "Error in reading exam cookie") 0 0 0.0 0
 
 

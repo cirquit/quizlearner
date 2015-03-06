@@ -30,10 +30,7 @@ exampleDB = do
 -- | Helper
 
 zipAnswers :: [Answer] -> [(Text, Int)]
-zipAnswers [] = []
-zipAnswers xs = acc 0 xs
-     where  acc _ []  = []
-            acc n ((Answer text _ ):xs') =  (text, n):acc (n+1) xs'
+zipAnswers xs = zipWith (\(Answer content _) n -> (content,n)) xs [0..]
 
 toDouble :: (Integral a) => a -> Double
 toDouble = fromIntegral
@@ -43,7 +40,7 @@ floor' = floor
 
 maybeRead :: Read a => String -> Maybe a
 maybeRead (reads -> [(x,"")]) = Just x
-maybeRead _ = Nothing
+maybeRead _                   = Nothing
 
 maybeInt :: String -> Maybe Int
 maybeInt = maybeRead
@@ -52,7 +49,10 @@ maybeDouble :: String -> Maybe Double
 maybeDouble = maybeRead
 
 encodeExamAttributes :: Text -> Int -> Int -> Double -> Int -> Text
-encodeExamAttributes a b c d e = a ++ pack ("($)" ++ show b) ++ pack ("($)" ++ show c) ++ pack ("($)" ++ show d) ++ pack ("($)" ++ show e)
+encodeExamAttributes a b c d e = intercalate "($)" xs
+  where
+    xs = [a, ps b, ps c, ps d, ps e]
+    ps = pack . show
 
 
 
