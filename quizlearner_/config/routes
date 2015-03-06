@@ -10,3 +10,4 @@
 /delete/#ExamId DeleteR GET POST
 /quizcreator/ QuizcreatorR GET POST
 /upload UploadR GET POST
+upload/exampleXml ExampleXMLR GET

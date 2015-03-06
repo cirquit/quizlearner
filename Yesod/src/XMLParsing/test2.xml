@@ -1,8 +1,8 @@
-<quiz title="Haskell Basics" qcount="21" time="90" passpercentage="0.8">
+﻿<quiz passpercentage="0.8">
 
     <question content="Was ist der allgemeinste Typ von (compare . fst)?">
         <answer correct="false">Eq b => (a, b) -> b -> Ordering</answer>
-        <answer correct="true">Ord b => (b, b1) -> b -> Ordering</answer>
+        <answer >Ord b => (b, b1) -> b -> Ordering</answer>
         <answer correct="false">Ord a => (a,b) -> b -> Ordering</answer>
         <answer correct="false">a -> b -> Ordering </answer>
     </question>

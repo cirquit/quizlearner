@@ -1,19 +1,7 @@
 module Handler.Xml where
 
---import Assets
 import Import
 import Widgets
-
-{-
-data Exam = Exam {examTitle :: Text, examMaxScore :: Int, examTime :: Int, examPassPercentage :: Double, examQuestions :: [Question]}
-    deriving Show
-
-data Question = Question {questionContent :: Text, questionAnswerList :: [Answer]}
-    deriving Show
-
-data Answer = Answer {answerContent :: Text, answerCorrect :: Bool}
-    deriving Show
--}
 
 getXmlR :: ExamId -> Handler Html
 getXmlR examId = do
@@ -21,7 +9,6 @@ getXmlR examId = do
     exam <- runDB $ get404 examId
     let middleWidget = displayXML exam
     defaultLayout $ do $(widgetFile "xml")
-
 
 displayXML :: Exam -> Widget
 displayXML exam = let eTitle  = examTitle exam

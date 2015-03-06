@@ -29,7 +29,7 @@ postUploadR = do
                                        Nothing      -> do
                                                entityExamList <- runDB $ selectList [] [Asc ExamTitle]
                                                let formWidget = [whamlet|<span class=smallWhite> _{MsgErrInXML_P1}
-                                                                             <a href=@{HomeR}> _{MsgErrInXML_P2}
+                                                                             <a href=@{ExampleXMLR} style="font-weight:bold;"> _{MsgErrInXML_P2}
                                                                 |] >> postWidget enctype widget
                                                defaultLayout $ do $(widgetFile "upload")
         _                       -> do

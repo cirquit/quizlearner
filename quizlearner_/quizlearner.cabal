@@ -25,6 +25,7 @@ library
                      Handler.Upload
                      Handler.Xml
                      Handler.Delete
+                     Handler.ExampleXML
                      Assets
                      Widgets
                      XMLParsing
