@@ -22,9 +22,9 @@ unsignedDoubleField = checkBool (>0) msg doubleField
 
 exampleDB :: MonadIO m => ReaderT SqlBackend m ()
 exampleDB = do
-    insert $ exam_1
-    insert $ exam_2
-    insert $ exam_3
+    _ <- insert $ exam_1
+    _ <- insert $ exam_2
+    _ <- insert $ exam_3
     liftIO $ putStrLn "The function load_DB was called!"
 
 -- | Helper
@@ -48,10 +48,10 @@ maybeInt = maybeRead
 maybeDouble :: String -> Maybe Double
 maybeDouble = maybeRead
 
-encodeExamAttributes :: Text -> Int -> Int -> Double -> Int -> Text
-encodeExamAttributes a b c d e = intercalate "($)" xs
+encodeExamAttributes :: Text -> Double -> Int -> Text
+encodeExamAttributes a b c = intercalate "($)" xs
   where
-    xs = [a, ps b, ps c, ps d, ps e]
+    xs = [a, ps b, ps c]
     ps = pack . show
 
 
@@ -95,9 +95,9 @@ exam_list :: [Exam]
 exam_list =[exam_1, exam_2, exam_3]
 
 exam_1, exam_2, exam_3 :: Exam
-exam_1 = Exam {examTitle="Template 1", examMaxScore=50, examMaxTime=120, examPassPercentage=0.45, examQuestions=[q1,q2,q3,q4,q5,q6,q7,q8,q9,q6,q6,q6]}
-exam_2 = Exam {examTitle="Template 2",  examMaxScore=12, examMaxTime=180, examPassPercentage=0.3, examQuestions=[q1,q2,q3]}
-exam_3 = Exam {examTitle = "Intermediate Haskell", examMaxScore = 24, examMaxTime = 90, examPassPercentage = 0.8, examQuestions = [Question {questionContent = "Was ist der allgemeinste Typ von (compare . fst)?", questionAnswerList = [Answer {answerContent = "Eq b => (a, b) -> b -> Ordering", answerIsCorrect = False},Answer {answerContent = "Ord b => (b, b1) -> b -> Ordering", answerIsCorrect = True},Answer {answerContent = "Ord a => (a,b) -> b -> Ordering", answerIsCorrect = False},Answer {answerContent = "a -> b -> Ordering ", answerIsCorrect = False}]},Question {questionContent = "Zu was ist zipWith (++) [['h','a','l','l','o']] ['w':'e':'l':'t':[]] \228quivalent?", questionAnswerList = [Answer {answerContent = "[\"hallo\", \"welt\"]", answerIsCorrect = False},Answer {answerContent = "\"hallowelt\"", answerIsCorrect = False},Answer {answerContent = "(\"hallo\" ++ \"welt\"):[]", answerIsCorrect = True},Answer {answerContent = "[\"hallowelt\"]", answerIsCorrect = True}]},Question {questionContent = "Welchen Typ hat foldl compare?", questionAnswerList = [Answer {answerContent = "Ordering -> [Ordering] -> Ordering", answerIsCorrect = True},Answer {answerContent = "Ord a => a -> [a] -> a", answerIsCorrect = False},Answer {answerContent = "[Ordering] -> Ordering -> Ordering", answerIsCorrect = False},Answer {answerContent = "Ord a => a -> [a] -> Ordering", answerIsCorrect = False}]},Question {questionContent = "Was ist der allgemeinste Typ von Just $ Just Nothing?", questionAnswerList = [Answer {answerContent = "a", answerIsCorrect = False},Answer {answerContent = "Maybe a", answerIsCorrect = False},Answer {answerContent = "Maybe (Maybe a)", answerIsCorrect = False},Answer {answerContent = "Maybe (Maybe (Maybe a))", answerIsCorrect = True}]},Question {questionContent = "Zu was ist scanl (+) 0 [1..10] \228quivalent?", questionAnswerList = [Answer {answerContent = "foldl (\\x y -> x++[sum y]) [] (inits [1..10])", answerIsCorrect = True},Answer {answerContent = "take 11 $ unfoldr (\\(x,y) -> Just (x,(x+y,y+1))) (0,1)", answerIsCorrect = True},Answer {answerContent = "[0,1,3,6,10,15,21,28,36,45,55]", answerIsCorrect = True},Answer {answerContent = "map sum $ inits [1..10]", answerIsCorrect = True}]},Question {questionContent = "Welchen allgemeinen Typ hat (*) 1.6 ?", questionAnswerList = [Answer {answerContent = "Num b => b -> b", answerIsCorrect = False},Answer {answerContent = "Integral a => a -> a", answerIsCorrect = False},Answer {answerContent = "Fractional a => a -> a", answerIsCorrect = True},Answer {answerContent = "Double -> Double", answerIsCorrect = False}]}]}
+exam_1 = Exam {examTitle="Template 1", examPassPercentage=0.45, examQuestions=[q1,q2,q3,q4,q5,q6,q7,q8,q9,q6,q6,q6]}
+exam_2 = Exam {examTitle="Template 2",  examPassPercentage=0.3, examQuestions=[q1,q2,q3]}
+exam_3 = Exam {examTitle = "Intermediate Haskell", examPassPercentage = 0.8, examQuestions = [Question {questionContent = "Was ist der allgemeinste Typ von (compare . fst)?", questionAnswerList = [Answer {answerContent = "Eq b => (a, b) -> b -> Ordering", answerIsCorrect = False},Answer {answerContent = "Ord b => (b, b1) -> b -> Ordering", answerIsCorrect = True},Answer {answerContent = "Ord a => (a,b) -> b -> Ordering", answerIsCorrect = False},Answer {answerContent = "a -> b -> Ordering ", answerIsCorrect = False}]},Question {questionContent = "Zu was ist zipWith (++) [['h','a','l','l','o']] ['w':'e':'l':'t':[]] \228quivalent?", questionAnswerList = [Answer {answerContent = "[\"hallo\", \"welt\"]", answerIsCorrect = False},Answer {answerContent = "\"hallowelt\"", answerIsCorrect = False},Answer {answerContent = "(\"hallo\" ++ \"welt\"):[]", answerIsCorrect = True},Answer {answerContent = "[\"hallowelt\"]", answerIsCorrect = True}]},Question {questionContent = "Welchen Typ hat foldl compare?", questionAnswerList = [Answer {answerContent = "Ordering -> [Ordering] -> Ordering", answerIsCorrect = True},Answer {answerContent = "Ord a => a -> [a] -> a", answerIsCorrect = False},Answer {answerContent = "[Ordering] -> Ordering -> Ordering", answerIsCorrect = False},Answer {answerContent = "Ord a => a -> [a] -> Ordering", answerIsCorrect = False}]},Question {questionContent = "Was ist der allgemeinste Typ von Just $ Just Nothing?", questionAnswerList = [Answer {answerContent = "a", answerIsCorrect = False},Answer {answerContent = "Maybe a", answerIsCorrect = False},Answer {answerContent = "Maybe (Maybe a)", answerIsCorrect = False},Answer {answerContent = "Maybe (Maybe (Maybe a))", answerIsCorrect = True}]},Question {questionContent = "Zu was ist scanl (+) 0 [1..10] \228quivalent?", questionAnswerList = [Answer {answerContent = "foldl (\\x y -> x++[sum y]) [] (inits [1..10])", answerIsCorrect = True},Answer {answerContent = "take 11 $ unfoldr (\\(x,y) -> Just (x,(x+y,y+1))) (0,1)", answerIsCorrect = True},Answer {answerContent = "[0,1,3,6,10,15,21,28,36,45,55]", answerIsCorrect = True},Answer {answerContent = "map sum $ inits [1..10]", answerIsCorrect = True}]},Question {questionContent = "Welchen allgemeinen Typ hat (*) 1.6 ?", questionAnswerList = [Answer {answerContent = "Num b => b -> b", answerIsCorrect = False},Answer {answerContent = "Integral a => a -> a", answerIsCorrect = False},Answer {answerContent = "Fractional a => a -> a", answerIsCorrect = True},Answer {answerContent = "Double -> Double", answerIsCorrect = False}]}]}
 
 -- Temporary Questions
 q1,q2,q3,q4,q5,q6,q7,q8,q9 :: Question

@@ -7,22 +7,22 @@ import Data.List ((!!), unzip, (\\), sortBy, repeat)
 
 getExamR :: ExamId -> Handler Html
 getExamR examId = do
-    entityExamList    <- runDB $ selectList [] [Asc ExamTitle]
-    exam              <- runDB $ get404 examId
-    (widget, enctype) <- generateFormPost $ listEditMForm $ examQuestions exam
-    let middleWidget  = postWidget enctype widget
+    entityExamList <- runDB $ selectList [] [Asc ExamTitle]
+    exam <-  runDB $ get404 examId
+    (widget, enctype) <-generateFormPost $ listEditMForm $ examQuestions exam
+    let middleWidget = postWidget enctype widget
     defaultLayout $ do $(widgetFile "exam")
 
 postExamR :: ExamId -> Handler Html
 postExamR examId = do
-    entityExamList   <- runDB $ selectList [] [Asc ExamTitle]
-    exam             <- runDB $ get404 examId
-    ((res,_), _)     <- runFormPost $ listEditMForm $ examQuestions exam
+    entityExamList <- runDB $ selectList [] [Asc ExamTitle]
+    exam  <- runDB $ get404 examId
+    ((res,_), _) <- runFormPost $ listEditMForm $ examQuestions exam
     let middleWidget = case res of
-         (FormSuccess list) -> let newList      = zip ([0..]::[Int]) list
-                                   accPoints    = toDouble (calculatePoints newList exam)
-                                   accPercent   = accPoints / toDouble (examMaxScore exam)
-                                   passed       = accPercent >= examPassPercentage exam
+         (FormSuccess list) -> let newList = zip ([0..]::[Int]) list
+                                   accPoints  = toDouble (calculatePoints newList exam)
+                                   accPercent = accPoints / toDouble ((4*) $ length $ examQuestions  exam)
+                                   passed = accPercent >= examPassPercentage exam
                                    roundPercent = (toDouble  $ floor' $ accPercent * 10000) / 100 in
                                    [whamlet|
      ^{tableWidget newList exam}
@@ -40,12 +40,12 @@ postExamR examId = do
 
 listEditMForm :: [Question] -> Html -> MForm Handler (FormResult ([FormResult (Maybe [Int])]), Widget)
 listEditMForm xs token = do
-    let checkBoxes     = checkboxesFieldList' . zipAnswers
-        questionStr    = fromString . unpack
-    checkFields        <- forM xs (\(Question content list ) -> mopt (checkBoxes list) (questionStr content) Nothing)
+    let checkBoxes = checkboxesFieldList' . zipAnswers
+    let questionStr = fromString . unpack
+    checkFields <- forM xs (\(Question content list ) -> mopt (checkBoxes list) (questionStr content) Nothing)
     let (checkResults, checkViews) = unzip checkFields
-        numeratedViews = zip ([1..]::[Int]) checkViews
-        widget = [whamlet|
+    let numeratedViews = zip ([1..]::[Int]) checkViews
+    let widget = [whamlet|
         #{token}
             <ul class="tabs">
                 $forall (c,view) <- numeratedViews
@@ -98,17 +98,6 @@ compareAnswers :: [Bool] -> Maybe [Bool] -> Int
 compareAnswers xs (Just zs) = max 0 $ foldl' (\ys (x,y) -> if x == y then ys + 1 else ys - 1) 0 (zip xs zs)
 compareAnswers xs Nothing   = max 0 $ foldl' (\ys (x,y) -> if x == y then ys + 1 else ys - 1) 0 (zip xs fs)
   where fs = [False, False, False, False]
-
-
---compareAnswers :: [Bool] -> Maybe [Bool] -> Int
---compareAnswers xs mb | mb == Nothing = max 0 $ sum $ zipWith boolAdd xs fs
---                     | otherwise     = max 0 $ sum $ zipWith boolAdd xs fs
---  where fs = [False, False, False, False]
---        boolAdd :: Bool -> Bool -> Int
---        boolAdd x y | x==y      =  1 
---                    | otherwise = -1
-
-
 
 getAnswers :: Exam -> Int -> [Bool]
 getAnswers exam n = map (answerIsCorrect) qas

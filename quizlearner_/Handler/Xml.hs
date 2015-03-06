@@ -12,14 +12,12 @@ getXmlR examId = do
 
 displayXML :: Exam -> Widget
 displayXML exam = let eTitle  = examTitle exam
-                      qcount  = show $ length $ examQuestions exam
-                      time    = examMaxTime exam
                       percent = examPassPercentage exam
                       spaces  = [whamlet| &nbsp;&nbsp;&nbsp;&nbsp; |]
                   in
                       [whamlet|
                         <div class=xml>
-                            &lt;<span class=xmlRed>quiz</span> title="#{eTitle}" qcount="#{qcount}" time="#{time}" passpercentage="#{percent}"&gt;<br>
+                            &lt;<span class=xmlRed>quiz</span> title="#{eTitle}" passpercentage="#{percent}"&gt;<br>
                             $forall q <- examQuestions exam
                                 ^{spaces}&lt;<span class=xmlRed>question</span> content="#{questionContent q}"&gt; <br>
                                 $forall a <- questionAnswerList q
