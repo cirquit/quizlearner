@@ -46,5 +46,7 @@ getExampleXMLR = do
                             correct="true"&gt;6&lt;<span class=xmlRed>/answer</span>&gt;<br>
                         ^{spaces}&lt;<span class=xmlRed>/question</span>&gt;<br>
                     &lt;<span class=xmlRed>/quiz</span>&gt;
+
+                <a href=@{UploadR} style="font-size: 16px; font-weight: bold; color:white; float:right; margin:10px;"> Ok, got it!
                      |]
     defaultLayout $ do $(widgetFile "exampleXml")
