@@ -22,19 +22,19 @@ postExamR examId = do
          (FormSuccess list) -> let newList = zip ([0..]::[Int]) list
                                    accPoints  = toDouble (calculatePoints newList exam)
                                    accPercent = accPoints / toDouble ((4*) $ length $ examQuestions  exam)
-                                   passed = accPercent >= examPassPercentage exam
-                                   roundPercent = (toDouble  $ floor' $ accPercent * 10000) / 100 in
+                                   roundPercent = (toDouble  $ floor' $ accPercent * 10000) / 100
+                                   passed = roundPercent >= examPassPercentage exam in
                                    [whamlet|
      ^{tableWidget newList exam}
          <p class=boldWhite> #{show accPoints}p | #{show roundPercent}%
      $if passed
-         <p class=green> _{MsgPassedExam}
+         <p class=green> _{MsgPassExam}
      $else
-         <p class=sadred> _{MsgNotPassExam}
+         <p class=sadred> _{MsgNoPassExam}
      <a href=@{HomeR} style="margin:10px;"> <label class=simpleOrange> _{MsgGetBack} </label>
                                    |]
          _                  -> [whamlet|
-     ^{errorWidget $ pack "Evaluation"}
+     ^{errorWidget $ pack "exam evaluation"}
                                |]
     defaultLayout $ do $(widgetFile "exam")
 
@@ -51,7 +51,7 @@ listEditMForm xs token = do
                 $forall (c,view) <- numeratedViews
                     <li>
                         <input type="radio" name="tabs" id="tab#{fvId view}">
-                        <label for="tab#{fvId view}">_{MsgQ} #{show c}
+                        <label for="tab#{fvId view}">#{show c}
                         <div id="tab-content#{fvId view}" class="tab-content animated fadeIn">
                             <p class=boldWhite> #{fvLabel view} </p>
                             ^{fvInput view}
@@ -112,8 +112,8 @@ tableWidget :: [(Int, FormResult (Maybe [Int]))] -> Exam -> Widget
 tableWidget maybeAnswers exam = [whamlet|
     <table class=evalTable>
         <tr>
-            <th> _{MsgQuestion}
-            <th colspan="4"> _{Answer 4}
+            <th> _{MsgQuestion 1}
+            <th colspan="4"> _{MsgAnswer 4}
             <th> _{MsgPoints}
         $forall (c,(FormSuccess may)) <- maybeAnswers
             ^{evalWidget exam c may}
@@ -136,12 +136,12 @@ evalWidget exam qIndex maybeAnswers  = let correctResult     = getAnswers exam q
                                            wid results index = squareWidget results index answerList in
                                            [whamlet|
                                                <tr>
-                                                         <th rowspan="2" class=tooltips> _{Nr}. #{show qIndex}
+                                                         <th rowspan="2" class=tooltips> _{MsgNr}. #{show qIndex}
                                                              <span> #{questionContent question}
                                                  $maybe just <- maybeAnswers
                                                      $with myResults <- toBoolList just
                                                          ^{wid myResults 0} ^{wid myResults 1} ^{wid myResults 2} ^{wid myResults 3}
-                                                         <th rowspan="2"> #{show $ compareAnswers correctResult (Just myResults)}p
+                                                         <th rowspan="2"> #{show $ compareAnswers correctResult (Just myResults)}
                                                  $nothing
                                                          ^{wid falseL 0} ^{wid falseL 1} ^{wid falseL 2} ^{wid falseL 3}
                                                          <th rowspan="2"> #{show $ compareAnswers correctResult Nothing}p

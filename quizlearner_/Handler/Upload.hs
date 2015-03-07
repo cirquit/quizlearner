@@ -45,7 +45,7 @@ fileMForm token = do
         #{token}
             <div style="margin: 20px">
                    <span class=simpleWhite> ^{fvInput fileView}
-                   <input type=submit value=_{Upload}>
+                   <input type=submit value=_{MsgUpload}>
                  |]
     return (fileResult, widget)
 

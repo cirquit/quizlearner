@@ -6,7 +6,7 @@ import Import
 
 checkTitle :: Text ->  Html -> MForm Handler (FormResult Text, Widget)
 checkTitle title token = do
-  (textResult, textView) <- mreq (checkTextField title) "" Nothing
+  (textResult, textView) <- mreq (checkTextField title MsgTitleMisMatch) "" Nothing
   let widget = [whamlet|
       #{token}
               <span class=simpleWhite> _{MsgConfirmDelExam}
@@ -15,7 +15,8 @@ checkTitle title token = do
               <br>
               <span style="margin:10px; color:black;"> ^{fvInput textView}
           <input type=submit value=_{MsgDelExam}>
-               |]
+               |] >> [whamlet|
+                      <script> document.getElementById('#{fvId textView}').focus(); |]
   return (textResult, widget)
 
 getDeleteR :: ExamId -> Handler Html

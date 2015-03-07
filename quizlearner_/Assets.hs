@@ -5,18 +5,21 @@ import Prelude (reads)
 
 -- | Custom Fields
 
-checkTextField :: (Monad m, RenderMessage (HandlerSite m) FormMessage) => Text -> Field m Text
-checkTextField text = checkBool (==text) MsgTitleMisMatch textField
-        --where msg = MsgTitleMisMatch :: Text
+checkTextField :: ( RenderMessage (HandlerSite m) FormMessage
+                   , RenderMessage (HandlerSite m) msg, Monad m )
+               => Text -> msg -> Field m Text
+checkTextField text msg = checkBool (==text) msg textField
+
+unsignedIntField :: ( RenderMessage (HandlerSite m) FormMessage
+                   , RenderMessage (HandlerSite m) msg, Monad m )
+               => msg -> Field m Int
+unsignedIntField msg = checkBool (>0) msg intField
 
 
-unsignedIntField:: (Monad m, RenderMessage (HandlerSite m) FormMessage) => Field m Int
-unsignedIntField = checkBool (>0) MsgInputNeg intField
-  --where msg = "This input can't be negative" :: Text
-
-unsignedDoubleField :: (Monad m, RenderMessage (HandlerSite m) FormMessage) => Field m Double
-unsignedDoubleField = checkBool (>0) MsgInputNeg doubleField
-  --where msg = "This input can't be negative" :: Text
+unsignedDoubleField :: ( RenderMessage (HandlerSite m) FormMessage
+                       , RenderMessage (HandlerSite m) msg, Monad m )
+               => msg -> Field m Double
+unsignedDoubleField msg = checkBool (>0) msg doubleField
 
 -- | DB
 
@@ -25,6 +28,7 @@ exampleDB = do
     _ <- insert $ exam_1
     _ <- insert $ exam_2
     _ <- insert $ exam_3
+    liftIO $ putStrLn "exampleDB was called"
 
 -- | Helper
 
@@ -173,19 +177,3 @@ q9_a4 = Answer {answerContent="2", answerIsCorrect=True }
 --     return $ permutations list !! seed
 --
 --     shuffled_answers <- liftIO $ shuffle_answers $ answer_list snd_q
-
-
--- examForm with labels (not really working - hamlet only)
---        #{token}
---          <ul class="tabs">
---              $forall (qView, aList,n) <- questionViews
---                  <li>
---                      <input type="radio" name="tabs" id="tab#{fvId qView}">
---                      <label for="tab#{fvId qView}">Q #{show n}
---                      <div id="tab-content#{fvId qView}" class="tab-content animated fadeIn">
---                          <p class=simpleWhite> ^{fvInput qView} </p>
---                              <span ##{fvId qView}>
---                                  $forall (tview, bview, c) <- aList
---                                     <div>
---                                         <span class=littleWhite>Answer Nr.#{show c} <span style="color:black"> ^{fvInput tview} </span> <span class=littleWhite>Is it correct? ^{fvInput bview} </span>
---            <input type=submit value="Submit question!">)

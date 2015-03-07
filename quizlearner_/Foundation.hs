@@ -25,6 +25,13 @@ data App = App
     , appLogger      :: Logger
     }
 
+
+---- | function used by i18n
+
+plural :: Int -> String -> String -> String
+plural 1 x _ = x
+plural _ _ y = y
+
 instance HasHttpManager App where
     getHttpManager = appHttpManager
 
@@ -156,7 +163,3 @@ instance RenderMessage App FormMessage where
 
 -- added i18n support
 mkMessage "App" "messages" "en"
-
-plural :: Int -> String -> String -> String
-plural 1 x _ = x
-plural _ _ y = y

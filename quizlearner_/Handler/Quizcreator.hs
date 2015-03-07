@@ -67,50 +67,51 @@ examForm (ExamAttributes title passPercentage questCount) token = do
               <table class=questCreator>
                   $forall (qView, aList,n) <- questionViews
                           <tr>
-                              <td class=questionTD>_{Question} _{Nr}. #{show n}:
+                              <td class=questionTD>_{MsgQuestion 1} _{MsgNr}. #{show n}:
                               <td style="color:black"> ^{fvInput qView}
                       $forall (tview, bview, c) <- aList
                           <tr>
-                              <td class=smallWhite>_{Answer} _{Nr}.#{show c}:
+                              <td class=smallWhite>_{MsgAnswer 1} _{MsgNr}.#{show c}:
                               <td style="color:black;"> ^{fvInput tview}
-                              <td class=smallWhite>{IsCorrect}
+                              <td class=smallWhite>_{MsgIsCorrect}
                               <td class=smallWhite>^{fvInput bview}
                               <td>
                   <tr>
-                  <td style="text-align:right;"><input type=submit value=_{MsgSubmitQuest questCount}>
+                  <td style="text-align:right;"><input type=submit value="_{MsgSubmitQuest questCount}">
                       |]
   return (exam, widget)
 
 examAttributesForm :: Html -> MForm Handler ((FormResult ExamAttributes), Widget)
 examAttributesForm token = do
     (eTitleResult, eTitleView) <- mreq textField "" Nothing
-    (ePassResult, ePassView)   <- mreq unsignedDoubleField "" (Just 50.0)
-    (eCountResult, eCountView) <- mreq unsignedIntField "" (Just 5)
+    (ePassResult, ePassView)   <- mreq (unsignedDoubleField MsgInputNeg) "" (Just 50.0)
+    (eCountResult, eCountView) <- mreq (unsignedIntField MsgInputNeg)"" (Just 5)
     let examAttributes = ExamAttributes <$> eTitleResult <*> ePassResult <*> eCountResult
         widget = [whamlet|
         #{token}
             <table class=questCreator>
                 <tr>
-                    <td class=smallWhite> _{ExamTitle}:
+                    <td class=smallWhite> _{MsgExamTitle}:
                     <td style="color:black"> ^{fvInput eTitleView}
                 <tr>
-                    <td class=smallWhite> _{PassPercentage}:
+                    <td class=smallWhite> _{MsgPassPercentage}:
                     <td span style="color:black"> ^{fvInput ePassView}
                     <td class=smallWhite style="text-align:left;"> %
                 <tr>
-                    <td class=smallWhite> _{QuestionNum}:
+                    <td class=smallWhite> _{MsgQuestionNum}:
                     <td span style="color:black"> ^{fvInput eCountView}
                 <tr>
                     <td>
-                    <td style="text-align:right;"><input type=submit value=_{StartExam}>
+                    <td style="text-align:right;"><input type=submit value="_{MsgStartExam}">
                  |]
     return (examAttributes, widget)
 
 
 toExamAttributes :: Text -> ExamAttributes
-toExamAttributes ((splitOn "($)") -> [a, b, c])     =  let (Just passPercentage) = maybeDouble $ unpack b
-                                                           (Just questCount)     = maybeInt $ unpack c in
-                                                       ExamAttributes a passPercentage questCount
-toExamAttributes _                                  = ExamAttributes (pack "Error in reading exam cookie") 0.0 0
+toExamAttributes ((splitOn "($)") -> [a, b, c])     = let (Just passPercentage) = maybeDouble $ unpack b
+                                                          (Just questCount)     = maybeInt $ unpack c in
+                                                      ExamAttributes a passPercentage questCount
+toExamAttributes _                                  = ExamAttributes msg 0.0 0
+  where msg = "Error in cookie" :: Text -- MsgErrorCookie :: Text
 
 

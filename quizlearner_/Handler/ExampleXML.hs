@@ -9,20 +9,20 @@ getExampleXMLR = do
     let spaces  = [whamlet| &nbsp;&nbsp;&nbsp;&nbsp; |]
         middleWidget = [whamlet|
             <div style="margin:20px;">
-                <span class=simpleOrange style="font-weight:bold;"> What should my XML look like?
-                <p class=plainWhite style="font-weight:bold; margin-top:10px;"> Your file should obey the following rules:
+                <span class=simpleOrange style="font-weight:bold;">_{MsgShouldLookLike}
+                <p class=plainWhite style="font-weight:bold; margin-top:10px;"> _{MsgObeyRules}
                 <ul class=plainWhite>
-                    <li> <span style="font-weight:bold; color:#FFA500;">&lt;quiz&gt;</span> with the attributes "title" and "passpercentage"
-                    <li> <span style="font-weight:bold; color:#FFA500;">&lt;question&gt;</span> with the attribute "content"
-                    <li> <span style="font-weight:bold; color:#FFA500;">&lt;answer&gt;</span> with the attribute "correct"
-                    <li> <span style="font-weight:bold; color:#FFA500;">"title"</span> and <span style="font-weight:bold; color:#FFA500;">"content"</span> contain alphanumerical characters
-                    <li> <span style="font-weight:bold; color:#FFA500;">"correct"</span> contains either "true" or "false"
-                    <li> <span style="font-weight:bold; color:#FFA500;">"passpercentage"</span> contains a number between 0 and 1
-                    <li> your exam has to contain at least one question
-                    <li> every question has to have exactly four answers 
-                    <li> the answer content has to be between the answer tags
+                    <li> <span style="font-weight:bold; color:#FFA500;">&lt;quiz&gt;</span> _{MsgWithAttribute 2} "title" _{MsgAnd} "passpercentage"
+                    <li> <span style="font-weight:bold; color:#FFA500;">&lt;question&gt;</span> _{MsgWithAttribute 1} "content"
+                    <li> <span style="font-weight:bold; color:#FFA500;">&lt;answer&gt;</span> _{MsgWithAttribute 1} "correct"
+                    <li> <span style="font-weight:bold; color:#FFA500;">"title"</span> _{MsgAnd} <span style="font-weight:bold; color:#FFA500;">"content"</span> _{MsgContainsChars}
+                    <li> <span style="font-weight:bold; color:#FFA500;">"correct"</span> _{MsgContainsBool}
+                    <li> <span style="font-weight:bold; color:#FFA500;">"passpercentage"</span> _{MsgContainsNumber}
+                    <li> _{MsgOneQuestion}
+                    <li> _{MsgFourAnswers}
+                    <li> _{MsgContentTags}
                     <br>
-                <span class=plainWhite style="margin-top:10px; font-weight: bold;"> A valid XML file might look like this:
+                <span class=plainWhite style="margin-top:10px; font-weight: bold;"> _{MsgValidXML}
                 <div class=xml>
                     &lt;<span class=xmlRed>quiz</span> title="My Exam" passpercentage="0.4"&gt;<br>
                         ^{spaces}&lt;<span class=xmlRed>question</span> content="Which one of these is not an animal?"&gt; <br>
@@ -47,6 +47,6 @@ getExampleXMLR = do
                         ^{spaces}&lt;<span class=xmlRed>/question</span>&gt;<br>
                     &lt;<span class=xmlRed>/quiz</span>&gt;
 
-                <a href=@{UploadR} style="font-size: 16px; font-weight: bold; color:white; float:right; margin:10px;"> Ok, got it!
+                <a href=@{UploadR} style="font-size: 16px; font-weight: bold; color:white; float:right; margin:10px;"> _{MsgGotIt}
                      |]
     defaultLayout $ do $(widgetFile "exampleXml")
