@@ -49,10 +49,10 @@ SuccessDelete title@Text: Sie haben erfolgreich #{title} gelöscht.
 
 Exams: Klausuren
 NoExamsInDB: Konnte keine Einträgen in der Datenbank finden. Bitte laden sie die Seite neu!
-ShowXML: Zeige XML
+ShowXML: Zeige xml
 Error txt@Text: Etwas lief schief...in #{txt}
 QuizCreatorTitle: Klick hier um eine neue Klausur zu erstellen
-UploadXMLTitle: Klick hier um eine neue XML hochzuladen
+UploadXMLTitle: Klick hier um eine neue xml hochzuladen
 
 
 #Home.hs
@@ -73,6 +73,3 @@ FourAnswers: Jede Frage muss genau 4 Antworten enthalten
 ContentTags: Die Antwort muss zwischen den Answertags stehen
 ValidXML: Eine valide XML könnte so aussehen:
 GotIt: Ok, ich habs verstanden!
-
-# Not found yet
-SubmitExam: Erstelle die Klausur

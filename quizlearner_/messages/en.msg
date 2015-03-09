@@ -32,7 +32,7 @@ Points: Points
 #Upload.hs
 
 FileRec fInfo@Text: File recieved: #{fInfo}.
-ErrInXML_P1: Error occured, please check if it is a
+ErrInXML_P1: Error occurred, please check if it is a
 ErrInXML_P2: valid xml file.
 ChooseXML: Please choose a xml file to upload.
 Upload: Upload
@@ -49,10 +49,10 @@ SuccessDelete title@Text: You successfully deleted #{title}.
 
 Exams: Exams
 NoExamsInDB: Couldn't find any exams in the DB. Please refresh!
-ShowXML: Show XML
+ShowXML: Show xml
 Error txt@Text: Something went wrong...in #{txt}
 QuizCreatorTitle: Click this to create a new exam
-UploadXMLTitle: Click this to upload an XML file
+UploadXMLTitle: Click this to upload an xml file
 
 
 #Home.hs
@@ -68,11 +68,8 @@ WithAttribute count@Int: with the #{plural count "attribute" "attributes"}
 ContainsChars: contain alphanumerical characters
 ContainsBool: contains either "true" or "false"
 ContainsNumber: contains a number between 0 and 1
-OneQuestion: your exam has to have exactly four answers
+OneQuestion: your exam has to have at least one question
 FourAnswers: every question has to have exactly four answers
 ContentTags: the answer content has to be between the answer tags
 ValidXML: A valid XML file might look like this:
 GotIt: Ok, got it!
-
-# Not found yet
-SubmitExam: Submit exam
