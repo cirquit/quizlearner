@@ -21,8 +21,10 @@ checkTitle title token = do
 
 getDeleteR :: ExamId -> Handler Html
 getDeleteR examId = do
-    entityExamList <- runDB $ selectList [] [Asc ExamTitle]
-    exam <-  runDB $ get404 examId
+    (entityExamList, exam) <- runDB $ do
+        entityExamList <- selectList [] [Asc ExamTitle]
+        exam <- get404 examId
+        return (entityExamList, exam)
     (widget, enctype) <- generateFormPost $ checkTitle $ examTitle exam
     let middleWidget = postWidget enctype widget
     defaultLayout $ do $(widgetFile "delete")
@@ -32,12 +34,14 @@ postDeleteR examId = do
     exam <-  runDB $ get404 examId
     ((res, widget), enctype) <- runFormPost $ checkTitle $ examTitle exam
     case res of
-        FormSuccess _ -> do runDB $ delete examId
-                            let middleWidget = [whamlet|
+        FormSuccess _ -> do let middleWidget = [whamlet|
                                 <span class=simpleWhite> _{MsgSuccessDelete $ examTitle exam}
                                 <a href=@{HomeR} style="margin:10px;"> <label class=simpleOrange> _{MsgGetBack} </label>
                                                |]
-                            entityExamList <- runDB $ selectList [] [Asc ExamTitle]
+                            entityExamList <- runDB $ do
+                                delete examId
+                                entityExamList <- selectList [] [Asc ExamTitle]
+                                return entityExamList
                             defaultLayout $ do $(widgetFile "delete")
         _             -> do let middleWidget = [whamlet|
                                 <form method=post enctype=#{enctype}>

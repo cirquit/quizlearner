@@ -53,7 +53,9 @@ ShowXML: Zeige xml
 Error txt@Text: Etwas lief schief...in #{txt}
 QuizCreatorTitle: Klick hier um eine neue Klausur zu erstellen
 UploadXMLTitle: Klick hier um eine neue xml hochzuladen
-
+English: Englisch
+German: Deutsch
+Russian: Russisch
 
 #Home.hs
 

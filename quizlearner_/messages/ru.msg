@@ -53,7 +53,9 @@ ShowXML: Показать xml
 Error txt@Text: Что то сломалось...в #{txt}
 QuizCreatorTitle: Нажмите эту кнопку для создания экзамена
 UploadXMLTitle: Нажмите эту кнопку для загрузки xml фаила
-
+English: английский
+German: немецкий
+Russian: русский
 
 #Home.hs
 

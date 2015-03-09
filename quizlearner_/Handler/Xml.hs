@@ -5,8 +5,11 @@ import Widgets
 
 getXmlR :: ExamId -> Handler Html
 getXmlR examId = do
-    entityExamList <- runDB $ selectList [] [Asc ExamTitle]
-    exam <- runDB $ get404 examId
+    setUltDestCurrent
+    (entityExamList, exam) <- runDB $ do
+           entityExamList  <- selectList [] [Asc ExamTitle]
+           exam <- get404 examId
+           return (entityExamList, exam)
     let middleWidget = displayXML exam
     defaultLayout $ do $(widgetFile "xml")
 

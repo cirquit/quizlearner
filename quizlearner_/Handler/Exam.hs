@@ -7,16 +7,22 @@ import Data.List ((!!), unzip, (\\), sortBy, repeat)
 
 getExamR :: ExamId -> Handler Html
 getExamR examId = do
-    entityExamList <- runDB $ selectList [] [Asc ExamTitle]
-    exam <-  runDB $ get404 examId
+    setUltDestCurrent
+    (entityExamList, exam) <- runDB $ do
+        entityExamList <- selectList [] [Asc ExamTitle]
+        exam <- get404 examId
+        return (entityExamList, exam)
     (widget, enctype) <-generateFormPost $ listEditMForm $ examQuestions exam
     let middleWidget = postWidget enctype widget
     defaultLayout $ do $(widgetFile "exam")
 
 postExamR :: ExamId -> Handler Html
 postExamR examId = do
-    entityExamList <- runDB $ selectList [] [Asc ExamTitle]
-    exam  <- runDB $ get404 examId
+    setUltDestCurrent
+    (entityExamList, exam) <- runDB $ do
+        entityExamList <- selectList [] [Asc ExamTitle]
+        exam  <- get404 examId
+        return (entityExamList, exam)
     ((res,_), _) <- runFormPost $ listEditMForm $ examQuestions exam
     let middleWidget = case res of
          (FormSuccess list) -> let newList = zip ([0..]::[Int]) list

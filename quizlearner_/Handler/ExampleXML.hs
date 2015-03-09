@@ -5,6 +5,7 @@ import Import
 
 getExampleXMLR :: Handler Html
 getExampleXMLR = do
+    setUltDestCurrent
     entityExamList <- runDB $ selectList [] [Asc ExamTitle]
     let spaces  = [whamlet| &nbsp;&nbsp;&nbsp;&nbsp; |]
         middleWidget = [whamlet|

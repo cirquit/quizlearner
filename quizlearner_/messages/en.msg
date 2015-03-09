@@ -53,7 +53,9 @@ ShowXML: Show xml
 Error txt@Text: Something went wrong...in #{txt}
 QuizCreatorTitle: Click this to create a new exam
 UploadXMLTitle: Click this to upload an xml file
-
+English: English
+German: German
+Russian: Russian
 
 #Home.hs
 

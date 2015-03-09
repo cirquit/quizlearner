@@ -26,6 +26,7 @@ library
                      Handler.Xml
                      Handler.Delete
                      Handler.ExampleXML
+                     Handler.Lang
                      Assets
                      Widgets
                      XMLParsing

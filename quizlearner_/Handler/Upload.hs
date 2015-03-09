@@ -9,6 +9,7 @@ import XMLParsing
 
 getUploadR :: Handler Html
 getUploadR = do
+    setUltDestCurrent
     entityExamList    <- runDB $ selectList [] [Asc ExamTitle]
     (widget, enctype) <- generateFormPost fileMForm
     let formWidget = postWidget enctype widget
@@ -16,6 +17,7 @@ getUploadR = do
 
 postUploadR :: Handler Html
 postUploadR = do
+    setUltDestCurrent
     ((result, widget), enctype) <- runFormPost fileMForm
     case result of
         FormSuccess fileInfo -> do bytestring <- runResourceT $ fileSource fileInfo $$ sinkLbs

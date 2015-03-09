@@ -17,6 +17,7 @@ data ExamAttributes = ExamAttributes {
 
 getQuizcreatorR :: Handler Html
 getQuizcreatorR =  do
+    setUltDestCurrent
     entityExamList <- runDB $ selectList [] [Asc ExamTitle]
     mayAttributes  <- lookupSession "examAttributes"
     let generatePost = case mayAttributes of
@@ -28,6 +29,7 @@ getQuizcreatorR =  do
 
 postQuizcreatorR :: Handler Html
 postQuizcreatorR = do
+    setUltDestCurrent
     mayAttributes  <- lookupSession "examAttributes"
     case mayAttributes of
        (Just text) -> do ((res, _), _) <- runFormPost $ examForm $ toExamAttributes text
