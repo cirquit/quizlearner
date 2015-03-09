@@ -17,6 +17,9 @@ PassPercentage: Bestehensquote
 QuestionNum: Anzahl der Fragen
 StartExam: Starte die Klausurerstellung
 ErrorCookie: Problem beim Lesen des Cookies
+ErrExamTitle: Maximale Länge sind 200 Zeichen, Leerzeichen werden abgeschnitten
+ErrPassPercentage: Muss zwischen 0% und 100% sein
+ErrQuestionNum: Sie muss mindestens eine Frage beinhalten
 
 #Assets.hs
 
@@ -36,7 +39,7 @@ ErrInXML_P1: Ein Fehler ist aufgetreten, bitte schauen sie nach ob es ein
 ErrInXML_P2: valides xml file ist.
 ChooseXML: Wählen sie bitte ein xml file zu Hochladen aus.
 Upload: Hochladen
-
+ExampleXML: Muster für eine xml Datei
 
 #Delete.hs
 

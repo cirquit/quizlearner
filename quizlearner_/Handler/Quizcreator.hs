@@ -1,8 +1,8 @@
 module Handler.Quizcreator where
 
 import Import
-import Assets (unsignedDoubleField, unsignedIntField,  maybeInt,
-               maybeDouble, encodeExamAttributes)
+import Assets (unsignedProcentField, unsignedIntField,  maybeInt,
+               maybeDouble, encodeExamAttributes, titleTextField)
 import Widgets (titleWidget, iconWidget, leftWidget, postWidget,
                 errorWidget, spacingScript)
 import Data.Text (splitOn)
@@ -29,7 +29,6 @@ getQuizcreatorR =  do
 
 postQuizcreatorR :: Handler Html
 postQuizcreatorR = do
-    setUltDestCurrent
     mayAttributes  <- lookupSession "examAttributes"
     case mayAttributes of
        (Just text) -> do ((res, _), _) <- runFormPost $ examForm $ toExamAttributes text
@@ -79,14 +78,17 @@ examForm (ExamAttributes title passPercentage questCount) token = do
                               <td class=smallWhite>^{fvInput bview}
                               <td>
                   <tr>
-                  <td style="text-align:right;"><input type=submit value="_{MsgSubmitQuest questCount}">
+                      <td style="text-align:left;">
+                              <a class=questionTD href=@{SessionMasterR}> _{MsgGetBack}
+                      <td>
+                      <td colspan=2 style="text-align:right;"><input type=submit value="_{MsgSubmitQuest questCount}">
                       |]
   return (exam, widget)
 
 examAttributesForm :: Html -> MForm Handler ((FormResult ExamAttributes), Widget)
 examAttributesForm token = do
-    (eTitleResult, eTitleView) <- mreq textField "" Nothing
-    (ePassResult, ePassView)   <- mreq (unsignedDoubleField MsgInputNeg) "" (Just 50.0)
+    (eTitleResult, eTitleView) <- mreq (titleTextField MsgExamTitle) "" Nothing
+    (ePassResult, ePassView)   <- mreq (unsignedProcentField MsgInputNeg) "" (Just 50.0)
     (eCountResult, eCountView) <- mreq (unsignedIntField MsgInputNeg)"" (Just 5)
     let examAttributes = ExamAttributes <$> eTitleResult <*> ePassResult <*> eCountResult
         widget = [whamlet|
@@ -95,13 +97,15 @@ examAttributesForm token = do
                 <tr>
                     <td class=smallWhite> _{MsgExamTitle}:
                     <td style="color:black"> ^{fvInput eTitleView}
+                    <td class=smallWhite style="text-align:left;"> _{MsgErrExamTitle}
                 <tr>
                     <td class=smallWhite> _{MsgPassPercentage}:
                     <td span style="color:black"> ^{fvInput ePassView}
-                    <td class=smallWhite style="text-align:left;"> %
+                    <td class=smallWhite style="text-align:left;"> _{MsgErrPassPercentage}
                 <tr>
                     <td class=smallWhite> _{MsgQuestionNum}:
                     <td span style="color:black"> ^{fvInput eCountView}
+                    <td class=smallWhite style="text-align:left;"> _{MsgErrQuestionNum}
                 <tr>
                     <td>
                     <td style="text-align:right;"><input type=submit value="_{MsgStartExam}">
@@ -111,8 +115,9 @@ examAttributesForm token = do
 
 toExamAttributes :: Text -> ExamAttributes
 toExamAttributes ((splitOn "($)") -> [a, b, c])     = let (Just passPercentage) = maybeDouble $ unpack b
-                                                          (Just questCount)     = maybeInt $ unpack c in
-                                                      ExamAttributes a passPercentage questCount
+                                                          (Just questCount)     = maybeInt $ unpack c
+                                                          title = (unwords . words) a in
+                                                      ExamAttributes title passPercentage questCount
 toExamAttributes _                                  = ExamAttributes msg 0.0 0
   where msg = "Error in cookie" :: Text -- MsgErrorCookie :: Text
 

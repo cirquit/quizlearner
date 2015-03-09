@@ -27,6 +27,7 @@ library
                      Handler.Delete
                      Handler.ExampleXML
                      Handler.Lang
+                     Handler.SessionMaster
                      Assets
                      Widgets
                      XMLParsing

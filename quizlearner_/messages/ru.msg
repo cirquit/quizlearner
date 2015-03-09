@@ -17,6 +17,10 @@ PassPercentage: Процент для прохождения
 QuestionNum: Количество вопросов
 StartExam: Начать создание экзамена
 ErrorCookie: Проблема в чтении кооки
+ErrExamTitle: Максимальная длина 200 символы без ненужных пробелов
+ErrPassPercentage: Должен быть между 0% и 100%
+ErrQuestionNum: Содержит минимум один вопрос
+
 
 #Assets.hs
 
@@ -36,6 +40,7 @@ ErrInXML_P1: Произошла ошибка, проверьте на
 ErrInXML_P2:  валидность xml файла.
 ChooseXML: Выберите xml файл для загрузки.
 Upload: Загрузить
+ExampleXML: Пример xml файла
 
 
 #Delete.hs

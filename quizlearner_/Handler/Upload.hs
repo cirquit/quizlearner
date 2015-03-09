@@ -17,7 +17,6 @@ getUploadR = do
 
 postUploadR :: Handler Html
 postUploadR = do
-    setUltDestCurrent
     ((result, widget), enctype) <- runFormPost fileMForm
     case result of
         FormSuccess fileInfo -> do bytestring <- runResourceT $ fileSource fileInfo $$ sinkLbs
@@ -30,8 +29,9 @@ postUploadR = do
                                                defaultLayout $ do $(widgetFile "upload")
                                        Nothing      -> do
                                                entityExamList <- runDB $ selectList [] [Asc ExamTitle]
-                                               let formWidget = [whamlet|<span class=smallWhite> _{MsgErrInXML_P1}
-                                                                             <a href=@{ExampleXMLR} style="font-weight:bold;"> _{MsgErrInXML_P2}
+                                               let formWidget = [whamlet|<div style="margin: 20px;">
+                                                                            <span class=simpleWhite> _{MsgErrInXML_P1}
+                                                                                <a href=@{ExampleXMLR} style="font-weight:bold; color:#FFA500;"> _{MsgErrInXML_P2}
                                                                 |] >> postWidget enctype widget
                                                defaultLayout $ do $(widgetFile "upload")
         _                       -> do
@@ -46,7 +46,8 @@ fileMForm token = do
     let widget = [whamlet|
         #{token}
             <div style="margin: 20px">
-                   <span class=simpleWhite> ^{fvInput fileView}
+                   <div style="text-align:center;"> <a href=@{ExampleXMLR} class=exampleXML> _{MsgExampleXML} </a>
+                   <span class=smallWhite> ^{fvInput fileView}
                    <input type=submit value=_{MsgUpload}>
                  |]
     return (fileResult, widget)

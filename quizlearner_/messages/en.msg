@@ -17,6 +17,9 @@ PassPercentage: Passing percentage
 QuestionNum: Number of questions
 StartExam: Start exam creation
 ErrorCookie: Error in reading the exam cookie
+ErrExamTitle: Maximum length is 200 chars w/o leading and trailing spaces
+ErrPassPercentage: Has to be between 0% and 100%
+ErrQuestionNum: There has to be at least one question
 
 #Assets.hs
 
@@ -36,6 +39,7 @@ ErrInXML_P1: Error occurred, please check if it is a
 ErrInXML_P2: valid xml file.
 ChooseXML: Please choose a xml file to upload.
 Upload: Upload
+ExampleXML: Example xml file
 
 
 #Delete.hs

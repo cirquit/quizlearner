@@ -5,6 +5,12 @@ import Prelude (reads)
 
 -- | Custom Fields
 
+titleTextField ::( RenderMessage (HandlerSite m) FormMessage
+                   , RenderMessage (HandlerSite m) msg, Monad m )
+               => msg -> Field m Text
+titleTextField msg = checkBool (\x -> ((length x) <= 200) && isNotSpaceList x) msg textField
+  where isNotSpaceList l = not $ all (==' ') l
+
 checkTextField :: ( RenderMessage (HandlerSite m) FormMessage
                    , RenderMessage (HandlerSite m) msg, Monad m )
                => Text -> msg -> Field m Text
@@ -16,10 +22,10 @@ unsignedIntField :: ( RenderMessage (HandlerSite m) FormMessage
 unsignedIntField msg = checkBool (>0) msg intField
 
 
-unsignedDoubleField :: ( RenderMessage (HandlerSite m) FormMessage
+unsignedProcentField :: ( RenderMessage (HandlerSite m) FormMessage
                        , RenderMessage (HandlerSite m) msg, Monad m )
                => msg -> Field m Double
-unsignedDoubleField msg = checkBool (>0) msg doubleField
+unsignedProcentField msg = checkBool (\x -> x > 0 && x <= 100) msg doubleField
 
 -- | DB
 

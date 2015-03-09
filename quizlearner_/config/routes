@@ -11,4 +11,5 @@
 /quizcreator/ QuizcreatorR GET POST
 /upload UploadR GET POST
 upload/exampleXml ExampleXMLR GET
-/lang LangR POST
+/lang LangR GET POST
+/sessionmaster SessionMasterR GET

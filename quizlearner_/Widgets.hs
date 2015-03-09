@@ -24,19 +24,18 @@ leftWidget exams = [whamlet|
               $forall (Entity examId exam) <- exams
                   <li class=examList>
                       <a href=@{ExamR examId}> #{examTitle exam}
-                      <a href=@{XmlR examId}> <img src=@{StaticR images_xml_svg} title="_{MsgShowXML}" height="20px">
-                      <a href=@{DeleteR examId}> <img src=@{StaticR images_trashcan_svg} title="_{MsgDelExam}" height="25px">
+                      <a href=@{XmlR examId}> <img src="@{StaticR images_xml_svg}" title="_{MsgShowXML}" height="20px">
+                      <a href=@{DeleteR examId}> <img src="@{StaticR images_trashcan_svg}" title="_{MsgDelExam}" height="25px">
     ^{langWidget}
                             |]
 
 langWidget :: Widget
 langWidget = [whamlet|
-    <p class=simpleWhite>
-        <form action=@{LangR} method=post id="lang-form">
+        <form action=@{LangR} method=post id="language-form">
             <select name=lang>
-                <option value=en onclick="document.getElementById('lang-form').submit();"> _{MsgEnglish}
-                <option value=de onclick="document.getElementById('lang-form').submit();"> _{MsgGerman}
-                <option value=ru onclick="document.getElementById('lang-form').submit();"> _{MsgRussian}
+                <option value=en onclick="document.getElementById('language-form').submit();"> _{MsgEnglish}
+                <option value=de onclick="document.getElementById('language-form').submit();"> _{MsgGerman}
+                <option value=ru onclick="document.getElementById('language-form').submit();"> _{MsgRussian}
              |]
 
 errorWidget  :: Text -> Widget
