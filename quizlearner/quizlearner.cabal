@@ -96,6 +96,7 @@ library
                  , split                         >= 0.2.2
                  , xml-conduit
                  , html-conduit
+                 , cookie >=0.4.1.4
 
 executable         quizlearner
     if flag(library-only)
@@ -148,3 +149,4 @@ test-suite test
                  , split                         >= 0.2.2
                  , xml-conduit
                  , html-conduit
+                 , cookie >=0.4.1.4

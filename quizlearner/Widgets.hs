@@ -33,9 +33,9 @@ langWidget :: Widget
 langWidget = [whamlet|
         <form action=@{LangR} method=post id="language-form">
             <select name=lang>
-                <option value=en onclick="document.getElementById('language-form').submit();"> _{MsgEnglish}
-                <option value=de onclick="document.getElementById('language-form').submit();"> _{MsgGerman}
-                <option value=ru onclick="document.getElementById('language-form').submit();"> _{MsgRussian}
+                <option value=en onclick="$('#language-form').submit();"> _{MsgEnglish}
+                <option value=de onclick="$('#language-form').submit();"> _{MsgGerman}
+                <option value=ru onclick="$('#language-form').submit();"> _{MsgRussian}
              |]
 
 errorWidget  :: Text -> Widget

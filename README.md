@@ -1,4 +1,7 @@
-quizlearner
+Quizlearner v0.1
 ===========
 
-Tool for impoving your skills with customized exams
+A tool to test yourself in multiple choice exams.
+
+Based on the Yesod framework and written entirely in Haskell.
+

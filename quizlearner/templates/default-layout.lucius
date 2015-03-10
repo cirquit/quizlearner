@@ -282,12 +282,14 @@ th:hover.tooltips span {
   word-wrap: break-word;
 }
 
-.button {
-  float: right;
+.evalButton {
+  float:right;
+  margin:10px;
   color: #CCC;
   font-size: 20px;
   background-color: #463E3F;
 }
+
 
 
 .tabs li > input[type=radio] {

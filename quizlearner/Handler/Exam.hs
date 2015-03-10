@@ -62,7 +62,7 @@ listEditMForm xs token = do
                             <p class=boldWhite> #{fvLabel view} </p>
                             ^{fvInput view}
                             <br>
-            <input class=button type=submit value=_{MsgEvaluate}>
+            <input class=evalButton type=submit value=_{MsgEvaluate}>
                  |]
     return ((FormSuccess checkResults), widget)
 

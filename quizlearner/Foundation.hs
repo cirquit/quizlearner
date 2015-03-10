@@ -11,7 +11,8 @@ import Yesod.Auth
 import Yesod.Auth.BrowserId (authBrowserId)
 import Yesod.Core.Types     (Logger)
 import Yesod.Default.Util   (addStaticContentExternal)
-
+import Web.Cookie                         (SetCookie (..))
+import qualified Data.Text as T
 
 -- | The foundation datatype for your application. This can be a good place to
 -- keep settings and values requiring initialization before your application
@@ -31,6 +32,46 @@ data App = App
 plural :: Int -> String -> String -> String
 plural 1 x _ = x
 plural _ _ y = y
+
+-- | SSL Security copied from Yesod.Core because the
+--   the current one can't find the required functions
+-- | Defends against session hijacking by setting the secure bit on session
+-- cookies so that browsers will not transmit them over http. With this
+-- setting on, it follows that the server will regard requests made over
+-- http as sessionless, because the session cookie will not be included in
+-- the request. Use this as part of a total security measure which also
+-- includes disabling HTTP traffic to the site or issuing redirects from
+-- HTTP urls, and composing 'sslOnlyMiddleware' with the site's
+-- 'yesodMiddleware'.
+--
+-- Since 1.4.7
+sslOnlySessions :: IO (Maybe SessionBackend) -> IO (Maybe SessionBackend)
+sslOnlySessions = (fmap . fmap) secureSessionCookies
+  where
+    setSecureBit cookie = cookie { setCookieSecure = True }
+    secureSessionCookies = customizeSessionCookies setSecureBit
+
+-- | Apply a Strict-Transport-Security header with the specified timeout to
+-- all responses so that browsers will rewrite all http links to https
+-- until the timeout expires. For security, the max-age of the STS header
+-- should always equal or exceed the client sessions timeout. This defends
+-- against hijacking attacks on the sessions of users who attempt to access
+-- the site using an http url. This middleware makes a site functionally
+-- inaccessible over vanilla http in all standard browsers.
+--
+-- Since 1.4.7
+sslOnlyMiddleware :: Yesod site
+                     => Int -- ^ minutes
+                     -> HandlerT site IO res
+                     -> HandlerT site IO res
+sslOnlyMiddleware timeout handler = do
+    addHeader "Strict-Transport-Security"
+              $ T.pack $ concat [ "max-age="
+                                , show $ timeout * 60
+                                , "; includeSubDomains"
+                                ]
+    handler
+
 
 instance HasHttpManager App where
     getHttpManager = appHttpManager
@@ -56,9 +97,15 @@ instance Yesod App where
 
     -- Store session data on the client in encrypted cookies,
     -- default session idle timeout is 120 minutes
+    -- sslOnlySessions stores all session cookies with the secure bit on,
+    -- so they will not be transmitted over http
     makeSessionBackend _ = fmap Just $ defaultClientSessionBackend
         120    -- timeout in minutes
         "config/client_session_key.aes"
+
+   -- makeSessionBackend _ = sslOnlySessions $
+   --    fmap Just $ defaultClientSessionBackend 120 "config/client_session_key.aes"
+    yesodMiddleware = (sslOnlyMiddleware 120) . defaultYesodMiddleware
 
     defaultLayout widget = do
         master <- getYesod
@@ -72,6 +119,7 @@ instance Yesod App where
 
         pc <- widgetToPageContent $ do
             addStylesheet $ StaticR css_bootstrap_css
+            addScript $ StaticR js_jQuery_v1_11_2_js
             $(widgetFile "default-layout")
         withUrlRenderer $(hamletFile "templates/default-layout-wrapper.hamlet")
 
