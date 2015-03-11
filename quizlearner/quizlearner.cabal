@@ -96,7 +96,10 @@ library
                  , split                         >= 0.2.2
                  , xml-conduit
                  , html-conduit
-                 , cookie >=0.4.1.4
+                 , cookie >= 0.4.1.4
+                 , hxt >= 9.3.1.7
+                 , hxt-relaxng >= 9.1.5.1
+                 , hxt-http >=9.1.5
 
 executable         quizlearner
     if flag(library-only)
@@ -150,3 +153,6 @@ test-suite test
                  , xml-conduit
                  , html-conduit
                  , cookie >=0.4.1.4
+                 , hxt >=9.3.1.7
+                 , hxt-relaxng >=9.1.5.1
+                 , hxt-http >= 9.1.5

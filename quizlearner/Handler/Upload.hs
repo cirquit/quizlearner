@@ -2,6 +2,7 @@ module Handler.Upload where
 
 import Widgets (titleWidget, iconWidget, leftWidget, postWidget)
 import Import
+import Data.Text.Internal (showText, text)
 import Data.Conduit.Binary
 import Data.ByteString.Lazy.Internal as LB
 import qualified Data.Text.Lazy.Encoding as LT
@@ -20,7 +21,8 @@ postUploadR = do
     ((result, widget), enctype) <- runFormPost fileMForm
     case result of
         FormSuccess fileInfo -> do bytestring <- runResourceT $ fileSource fileInfo $$ sinkLbs
-                                   case tryXMLEvaluation bytestring of
+                                   maybeExam <- liftIO $ tryXMLEvaluation bytestring
+                                   case  maybeExam of
                                        Just newExam -> do
                                                _     <- runDB $ insert newExam
                                                entityExamList <- runDB $ selectList [] [Asc ExamTitle]
@@ -52,9 +54,11 @@ fileMForm token = do
                  |]
     return (fileResult, widget)
 
-tryXMLEvaluation :: LB.ByteString -> Maybe Exam
+tryXMLEvaluation :: LB.ByteString -> IO (Maybe Exam)
 tryXMLEvaluation bytestring = do
     let eitherText = LT.decodeUtf8' bytestring
     case eitherText of
-         (Right text) -> makeExam $ encodeUtf8 text
-         (Left  _)    -> Nothing
+         (Right txt) ->  do
+                            putStrLn $ toStrict txt
+                            parse $ unpack $ toStrict txt
+         (Left  _)    -> return Nothing

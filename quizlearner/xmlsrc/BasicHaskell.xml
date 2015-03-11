@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE quiz SYSTEM "http://localhost:3000/static/dtd/examValidation.dtd">
+<quiz title="Basic Haskell" passpercentage="75.0">
+     <question content="Was ist der allgemeinste Typ von (++)">
+          <answer correct="false">String -> String -> String</answer>
+          <answer correct="false">[a] -> [b] -> [c]</answer>
+          <answer correct="True">[a] -> [a] -> [a]</answer>
+          <answer correct="false">Char -> Char -> String</answer>
+     </question>
+     <question content="Was sind valide Typen von [1..4]?">
+          <answer correct="true">[Int]</answer>
+          <answer correct="true">[Integer]</answer>
+          <answer correct="true">[Double]</answer>
+          <answer correct="true">[Float]</answer>
+     </question>
+     <question content="Was ist äquivalent zu head $ tail [1..10]?">
+          <answer correct="false">[2..10]</answer>
+          <answer correct="false">[2]</answer>
+          <answer correct="true">2</answer>
+          <answer correct="false">9</answer>
+     </question>
+     <question content="Was sind mögliche Typen von f g x = g x">
+          <answer correct="true">f :: (String -> String) -> String -> String</answer>
+          <answer correct="false">f :: String -> (String -> String) -> String</answer>
+          <answer correct="false">f :: a -> (a -> b) -> b</answer>
+          <answer correct="true">f :: (a -> b) -> a -> b</answer>
+     </question>
+</quiz>

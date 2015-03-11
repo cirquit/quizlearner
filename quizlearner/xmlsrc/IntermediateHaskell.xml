@@ -1,5 +1,6 @@
-<quiz title="Haskell Basics" qcount="21" time="90" passpercentage="0.8">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE quiz SYSTEM "http://localhost:3000/static/dtd/examValidation.dtd">
+<quiz title="Intermediate Haskell" passpercentage="0.8">
     <question content="Was ist der allgemeinste Typ von (compare . fst)?">
         <answer correct="false">Eq b => (a, b) -> b -> Ordering</answer>
         <answer correct="true">Ord b => (b, b1) -> b -> Ordering</answer>
