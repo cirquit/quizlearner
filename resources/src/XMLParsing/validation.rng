@@ -1,0 +1,36 @@
+<grammar xmlns="http://relaxng.org/ns/structure/1.0">
+    <start>
+        <element name="quiz">
+        <attribute name="title">
+        </attribute>
+        <attribute name="passpercentage">
+        </attribute>
+            <oneOrMore>
+                <element name="question">
+                <attribute name="content">
+                </attribute>
+                    <element name="answer">
+                    <attribute name="correct">
+                    </attribute>
+                        <text/>
+                    </element>
+                    <element name="answer">
+                    <attribute name="correct">
+                    </attribute>
+                        <text/>
+                    </element>
+                    <element name="answer">
+                    <attribute name="correct">
+                    </attribute>
+                        <text/>
+                    </element>
+                    <element name="answer">
+                    <attribute name="correct">
+                    </attribute>
+                        <text/>
+                    </element>
+                </element>
+            </oneOrMore>
+        </element>
+    </start>
+</grammar>
