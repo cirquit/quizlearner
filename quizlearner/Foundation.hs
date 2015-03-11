@@ -27,7 +27,9 @@ data App = App
     }
 
 
----- | function used by i18n
+---- | i18n support
+
+mkMessage "App" "messages" "en"
 
 plural :: Int -> String -> String -> String
 plural 1 x _ = x
@@ -35,6 +37,7 @@ plural _ _ y = y
 
 -- | SSL Security copied from Yesod.Core because the
 --   the current one can't find the required functions
+
 -- | Defends against session hijacking by setting the secure bit on session
 -- cookies so that browsers will not transmit them over http. With this
 -- setting on, it follows that the server will regard requests made over
@@ -208,6 +211,3 @@ instance RenderMessage App FormMessage where
 -- https://github.com/yesodweb/yesod/wiki/Sending-email
 -- https://github.com/yesodweb/yesod/wiki/Serve-static-files-from-a-separate-domain
 -- https://github.com/yesodweb/yesod/wiki/i18n-messages-in-the-scaffolding
-
--- added i18n support
-mkMessage "App" "messages" "en"

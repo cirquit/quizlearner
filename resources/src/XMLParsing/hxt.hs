@@ -62,12 +62,12 @@ transformA = proc el -> do
 
 main :: IO ()
 main = do
---  as <- runX $ readDocument [withRelaxNG "transactions.rng"] "transactions.xml"
---               >>> selectA >>> transformA
---  qs <- mapM (\x -> runX $ readDocument [withRelaxNG "transactions.rng"] "transactions.xml"
---               >>> selectQ >>> transformQ x) $ chunksOf 4 as
---  ex <- runX $ readDocument [withRelaxNG "transactions.rng"] "transactions.xml"
---              >>> selectE >>> transformE (fst $ foldl (\(x,y) q -> (x ++ [q!!y], y + 1)) ([],0) qs)
+  as <- runX $ readDocument [withRelaxNG "transactions.rng"] "transactions.xml"
+               >>> selectA >>> transformA
+  qs <- mapM (\x -> runX $ readDocument [withRelaxNG "transactions.rng"] "transactions.xml"
+               >>> selectQ >>> transformQ x) $ chunksOf 4 as
+  ex <- runX $ readDocument [withRelaxNG "transactions.rng"] "transactions.xml"
+              >>> selectE >>> transformE (fst $ foldl (\(x,y) q -> (x ++ [q!!y], y + 1)) ([],0) qs)
 
   putStrLn "hi"
 
