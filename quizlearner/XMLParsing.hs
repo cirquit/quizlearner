@@ -4,10 +4,7 @@ module XMLParsing where
 
 import Text.XML.HXT.Core
 import Text.XML.HXT.HTTP
-import Text.XML.HXT.RelaxNG
-import Data.Maybe (fromMaybe)
 import Data.List.Split (chunksOf)
-import Text.XML.HXT.Arrow.ReadDocument
 import Import
 import Prelude (reads, foldl, (!!))
 
@@ -16,12 +13,16 @@ readPassPercentage s = case reads s of
                         [(x, "")] -> x
                         _         -> -1
 
+makeE :: [Char] -> Text -> Double -> [Question] -> Exam
 makeE "quiz" = Exam
 makeE trans = error $ "Invalid transaction type: " ++ trans
 
+
+makeQ :: [Char] -> Text -> [Answer] -> Question
 makeQ "question" = Question
 makeQ trans = error $ "Invalid transaction type: " ++ trans
 
+makeA :: [Char] -> Text -> Bool -> Answer
 makeA "answer" = Answer
 makeA trans = error $ "Invalid transaction type: " ++ trans
 
@@ -60,7 +61,12 @@ parse input = do
   ex <- runX $ valXml >>> getQuiz >>> transformE (fst $ foldl (\(x,y) q -> (x ++ [q!!y], y + 1)) ([],0) qs)
   case ex of
     []    -> return Nothing
-    (a:_) -> return $ Just a
+    (a:_) -> return $ case validateParsedExam a of
+                           True -> Just a
+                           _    -> Nothing
+
+
+
 
 validateParsedExam :: Exam -> Bool
 validateParsedExam exam = ((examTitle exam) /= (""::Text))
@@ -68,7 +74,7 @@ validateParsedExam exam = ((examTitle exam) /= (""::Text))
                        && (percentage <= 1)
                        && (and $ map checkQuestion $ examQuestions exam)
   where
-    percentage = examPassPercetage exam
+    percentage = examPassPercentage exam
 
     checkAnswer :: Answer -> Bool
     checkAnswer a = (answerContent a) /= (""::Text)

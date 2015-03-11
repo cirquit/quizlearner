@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE quiz SYSTEM "http://localhost:3000/static/dtd/examValidation.dtd">
-<quiz title="Basic Haskell" passpercentage="75.0">
+<quiz title="Basic Haskell" passpercentage="0.75">
      <question content="Was ist der allgemeinste Typ von (++)">
           <answer correct="false">String -> String -> String</answer>
           <answer correct="false">[a] -> [b] -> [c]</answer>

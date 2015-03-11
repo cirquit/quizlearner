@@ -27,9 +27,9 @@ postExamR examId = do
     let middleWidget = case res of
          (FormSuccess list) -> let newList = zip ([0..]::[Int]) list
                                    accPoints  = toDouble (calculatePoints newList exam)
-                                   accPercent = accPoints / toDouble ((4*) $ length $ examQuestions  exam)
+                                   accPercent = accPoints / toDouble ((4*) $ length $ examQuestions exam)
                                    roundPercent = (toDouble  $ floor' $ accPercent * 10000) / 100
-                                   passed = roundPercent >= examPassPercentage exam in
+                                   passed = accPercent >= examPassPercentage exam in
                                    [whamlet|
      ^{tableWidget newList exam}
          <p class=boldWhite> #{show accPoints}p | #{show roundPercent}%
@@ -142,7 +142,7 @@ evalWidget exam qIndex maybeAnswers  = let correctResult     = getAnswers exam q
                                            wid results index = squareWidget results index answerList in
                                            [whamlet|
                                                <tr>
-                                                         <th rowspan="2" class=tooltips> _{MsgNr}. #{show qIndex}
+                                                         <th rowspan="2" class=tooltips> _{MsgNr}. #{show $ qIndex + 1}
                                                              <span> #{questionContent question}
                                                  $maybe just <- maybeAnswers
                                                      $with myResults <- toBoolList just
