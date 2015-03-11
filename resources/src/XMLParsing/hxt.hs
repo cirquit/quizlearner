@@ -59,17 +59,15 @@ transformA = proc el -> do
   returnA -< (makeA answer) (fromMaybe "" comment) (elem correct ["true", "True"])
 
 
-
-main :: IO ()
-main = do
-  as <- runX $ readDocument [withRelaxNG "transactions.rng"] "transactions.xml"
+parse :: FilePath -> IO ()
+parse path = do
+  as <- runX $ readDocument [withRelaxNG "validation.rng"] path
                >>> selectA >>> transformA
-  qs <- mapM (\x -> runX $ readDocument [withRelaxNG "transactions.rng"] "transactions.xml"
+  qs <- mapM (\x -> runX $ readDocument [withRelaxNG "validation.rng"] path
                >>> selectQ >>> transformQ x) $ chunksOf 4 as
-  ex <- runX $ readDocument [withRelaxNG "transactions.rng"] "transactions.xml"
+  ex <- runX $ readDocument [withRelaxNG "validation.rng"] path
               >>> selectE >>> transformE (fst $ foldl (\(x,y) q -> (x ++ [q!!y], y + 1)) ([],0) qs)
-
-  putStrLn "hi"
+  putStrLn (show ex)
 
 
 
