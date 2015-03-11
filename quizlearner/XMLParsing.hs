@@ -66,3 +66,17 @@ getAnswerContents cursor = S.chunksOf 4 $
                            >>= element "answer"
                            >>= descendant
                            >>= content
+
+validateParsedExam :: Exam -> Bool
+validateParsedExam exam = ((examTitle exam) /= (""::Text)) 
+                       && (percentage >= 0) 
+                       && (percentage <= 1) 
+                       && (and $ map checkQuestion $ examQuestions exam)
+  where
+    percentage = examPassPercetage exam
+
+    checkAnswer :: Answer -> Bool
+    checkAnswer a = (answerContent a) /= (""::Text)
+
+    checkQuestion :: Question -> Bool
+    checkQuestion q = ((questionContent q) /= (""::Text)) && (and $ map checkAnswer $ questionAnswerList q)
