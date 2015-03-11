@@ -61,14 +61,14 @@ transformA = proc el -> do
 
 
 parse :: FilePath -> IO ()
-parse path = do
+parse path = catch (do
   as <- runX $ readDocument [withRelaxNG "validation.rng"] path
                >>> selectA >>> transformA
   qs <- mapM (\x -> runX $ readDocument [withRelaxNG "validation.rng"] path
                >>> selectQ >>> transformQ x) $ chunksOf 4 as
   ex <- runX $ readDocument [withRelaxNG "validation.rng"] path
               >>> selectE >>> transformE (fst $ foldl (\(x,y) q -> (x ++ [q!!y], y + 1)) ([],0) qs)
-  putStrLn (show ex)
+  putStrLn (show ex)) (\err -> putStrLn "hihoho")
 
 
 
