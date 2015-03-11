@@ -34,9 +34,9 @@ postExamR examId = do
      ^{tableWidget newList exam}
          <p class=boldWhite> #{show accPoints}p | #{show roundPercent}%
      $if passed
-         <p class=green> _{MsgPassExam}
+         <p class=green> _{MsgPassExam $ examTitle exam}
      $else
-         <p class=sadred> _{MsgNoPassExam}
+         <p class=sadred> _{MsgNoPassExam $ examTitle exam}
      <a href=@{HomeR} style="margin:10px;"> <label class=simpleOrange> _{MsgGetBack} </label>
                                    |]
          _                  -> [whamlet|

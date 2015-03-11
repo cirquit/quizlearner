@@ -27,8 +27,8 @@ InputNeg: Tut mir leid, diese Eingabe darf nicht negativ sein.
 
 #Exam.hs
 
-PassExam: Gratulation, sie haben die Klausur bestanden!
-NoPassExam: Tut mir leid, sie haben leider nicht bestanden.
+PassExam exam@Text: Gratulation, sie haben die Klausur "#{exam}" bestanden!
+NoPassExam exam@Text: Tut mir leid, sie haben die Klausur "#{exam}" leider nicht bestanden.
 Evaluate: Auswerten
 Points: Punkte
 

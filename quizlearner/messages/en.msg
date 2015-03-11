@@ -27,8 +27,8 @@ InputNeg: Sorry, this input can't be negative!
 
 #Exam.hs
 
-PassExam: Congratulations, you passed the test!
-NoPassExam: Sorry, you didn't pass.
+PassExam exam@Text: Congratulations, you passed the test "#{exam}"!
+NoPassExam exam@Text: Sorry, you didn't pass "#{exam}".
 Evaluate: Evaluate
 Points: Points
 

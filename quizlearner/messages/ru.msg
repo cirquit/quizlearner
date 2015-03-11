@@ -28,8 +28,8 @@ InputNeg: Ваши входные данные не могут быть нега
 
 #Exam.hs
 
-PassExam: Поздравляю вас с прохождением экзамена!
-NoPassExam: Вы не сдали экзамен.
+PassExam exam@Text: Поздравляю вас с прохождением экзамена "#{exam}"!
+NoPassExam exam@Text: Вы не сдали экзамен "#{exam}".
 Evaluate: Оценить
 Points: Очки
 
