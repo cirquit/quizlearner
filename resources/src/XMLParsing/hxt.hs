@@ -59,7 +59,7 @@ transformA = proc el -> do
   returnA -< (makeA answer) (fromMaybe "" comment) (elem correct ["true", "True"])
 
 
-parse :: FilePath -> IO ()
+parse :: FilePath -> IO (Exam)
 parse path = do
   as <- runX $ readDocument [withRelaxNG "validation.rng"] path
                >>> selectA >>> transformA
@@ -67,7 +67,7 @@ parse path = do
                >>> selectQ >>> transformQ x) $ chunksOf 4 as
   ex <- runX $ readDocument [withRelaxNG "validation.rng"] path
               >>> selectE >>> transformE (fst $ foldl (\(x,y) q -> (x ++ [q!!y], y + 1)) ([],0) qs)
-  putStrLn (show ex)
+  return $ head ex
 
 
 

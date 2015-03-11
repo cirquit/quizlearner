@@ -4,7 +4,7 @@
         <answer correct="false">2</answer>
         <answer correct="false">3</answer>
         <answer correct="true">4</answer>
-    </question>    
+    </question>
     <question content="2+3?">
         <answer correct="true">5</answer>
         <answer correct="false">6</answer>

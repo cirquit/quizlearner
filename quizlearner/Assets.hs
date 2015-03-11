@@ -8,8 +8,8 @@ import Prelude (reads)
 titleTextField ::( RenderMessage (HandlerSite m) FormMessage
                    , RenderMessage (HandlerSite m) msg, Monad m )
                => msg -> Field m Text
-titleTextField msg = checkBool (\x -> ((length x) <= 200) && isNotSpaceList x) msg textField
-  where isNotSpaceList l = not $ all (==' ') l
+titleTextField msg = checkBool (\x -> ((length x) <= 200) && noSpaceList x) msg textField
+    where noSpaceList l = not $ all (==' ') l
 
 checkTextField :: ( RenderMessage (HandlerSite m) FormMessage
                    , RenderMessage (HandlerSite m) msg, Monad m )
@@ -26,6 +26,19 @@ unsignedProcentField :: ( RenderMessage (HandlerSite m) FormMessage
                        , RenderMessage (HandlerSite m) msg, Monad m )
                => msg -> Field m Double
 unsignedProcentField msg = checkBool (\x -> x > 0 && x <= 100) msg doubleField
+
+-- | Creates a input with @type="text"@.
+noSpacesTextField :: Monad m => RenderMessage (HandlerSite m) FormMessage => Field m Text
+noSpacesTextField = Field
+    { fieldParse = parseHelper $ Right
+    , fieldView = \theId name attrs val isReq ->
+        [whamlet|
+            $newline never
+            <input id="#{theId}" name="#{name}" *{attrs} type="text" :isReq:required value="#{either id id val}" onBlur="$('##{theId}').val($('##{theId}').val().trim());">
+            |]
+    , fieldEnctype = UrlEncoded
+    }
+
 
 -- | DB
 

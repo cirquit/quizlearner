@@ -290,8 +290,6 @@ th:hover.tooltips span {
   background-color: #463E3F;
 }
 
-
-
 .tabs li > input[type=radio] {
           position: absolute;
           top: -9999px;

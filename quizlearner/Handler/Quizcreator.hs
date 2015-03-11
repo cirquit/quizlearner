@@ -2,7 +2,7 @@ module Handler.Quizcreator where
 
 import Import
 import Assets (unsignedProcentField, unsignedIntField,  maybeInt,
-               maybeDouble, encodeExamAttributes, titleTextField)
+               maybeDouble, encodeExamAttributes, titleTextField, noSpacesTextField)
 import Widgets (titleWidget, iconWidget, leftWidget, postWidget,
                 errorWidget, spacingScript)
 import Data.Text (splitOn)
@@ -52,8 +52,8 @@ postQuizcreatorR = do
 
 examForm :: ExamAttributes -> Html -> MForm Handler ((FormResult Exam), Widget)
 examForm (ExamAttributes title passPercentage questCount) token = do
-  qTextFields <- replicateM questCount  (mreq textField "" Nothing)
-  aTextFields <- replicateM (4 * questCount) (mreq textField "" Nothing)
+  qTextFields <- replicateM questCount  (mreq noSpacesTextField "" Nothing)
+  aTextFields <- replicateM (4 * questCount) (mreq noSpacesTextField "" Nothing)
   aBoolFields <- replicateM (4 * questCount) (mreq boolField "" (Just False))
   let (qTextResults, qTextViews) = unzip qTextFields
       (aTextResults, aTextViews) = unzip aTextFields
