@@ -1,14 +1,14 @@
-<quiz title="TestExam" passpercentage="0.4">
+<quiz title="TestExam" passpercentage="0.3">
     <question content="2+2?">
         <answer correct="false">1</answer>
         <answer correct="false">2</answer>
         <answer correct="false">3</answer>
         <answer correct="true">4</answer>
-    </question>    
+    </question>
     <question content="2+3?">
         <answer correct="true">5</answer>
         <answer correct="false">6</answer>
-        <answer correct="false">7</answer>
+        <answer>7</answer>
         <answer correct="false">8</answer>
     </question>
     <question content="2+8?">
