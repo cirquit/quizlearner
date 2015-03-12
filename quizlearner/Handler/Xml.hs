@@ -20,6 +20,7 @@ displayXML exam = let eTitle  = examTitle exam
                   in
                       [whamlet|
                         <div class=xml>
+                            &lt;<span class=xmlRed>!DOCTYPE</span> quiz SYSTEM <span class=xmlRed>"http://localhost:3000/static/dtd/examValidation.dtd"</span>&gt;<br>
                             &lt;<span class=xmlRed>quiz</span> title="#{eTitle}" passpercentage="#{percent}"&gt;<br>
                             $forall q <- examQuestions exam
                                 ^{spaces}&lt;<span class=xmlRed>question</span> content="#{questionContent q}"&gt; <br>

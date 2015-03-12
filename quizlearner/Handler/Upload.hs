@@ -52,10 +52,10 @@ fileMForm token = do
                    <input type=submit value=_{MsgUpload}>
                  |]
     return (fileResult, widget)
-
+     
 tryXMLEvaluation :: LB.ByteString -> IO (Maybe Exam)
 tryXMLEvaluation bytestring = do
     let eitherText = LT.decodeUtf8' bytestring
     case eitherText of
-         (Right txt) ->  parse $ unpack $ toStrict txt
-         (Left  _)    -> return Nothing
+         (Right (checkDtd -> Right txt)) -> parseXml $ unpack txt
+         _                               -> return Nothing

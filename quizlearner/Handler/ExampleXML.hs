@@ -9,7 +9,7 @@ getExampleXMLR = do
     entityExamList <- runDB $ selectList [] [Asc ExamTitle]
     let spaces  = [whamlet| &nbsp;&nbsp;&nbsp;&nbsp; |]
         middleWidget = [whamlet|
-            <div style="margin:20px;">
+            <div style="margin:10px;">
                 <span class=simpleOrange style="font-weight:bold;">_{MsgShouldLookLike}
                 <p class=plainWhite style="font-weight:bold; margin-top:10px;"> _{MsgObeyRules}
                 <ul class=plainWhite>
@@ -25,6 +25,7 @@ getExampleXMLR = do
                     <br>
                 <span class=plainWhite style="margin-top:10px; font-weight: bold;"> _{MsgValidXML}
                 <div class=xml>
+                    &lt;<span class=xmlRed>!DOCTYPE</span> quiz SYSTEM <span class=xmlRed>"http://localhost:3000/static/dtd/examValidation.dtd"</span>&gt;<br>
                     &lt;<span class=xmlRed>quiz</span> title="My Exam" passpercentage="0.4"&gt;<br>
                         ^{spaces}&lt;<span class=xmlRed>question</span> content="Which one of these is not an animal?"&gt; <br>
                             ^{spaces}^{spaces}&lt;<span class=xmlRed>answer</span>

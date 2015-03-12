@@ -100,6 +100,8 @@ library
                  , hxt >= 9.3.1.7
                  , hxt-relaxng >= 9.1.5.1
                  , hxt-http >=9.1.5
+                 , parsec >=3.1.7
+                 , attoparsec >= 0.12.1.2
 
 executable         quizlearner
     if flag(library-only)
@@ -156,3 +158,5 @@ test-suite test
                  , hxt >=9.3.1.7
                  , hxt-relaxng >=9.1.5.1
                  , hxt-http >= 9.1.5
+                 , parsec >= 3.1.7
+                 , attoparsec >= 0.12.1.2

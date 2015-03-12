@@ -7,6 +7,8 @@ import Text.XML.HXT.HTTP
 import Data.List.Split (chunksOf)
 import Import
 import Prelude (reads, foldl, (!!))
+import Text.ParserCombinators.Parsec hiding (spaces)
+import Data.Attoparsec.Text (inClass)
 
 readPassPercentage :: String -> Double
 readPassPercentage s = case reads s of
@@ -50,8 +52,8 @@ transformA = proc el -> do
   returnA -< (makeA answer) (fromMaybe "" content) (elem correct ["true", "True", "TRUE"])
 
 
-parse :: String -> IO (Maybe Exam)
-parse input = do
+parseXml :: String -> IO (Maybe Exam)
+parseXml input = do
   let getAnswers   = getChildren >>> getChildren >>> getChildren >>> isElem
       getQuestions = getChildren >>> getChildren >>> isElem
       getQuiz      = getChildren >>> isElem
@@ -64,9 +66,6 @@ parse input = do
     (a:_) -> return $ case validateParsedExam a of
                            True -> Just a
                            _    -> Nothing
-
-
-
 
 validateParsedExam :: Exam -> Bool
 validateParsedExam exam = ((examTitle exam) /= (""::Text))
@@ -81,3 +80,26 @@ validateParsedExam exam = ((examTitle exam) /= (""::Text))
 
     checkQuestion :: Question -> Bool
     checkQuestion q = ((questionContent q) /= (""::Text)) && (and $ map checkAnswer $ questionAnswerList q)
+
+checkDtd :: (LazySequence b s, Element s ~ Char) =>
+                  b -> Either String b
+checkDtd input = case parse dtdValidation "" (unpack $ toStrict $ input) of
+    Left errMsg -> Left $ "No match: " ++ show errMsg
+    Right _ -> Right input
+
+spaceSkip :: Parser String
+spaceSkip = many $ satisfy $ inClass [ ' ' , '\t' ]
+
+dtdValidation :: Parser ()
+dtdValidation = do
+      _ <-  spaceSkip
+      _ <-  string "<!DOCTYPE"
+      _ <-  spaceSkip
+      _ <-  string "quiz"
+      _ <-  spaceSkip
+      _ <-  string "SYSTEM"
+      _ <-  spaceSkip
+      _ <-  string "\"http://localhost:3000/static/dtd/examValidation.dtd\""
+      _ <-  spaceSkip
+      _ <-  char '>'
+      return ()

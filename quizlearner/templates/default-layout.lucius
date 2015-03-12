@@ -17,7 +17,7 @@ body {
   margin:10px;
   padding:10px;
   background-color:#CCC;
-  width:85%;
+  width:95%;
   border: solid 2px #DDD;
   -moz-box-shadow:    inset 3px 3px 6px #222;
   -webkit-box-shadow: inset 3px 3px 6px #222;
