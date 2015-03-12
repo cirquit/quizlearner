@@ -1,4 +1,4 @@
-{-# LANGUAGE Arrows, OverloadedStrings #-}
+{-# LANGUAGE Arrows #-}
 
 module XMLParsing where
 
@@ -81,8 +81,7 @@ validateParsedExam exam = ((examTitle exam) /= (""::Text))
     checkQuestion :: Question -> Bool
     checkQuestion q = ((questionContent q) /= (""::Text)) && (and $ map checkAnswer $ questionAnswerList q)
 
-checkDtd :: (LazySequence b s, Element s ~ Char) =>
-                  b -> Either String b
+checkDtd :: (LazySequence b s, Element s ~ Char) => b -> Either String b
 checkDtd input = case parse dtdValidation "" (unpack $ toStrict $ input) of
     Left errMsg -> Left $ "No match: " ++ show errMsg
     Right _ -> Right input

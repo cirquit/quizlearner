@@ -40,7 +40,7 @@ ErrInXML_P2: valid xml file.
 ChooseXML: Please choose a xml file to upload.
 Upload: Upload
 ExampleXML: Example xml file
-
+Doctype: Should be at the start of the file as shown below
 
 #Delete.hs
 

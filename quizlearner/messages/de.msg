@@ -40,6 +40,8 @@ ErrInXML_P2: valides xml file ist.
 ChooseXML: Wählen sie bitte ein xml file zu Hochladen aus.
 Upload: Hochladen
 ExampleXML: Muster für eine xml Datei
+Doctype: Muss in der ersten Zeile der xml stehen, siehe Beispiel
+
 
 #Delete.hs
 

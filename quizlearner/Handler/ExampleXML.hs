@@ -13,6 +13,7 @@ getExampleXMLR = do
                 <span class=simpleOrange style="font-weight:bold;">_{MsgShouldLookLike}
                 <p class=plainWhite style="font-weight:bold; margin-top:10px;"> _{MsgObeyRules}
                 <ul class=plainWhite>
+                    <li> <span style="font-weight:bold; color:#FFA500;">&lt;!DOCTYPE...&gt;</span> _{MsgDoctype}
                     <li> <span style="font-weight:bold; color:#FFA500;">&lt;quiz&gt;</span> _{MsgWithAttribute 2} "title" _{MsgAnd} "passpercentage"
                     <li> <span style="font-weight:bold; color:#FFA500;">&lt;question&gt;</span> _{MsgWithAttribute 1} "content"
                     <li> <span style="font-weight:bold; color:#FFA500;">&lt;answer&gt;</span> _{MsgWithAttribute 1} "correct"
