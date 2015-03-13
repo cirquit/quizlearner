@@ -2,7 +2,7 @@ module Handler.Home where
 
 import Import
 import Assets (exampleDB)
-import Widgets (titleWidget, iconWidget, leftWidget)
+import Widgets (titleWidget, iconWidget, leftWidget, accountWidget)
 
 getHomeR :: Handler Html
 getHomeR = do

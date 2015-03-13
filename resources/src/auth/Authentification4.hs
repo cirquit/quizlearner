@@ -8,7 +8,7 @@ import Data.Text (Text)
 data BID = BID
 mkYesod "BID" [parseRoutes|
 / RootR GET
-/complete/#Text CompleteR GET
+/account/#Text AccountR GET
 |]
 
 instance Yesod BID where approot = ApprootStatic "http://localhost:3000"
@@ -19,7 +19,7 @@ getRootR = defaultLayout $ do
 function bidClick() {
     navigator.id.getVerifiedEmail(function(assertion) {
         if (assertion) {
-            document.location = "/complete/" + assertion;
+            document.location = "/account/" + assertion;
         } else {
             alert("Invalid BrowserId login");
         }
@@ -32,7 +32,7 @@ function bidClick() {
         <img src="https://browserid.org/i/sign_in_red.png">
 |]
 
-getCompleteR assertion = do
+getAccountR assertion = do
     memail <- withManager $ checkAssertion "localhost:3000" assertion
     defaultLayout $ toWidget [hamlet|
 <p>You tried to log in, let's see if it worked.

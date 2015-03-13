@@ -13,6 +13,7 @@ import Yesod.Core.Types     (Logger)
 import Yesod.Default.Util   (addStaticContentExternal)
 import Web.Cookie                         (SetCookie (..))
 import qualified Data.Text as T
+import Web.Authenticate.BrowserId
 
 -- | The foundation datatype for your application. This can be a good place to
 -- keep settings and values requiring initialization before your application
@@ -36,7 +37,7 @@ plural 1 x _ = x
 plural _ _ y = y
 
 -- | SSL Security copied from Yesod.Core because the
---   the current one can't find the required functions
+--   the current core version 1.4.6 is depricated
 
 -- | Defends against session hijacking by setting the secure bit on session
 -- cookies so that browsers will not transmit them over http. With this
@@ -123,6 +124,9 @@ instance Yesod App where
         pc <- widgetToPageContent $ do
             addStylesheet $ StaticR css_bootstrap_css
             addScript $ StaticR js_jQuery_v1_11_2_js
+            addScriptRemote browserIdJs
+            addScript $ StaticR js_getVerifiedEmail_js
+
             $(widgetFile "default-layout")
         withUrlRenderer $(hamletFile "templates/default-layout-wrapper.hamlet")
 

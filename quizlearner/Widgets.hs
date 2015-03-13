@@ -65,4 +65,14 @@ iconWidget = do
            |]
 
 
-
+accountWidget :: Widget
+accountWidget = do
+  memail <- lookupSession "_ID"
+  case memail of
+    (Just email) -> [whamlet|  <form action=@{AccountR "logout"} method=post>
+                                  <input type=submit value="Logout #{email}!">|]
+    _            -> toWidget [hamlet|
+    <p>
+        <a href="javascript:bidClick();">
+            <img src="https://browserid.org/i/sign_in_red.png">
+                       |]
