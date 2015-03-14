@@ -14,3 +14,4 @@
 /lang LangR GET POST
 /sessionmaster SessionMasterR GET
 /account/#Text AccountR GET POST
+/accmanager AccManagerR GET

@@ -62,6 +62,7 @@ iconWidget = do
          <img src=@{StaticR images_quizCreator_svg} id="quiz_creator" title=_{MsgQuizCreatorTitle} width="80px" height="80px">
      <a href=@{UploadR}>
          <img src=@{StaticR images_uploadXML_svg} id="upload_xml" title=_{MsgUploadXMLTitle} width="80px" height="80px">
+    ^{accountWidget}
            |]
 
 
@@ -69,10 +70,12 @@ accountWidget :: Widget
 accountWidget = do
   memail <- lookupSession "_ID"
   case memail of
-    (Just email) -> [whamlet|  <form action=@{AccountR "logout"} method=post>
-                                  <input type=submit value="Logout #{email}!">|]
-    _            -> toWidget [hamlet|
-    <p>
+    (Just email) -> [whamlet|<div style="margin:20px; float:right">
+                                 <span class=smallWhite> You are logged in #{email}
+                                 <form action=@{AccountR "logout"} method=post>
+                                      <input type=submit value="Logout!">|]
+    _            -> do toWidget [lucius| #login {float: right; margin: 30px;}|]
+                       [whamlet|
         <a href="javascript:bidClick();">
-            <img src="https://browserid.org/i/sign_in_red.png">
+            <img src="http://www.clker.com/cliparts/a/N/B/N/h/z/key2-hi.png" id="login" width="80px" height="80px">
                        |]

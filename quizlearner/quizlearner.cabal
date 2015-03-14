@@ -29,6 +29,7 @@ library
                      Handler.Lang
                      Handler.SessionMaster
                      Handler.Account
+                     Handler.AccManager
                      Assets
                      Widgets
                      XMLParsing
