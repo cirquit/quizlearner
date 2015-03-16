@@ -3,6 +3,7 @@ module Handler.ExampleXML where
 import Widgets
 import Import
 
+-- | Displays valid example XML
 getExampleXMLR :: Handler Html
 getExampleXMLR = do
     setUltDestCurrent

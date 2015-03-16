@@ -5,13 +5,17 @@
 /robots.txt RobotsR GET
 
 / HomeR GET
+/lang LangR GET POST
+
 /exam/#ExamId ExamR GET POST
 /xml/#ExamId XmlR GET
 /delete/#ExamId DeleteR GET POST
+
 /quizcreator/ QuizcreatorR GET POST
+/sessionmaster SessionMasterR GET
+
 /upload UploadR GET POST
 /upload/exampleXml ExampleXMLR GET
-/lang LangR GET POST
-/sessionmaster SessionMasterR GET
+
 /account/#Text AccountR GET POST
 /accmanager AccManagerR GET

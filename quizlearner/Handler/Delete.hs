@@ -4,6 +4,8 @@ import Widgets (titleWidget, iconWidget, leftWidget, postWidget)
 import Assets (checkTextField)
 import Import
 
+
+-- | Checks if the input matches the target exam title
 checkTitle :: Text ->  Html -> MForm Handler (FormResult Text, Widget)
 checkTitle title token = do
   (textResult, textView) <- mreq (checkTextField title MsgTitleMisMatch) "" Nothing
@@ -19,23 +21,28 @@ checkTitle title token = do
                       <script> document.getElementById('#{fvId textView}').focus(); |]
   return (textResult, widget)
 
+-- | Checks for login
+--   Logged in -> Asks for exam title
+--   otherwise -> Prompts to login
 getDeleteR :: ExamId -> Handler Html
 getDeleteR examId = do
     setUltDestCurrent
-    (entityExamList, exam) <- runDB $ do
-        entityExamList <- selectList [] [Asc ExamTitle]
-        exam <- get404 examId
-        return (entityExamList, exam)
     memail <- lookupSession "_ID"
     case memail of
-       (Just _) -> do (widget, enctype) <- generateFormPost $ checkTitle $ examTitle exam
+       (Just _) -> do 
+                      (entityExamList, exam) <- runDB $ do
+                          entityExamList     <- selectList [] [Asc ExamTitle]
+                          exam               <- get404 examId
+                          return (entityExamList, exam)
+                      (widget, enctype) <- generateFormPost $ checkTitle $ examTitle exam
                       let middleWidget = postWidget enctype widget
                       defaultLayout $ do $(widgetFile "delete")
        _        -> redirect AccManagerR
 
+-- | Deletes exam if input matches the title
 postDeleteR :: ExamId -> Handler Html
 postDeleteR examId = do
-    exam <-  runDB $ get404 examId
+    exam <- runDB $ get404 examId
     ((res, widget), enctype) <- runFormPost $ checkTitle $ examTitle exam
     case res of
         (FormSuccess _) -> do let middleWidget = [whamlet|
@@ -43,15 +50,15 @@ postDeleteR examId = do
                                       <a href=@{HomeR} style="margin:10px;"> <label class=simpleOrange> _{MsgGetBack} </label>
                                                      |]
                               entityExamList <- runDB $ do
-                                      delete examId
-                                      entityExamList <- selectList [] [Asc ExamTitle]
-                                      return entityExamList
+                                  delete examId
+                                  entityExamList <- selectList [] [Asc ExamTitle]
+                                  return entityExamList
                               defaultLayout $ do $(widgetFile "delete")
-        _             -> do let middleWidget = [whamlet|
-                                      <form method=post enctype=#{enctype}>
-                                          ^{widget}
-                                      <span class=sadred> _{MsgTitleMisMatch}
-                                                 |]
-                            entityExamList <- runDB $ selectList [] [Asc ExamTitle]
-                            defaultLayout $ do $(widgetFile "delete")
+        _               -> do let middleWidget = [whamlet|
+                                        <form method=post enctype=#{enctype}>
+                                            ^{widget}
+                                        <span class=sadred> _{MsgTitleMisMatch}
+                                                   |]
+                              entityExamList <- runDB $ selectList [] [Asc ExamTitle]
+                              defaultLayout $ do $(widgetFile "delete")
 

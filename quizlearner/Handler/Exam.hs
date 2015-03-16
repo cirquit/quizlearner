@@ -5,31 +5,33 @@ import Widgets (titleWidget, iconWidget, leftWidget, postWidget, errorWidget, sp
 import Import hiding (unzip, (\\), sortBy, repeat)
 import Data.List ((!!), unzip, (\\), sortBy, repeat)
 
+-- | Look up and display exam
 getExamR :: ExamId -> Handler Html
 getExamR examId = do
     setUltDestCurrent
     (entityExamList, exam) <- runDB $ do
-        entityExamList <- selectList [] [Asc ExamTitle]
-        exam <- get404 examId
+        entityExamList     <- selectList [] [Asc ExamTitle]
+        exam               <- get404 examId
         return (entityExamList, exam)
-    (widget, enctype) <-generateFormPost $ listEditMForm $ examQuestions exam
+    (widget, enctype) <-generateFormPost $ examMForm $ examQuestions exam
     let middleWidget = postWidget enctype widget
     defaultLayout $ do $(widgetFile "exam")
 
+-- | Evaluates exam and displays results
 postExamR :: ExamId -> Handler Html
 postExamR examId = do
     setUltDestCurrent
     (entityExamList, exam) <- runDB $ do
         entityExamList <- selectList [] [Asc ExamTitle]
-        exam  <- get404 examId
+        exam           <- get404 examId
         return (entityExamList, exam)
-    ((res,_), _) <- runFormPost $ listEditMForm $ examQuestions exam
+    ((res,_), _) <- runFormPost $ examMForm $ examQuestions exam
     let middleWidget = case res of
-         (FormSuccess list) -> let newList = zip ([0..]::[Int]) list
-                                   accPoints  = toDouble (calculatePoints newList exam)
-                                   accPercent = accPoints / toDouble ((4*) $ length $ examQuestions exam)
+         (FormSuccess list) -> let newList      = zip ([0..]::[Int]) list
+                                   accPoints    = toDouble (calculateAccPoints newList exam)
+                                   accPercent   = accPoints / toDouble ((4*) $ length $ examQuestions exam)
                                    roundPercent = (toDouble  $ floor' $ accPercent * 10000) / 100
-                                   passed = accPercent >= examPassPercentage exam in
+                                   passed       = accPercent >= examPassPercentage exam in
                                    [whamlet|
      ^{tableWidget newList exam}
          <p class=boldWhite> #{show accPoints}p | #{show roundPercent}%
@@ -44,32 +46,30 @@ postExamR examId = do
                                |]
     defaultLayout $ do $(widgetFile "exam")
 
-listEditMForm :: [Question] -> Html -> MForm Handler (FormResult ([FormResult (Maybe [Int])]), Widget)
-listEditMForm xs token = do
-    let checkBoxes = checkboxesFieldList' . zipAnswers
-    let questionStr = fromString . unpack
+-- | Generates tabbed exam input form
+examMForm :: [Question] -> Html -> MForm Handler (FormResult ([FormResult (Maybe [Int])]), Widget)
+examMForm xs token  = do
+    let checkBoxes  = checkboxesField' . optionsPairs . zipAnswers
+        questionStr = fromString . unpack
     checkFields <- forM xs (\(Question content list ) -> mopt (checkBoxes list) (questionStr content) Nothing)
     let (checkResults, checkViews) = unzip checkFields
-    let numeratedViews = zip ([1..]::[Int]) checkViews
-    let widget = [whamlet|
-        #{token}
-            <ul class="tabs">
-                $forall (c,view) <- numeratedViews
-                    <li>
-                        <input type="radio" name="tabs" id="tab#{fvId view}">
-                        <label for="tab#{fvId view}">#{show c}
-                        <div id="tab-content#{fvId view}" class="tab-content animated fadeIn">
-                            <p class=boldWhite> #{fvLabel view} </p>
-                            ^{fvInput view}
-                            <br>
-            <input class=evalButton type=submit value=_{MsgEvaluate}>
+        numeratedViews = zip ([1..]::[Int]) checkViews
+        widget = [whamlet|
+            #{token}
+                <ul class="tabs">
+                    $forall (c,view) <- numeratedViews
+                        <li>
+                            <input type="radio" name="tabs" id="tab#{fvId view}">
+                            <label for="tab#{fvId view}">#{show c}
+                            <div id="tab-content#{fvId view}" class="tab-content animated fadeIn">
+                                <p class=boldWhite> #{fvLabel view} </p>
+                                ^{fvInput view}
+                                <br>
+                <input class=evalButton type=submit value=_{MsgEvaluate}>
                  |]
     return ((FormSuccess checkResults), widget)
 
-checkboxesFieldList' :: (Eq a, RenderMessage site FormMessage, RenderMessage site msg) =>
-                              [(msg, a)] -> Field (HandlerT site IO) [a]
-checkboxesFieldList' = checkboxesField' . optionsPairs
-
+-- | Custom stylized checkbox field
 checkboxesField' :: (Eq a, RenderMessage site FormMessage) =>
                     HandlerT site IO (OptionList a) -> Field (HandlerT site IO) [a]
 checkboxesField' ioptlist = (multiSelectField ioptlist)
@@ -89,10 +89,9 @@ checkboxesField' ioptlist = (multiSelectField ioptlist)
     }
 
 -- | Exam evaluation
-
--- | Evaluating the checked results
--- | Sets True for given indices, False otherwise
--- | [1,3] -> [False, True, False, True]
+--   Evaluating the checked results
+--   Sets True for given indices, False otherwise
+--   [1,3] -> [False, True, False, True]
 toBoolList :: [Int] -> [Bool]
 toBoolList xs = map snd $ sortBy (comparing fst) $ ts ++ fs
     where
@@ -100,20 +99,26 @@ toBoolList xs = map snd $ sortBy (comparing fst) $ ts ++ fs
         ts = zip xs (repeat True)
         fs = zip ys (repeat False)
 
+-- | Compares solution with user answers for a single question
+--   Score can't drop below 0 points
 compareAnswers :: [Bool] -> Maybe [Bool] -> Int
-compareAnswers xs (Just zs) = max 0 $ foldl' (\ys (x,y) -> if x == y then ys + 1 else ys - 1) 0 (zip xs zs)
-compareAnswers xs Nothing   = max 0 $ foldl' (\ys (x,y) -> if x == y then ys + 1 else ys - 1) 0 (zip xs fs)
-  where fs = [False, False, False, False]
+compareAnswers xs gs = max 0 $ foldl' (\acc (x,y) -> if x == y then acc + 1 else acc - 1) 0 fs
+  where fs = case gs of 
+              (Just list) -> zip xs list
+              Nothing     -> zip xs $ repeat False
 
+-- | Creates solution list for n-th question
 getAnswers :: Exam -> Int -> [Bool]
 getAnswers exam n = map (answerIsCorrect) qas
     where qas = questionAnswerList ((examQuestions exam) !! n)
 
-calculatePoints :: [(Int, FormResult (Maybe [Int]))] -> Exam -> Int
-calculatePoints [] _  = 0
-calculatePoints ((c,(FormSuccess (Just xs))):ys) exam = compareAnswers (getAnswers exam c) (Just $ toBoolList xs) + calculatePoints ys exam
-calculatePoints ((c,(_)):ys) exam = compareAnswers (getAnswers exam c) Nothing + calculatePoints ys exam
+-- | Calculates accumulated points
+calculateAccPoints :: [(Int, FormResult (Maybe [Int]))] -> Exam -> Int
+calculateAccPoints [] _  = 0
+calculateAccPoints ((c,FormSuccess (Just xs)):ys) exam = compareAnswers (getAnswers exam c) (Just $ toBoolList xs) + calculateAccPoints ys exam
+calculateAccPoints ((c,_):ys) exam                     = compareAnswers (getAnswers exam c) Nothing + calculateAccPoints ys exam
 
+-- | Displays evaluated exam
 tableWidget :: [(Int, FormResult (Maybe [Int]))] -> Exam -> Widget
 tableWidget maybeAnswers exam = [whamlet|
     <table class=evalTable>
@@ -122,9 +127,10 @@ tableWidget maybeAnswers exam = [whamlet|
             <th colspan="4"> _{MsgAnswer 4}
             <th> _{MsgPoints}
         $forall (c,(FormSuccess may)) <- maybeAnswers
-            ^{evalWidget exam c may}
+            ^{evalQuestWidget exam c may}
                                 |]
 
+-- | Generates tooltips and displays checked answers
 squareWidget :: [Bool] -> Int -> [Answer] -> Widget
 squareWidget myAnswerL aIndex correctAnswerL = let square = if myAnswerL !! aIndex then [whamlet|☒|]
                                                                                    else [whamlet|☐|]
@@ -134,12 +140,13 @@ squareWidget myAnswerL aIndex correctAnswerL = let square = if myAnswerL !! aInd
                                                        <span> #{answerContent answer}
                                                |]
 
-evalWidget :: Exam -> Int -> Maybe [Int] -> Widget
-evalWidget exam qIndex maybeAnswers  = let correctResult     = getAnswers exam qIndex
-                                           question          = (examQuestions exam) !! qIndex
-                                           answerList        = questionAnswerList question
-                                           falseL            = [False, False, False, False]
-                                           wid results index = squareWidget results index answerList in
+-- | Displays evaluated question
+evalQuestWidget :: Exam -> Int -> Maybe [Int] -> Widget
+evalQuestWidget exam qIndex maybeAnswers  = let correctResult     = getAnswers exam qIndex
+                                                question          = (examQuestions exam) !! qIndex
+                                                answerList        = questionAnswerList question
+                                                falseL            = [False, False, False, False]
+                                                wid results index = squareWidget results index answerList in
                                            [whamlet|
                                                <tr>
                                                          <th rowspan="2" class=tooltips> _{MsgNr}. #{show $ qIndex + 1}

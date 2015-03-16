@@ -2,19 +2,16 @@ module Handler.Quizcreator where
 
 import Import
 import Assets (unsignedProcentField, unsignedIntField,  maybeInt,
-               maybeDouble, encodeExamAttributes, titleTextField, noSpacesTextField)
+               maybeDouble, encodeExamAttributes, titleTextField, noSpacesTextField, ExamAttributes())
 import Widgets (titleWidget, iconWidget, leftWidget, postWidget,
                 errorWidget, spacingScript)
 import Data.Text (splitOn)
 import Data.List.Split (chunksOf)
 import Data.List (cycle)
 
-data ExamAttributes = ExamAttributes {
-                    title    :: Text
-                  , passPercentage :: Double
-                  , questCount :: Int
-                }
-
+-- | Checks if exam attributes have already been submitted
+--   If so, proceed to question input
+--   If not, let the user submit them
 getQuizcreatorR :: Handler Html
 getQuizcreatorR =  do
     setUltDestCurrent
@@ -22,11 +19,14 @@ getQuizcreatorR =  do
     mayAttributes  <- lookupSession "examAttributes"
     let generatePost = case mayAttributes of
                            (Just text) -> generateFormPost $ examForm $ toExamAttributes text
-                           _           -> generateFormPost $ examAttributesForm
+                           _           -> generateFormPost $ examAttributesMForm
     (widget, enctype) <- generatePost
     let middleWidget = postWidget enctype widget
     defaultLayout $ do $(widgetFile "quizcreator")
 
+-- | Checks if exam attributes have already been submitted
+--   If so, checks if questions have been submitted correctly and saves the exam in that case (shows error otherwise)
+--   If not, submits entered input and redirects to question input
 postQuizcreatorR :: Handler Html
 postQuizcreatorR = do
     mayAttributes  <- lookupSession "examAttributes"
@@ -41,27 +41,28 @@ postQuizcreatorR = do
                                        entityExamList <- runDB $ selectList [] [Asc ExamTitle]
                                        let middleWidget = errorWidget "Exam parsing"
                                        defaultLayout $ do $(widgetFile "quizcreator")
-       _           -> do ((res, _), _) <- runFormPost examAttributesForm
+       _           -> do ((res, _), _) <- runFormPost examAttributesMForm
                          case res of
-                                 (FormSuccess (ExamAttributes a b c)) -> do
-                                     setSession "examAttributes" $ encodeExamAttributes a b c
+                                 (FormSuccess (ExamAttributes title percent qCount)) -> do
+                                     setSession "examAttributes" $ encodeExamAttributes title percent qCount
                                      redirect QuizcreatorR
                                  _ -> do
                                      deleteSession "examAttributes"
                                      redirect QuizcreatorR
 
+-- | Generates enumerated exam form based on previously submitted exam attributes
 examForm :: ExamAttributes -> Html -> MForm Handler ((FormResult Exam), Widget)
 examForm (ExamAttributes title passPercentage questCount) token = do
-  qTextFields <- replicateM questCount  (mreq noSpacesTextField "" Nothing)
+  qTextFields <- replicateM questCount (mreq noSpacesTextField "" Nothing)
   aTextFields <- replicateM (4 * questCount) (mreq noSpacesTextField "" Nothing)
   aBoolFields <- replicateM (4 * questCount) (mreq boolField "" (Just False))
   let (qTextResults, qTextViews) = unzip qTextFields
       (aTextResults, aTextViews) = unzip aTextFields
       (aBoolResults, aBoolViews) = unzip aBoolFields
-      answerResList =  zipWith (\(FormSuccess x) (FormSuccess y) -> Answer x y) aTextResults aBoolResults
+      answerResList = zipWith (\(FormSuccess x) (FormSuccess y)  -> Answer x y) aTextResults aBoolResults
       questions     = FormSuccess $ zipWith (\(FormSuccess q) as -> Question q as) qTextResults (chunksOf 4 answerResList)
       exam          = Exam title passPercentage <$> questions
-      answerViews   = zipWith3 (\x y z -> zip3 x y z) (chunksOf 4 aTextViews) (chunksOf 4 aBoolViews) (cycle [[1..4::Int]])
+      answerViews   = zipWith3 zip3 (chunksOf 4 aTextViews) (chunksOf 4 aBoolViews) (cycle [[1..4::Int]])
       questionViews = zip3 qTextViews answerViews ([1..]::[Int])
       widget        = [whamlet|
           #{token}
@@ -85,8 +86,9 @@ examForm (ExamAttributes title passPercentage questCount) token = do
                       |]
   return (exam, widget)
 
-examAttributesForm :: Html -> MForm Handler ((FormResult ExamAttributes), Widget)
-examAttributesForm token = do
+-- | Generates exam attributes form
+examAttributesMForm :: Html -> MForm Handler ((FormResult ExamAttributes), Widget)
+examAttributesMForm token = do
     (eTitleResult, eTitleView) <- mreq (titleTextField MsgExamTitle) "" Nothing
     (ePassResult, ePassView)   <- mreq (unsignedProcentField MsgInputNeg) "" (Just 50.0)
     (eCountResult, eCountView) <- mreq (unsignedIntField MsgInputNeg)"" (Just 5)
@@ -112,13 +114,13 @@ examAttributesForm token = do
                  |]
     return (examAttributes, widget)
 
-
+-- | Reads exam attributes from cookie
 toExamAttributes :: Text -> ExamAttributes
-toExamAttributes ((splitOn "($)") -> [a, b, c])     = let (Just passPercentage) = maybeDouble $ unpack b
-                                                          (Just questCount)     = maybeInt $ unpack c
-                                                          title = (unwords . words) a in
-                                                      ExamAttributes title passPercentage questCount
-toExamAttributes _                                  = ExamAttributes msg 0.0 0
-  where msg = "Error in cookie" :: Text -- MsgErrorCookie :: Text
+toExamAttributes ((splitOn "($)") -> [a, b, c]) = let (Just passPercentage) = maybeDouble $ unpack b
+                                                      (Just questCount)     = maybeInt $ unpack c
+                                                      title = (unwords . words) a in
+                                                  ExamAttributes title passPercentage questCount
+toExamAttributes _                              = ExamAttributes msg 0.0 0
+  where msg = "Error in cookie" :: Text
 
 

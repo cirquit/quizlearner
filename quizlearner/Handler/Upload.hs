@@ -7,6 +7,7 @@ import Data.ByteString.Lazy.Internal as LB
 import qualified Data.Text.Lazy.Encoding as LT
 import XMLParsing
 
+-- | Upload form
 getUploadR :: Handler Html
 getUploadR = do
     setUltDestCurrent
@@ -15,16 +16,20 @@ getUploadR = do
     let formWidget = postWidget enctype widget
     defaultLayout $ do $(widgetFile "upload")
 
+-- | Extracts bytestring from submitted file and parses it into an exam
+--   Shows error message if parsing fails
 postUploadR :: Handler Html
 postUploadR = do
     ((result, widget), enctype) <- runFormPost fileMForm
     case result of
         FormSuccess fileInfo -> do bytestring <- runResourceT $ fileSource fileInfo $$ sinkLbs
-                                   maybeExam <- liftIO $ tryXMLEvaluation bytestring
+                                   maybeExam  <- liftIO $ tryXMLEvaluation bytestring
                                    case maybeExam of
                                        Just newExam -> do
-                                               _     <- runDB $ insert newExam
-                                               entityExamList <- runDB $ selectList [] [Asc ExamTitle]
+                                               entityExamList <- runDB $
+                                                   _ <- insert newExam
+                                                   entityExamList <- selectList [] [Asc ExamTitle]
+                                                   return entityExamList
                                                let formWidget = [whamlet| <span class=simpleWhite>_{MsgFileRec $ fileName fileInfo}|]
                                                                  >> postWidget enctype widget
                                                defaultLayout $ do $(widgetFile "upload")
@@ -41,6 +46,7 @@ postUploadR = do
                                                        >> postWidget enctype widget
                                       defaultLayout $ do $(widgetFile "upload")
 
+-- | Basic file input form
 fileMForm :: Html -> MForm Handler (FormResult FileInfo, Widget)
 fileMForm token = do
     (fileResult, fileView) <- mreq fileField "File" Nothing
@@ -52,7 +58,8 @@ fileMForm token = do
                    <input type=submit value=_{MsgUpload}>
                  |]
     return (fileResult, widget)
-     
+
+-- | Parses bytestring into exam
 tryXMLEvaluation :: LB.ByteString -> IO (Maybe Exam)
 tryXMLEvaluation bytestring = do
     let eitherText = LT.decodeUtf8' bytestring

@@ -3,31 +3,32 @@ module Assets where
 import Import
 import Prelude (reads)
 
--- | Custom Fields
-
+-- | Custom textfield that doesn't allow "spaces-only"-input or inputs longer than 200 characters 
 titleTextField ::( RenderMessage (HandlerSite m) FormMessage
                    , RenderMessage (HandlerSite m) msg, Monad m )
                => msg -> Field m Text
 titleTextField msg = checkBool (\x -> ((length x) <= 200) && noSpaceList x) msg textField
     where noSpaceList l = not $ all (==' ') l
 
+-- | Custom textfield that checks if entered value is equal to expected value
 checkTextField :: ( RenderMessage (HandlerSite m) FormMessage
                    , RenderMessage (HandlerSite m) msg, Monad m )
                => Text -> msg -> Field m Text
 checkTextField text msg = checkBool (==text) msg textField
 
+-- | Custom Int field that doesn't allow number below 0
 unsignedIntField :: ( RenderMessage (HandlerSite m) FormMessage
                    , RenderMessage (HandlerSite m) msg, Monad m )
                => msg -> Field m Int
 unsignedIntField msg = checkBool (>0) msg intField
 
-
+-- | Custom Int field that only allows numbers between 0 and 100 (inclusive)
 unsignedProcentField :: ( RenderMessage (HandlerSite m) FormMessage
                        , RenderMessage (HandlerSite m) msg, Monad m )
                => msg -> Field m Double
 unsignedProcentField msg = checkBool (\x -> x > 0 && x <= 100) msg doubleField
 
--- | Creates a input with @type="text"@.
+-- | Creates a input with javascript that trims spaces from both ends
 noSpacesTextField :: Monad m => RenderMessage (HandlerSite m) FormMessage => Field m Text
 noSpacesTextField = Field
     { fieldParse = parseHelper $ Right
@@ -40,8 +41,7 @@ noSpacesTextField = Field
     }
 
 
--- | DB
-
+-- | Loads default exams
 exampleDB :: MonadIO m => ReaderT SqlBackend m ()
 exampleDB = do
     _ <- insert $ exam_1
@@ -50,7 +50,6 @@ exampleDB = do
     liftIO $ putStrLn "exampleDB was called"
 
 -- | Helper
-
 zipAnswers :: [Answer] -> [(Text, Int)]
 zipAnswers xs = zipWith (\(Answer content _) n -> (content,n)) xs [0..]
 
@@ -77,7 +76,11 @@ encodeExamAttributes a b c = intercalate "($)" xs
     ps = pack . show
 
 
-
+data ExamAttributes = ExamAttributes {
+                    title    :: Text
+                  , passPercentage :: Double
+                  , questCount :: Int
+                }
 
 
 

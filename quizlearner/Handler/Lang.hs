@@ -5,6 +5,8 @@ import Import
 getLangR :: Handler Html
 getLangR = redirectUltDest HomeR
 
+
+-- | Sets language
 postLangR :: Handler Html
 postLangR = do
     let validLangs = ["en", "de", "ru"]

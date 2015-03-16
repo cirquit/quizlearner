@@ -4,14 +4,14 @@ import Import
 import Assets (exampleDB)
 import Widgets (titleWidget, iconWidget, leftWidget)
 
+-- | Only for testing purposes
+--   If someone deletes all exams, three sample exams are loaded
 getHomeR :: Handler Html
 getHomeR = do
-    --runDB (deleteWhere [ExamTitle !=. ""])
     setUltDestCurrent
     entityExamList <- runDB (selectList [] [Asc ExamTitle])
-    if null entityExamList then runDB $ exampleDB
-                           else liftIO $ putStrLn "DB was not updated, because DB is not empty"
+    case null entityExamList of 
+    	True  -> runDB $ exampleDB
+        False -> liftIO $ putStrLn "DB was not updated, because DB is not empty"
     let middleWidget = [whamlet| <p class=boldWhite>_{MsgClickOnExam}|]
-    defaultLayout $ do
-        setTitle "Quizlearner"
-        $(widgetFile "home")
+    defaultLayout $ do $(widgetFile "home")
