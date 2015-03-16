@@ -56,26 +56,17 @@ spacingScript = [whamlet|
 
 iconWidget :: Widget
 iconWidget = do
-    toWidget [lucius| #quiz_creator, #upload_xml {float: right; margin: 30px;}|]
+    memail <- lookupSession "_ID"
+    let accountWidget = case memail of
+                            (Just email) -> [whamlet|<form action=@{AccountR "logout"} class=icons method=post>
+                                                     <input type="image" src=@{StaticR images_Logout_svg} width="80px" height="80px" alt="Logout!" title=_{MsgLoogedIn email}>|]
+                            _             -> [whamlet| <a href="javascript:bidClick();">
+                                                             <img src=@{StaticR images_Login_svg} class=icons id="login" width="80px" height="80px">|]
+    toWidget [lucius| .icons {float: right; margin: 20px;}|]
     [whamlet|
      <a href=@{QuizcreatorR}>
-         <img src=@{StaticR images_quizCreator_svg} id="quiz_creator" title=_{MsgQuizCreatorTitle} width="80px" height="80px">
+         <img src=@{StaticR images_quizCreator_svg} class=icons title=_{MsgQuizCreatorTitle} width="80px" height="80px">
      <a href=@{UploadR}>
-         <img src=@{StaticR images_uploadXML_svg} id="upload_xml" title=_{MsgUploadXMLTitle} width="80px" height="80px">
-    ^{accountWidget}
+         <img src=@{StaticR images_uploadXML_svg} class=icons title=_{MsgUploadXMLTitle} width="80px" height="80px">
+     ^{accountWidget}
            |]
-
-
-accountWidget :: Widget
-accountWidget = do
-  memail <- lookupSession "_ID"
-  case memail of
-    (Just email) -> [whamlet|<div style="margin:20px; float:right">
-                                 <span class=smallWhite> You are logged in #{email}
-                                 <form action=@{AccountR "logout"} method=post>
-                                      <input type=submit value="Logout!">|]
-    _            -> do toWidget [lucius| #login {float: right; margin: 30px;}|]
-                       [whamlet|
-        <a href="javascript:bidClick();">
-            <img src="http://www.clker.com/cliparts/a/N/B/N/h/z/key2-hi.png" id="login" width="80px" height="80px">
-                       |]

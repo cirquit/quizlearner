@@ -5,7 +5,7 @@ Answer count@Int: #{plural count "Ответ" "Ответы"}
 GetBack: Возвратится
 TitleMisMatch: Ваши входные данные не совпадают с именем экзамена.
 DelExam: Удалить экзамен
-
+LoogedIn email@Text:  Вошёл как #{email}
 
 #QuizCreator.hs
 

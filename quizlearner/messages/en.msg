@@ -5,6 +5,7 @@ Answer count@Int: #{plural count "Answer" "Answers"}
 GetBack: Get back!
 TitleMisMatch: Sorry, the input does not match the title.
 DelExam: Delete exam
+LoogedIn email@Text: Logged in as #{email}
 
 
 #QuizCreator.hs

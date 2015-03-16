@@ -17,4 +17,4 @@ getAccountR assertion = do
 postAccountR :: Text -> Handler Html
 postAccountR _ = do
     deleteSession "_ID"
-    redirectUltDest HomeR
+    redirect HomeR

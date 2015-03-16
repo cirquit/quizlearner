@@ -5,6 +5,7 @@ Answer count@Int: #{plural count "Antwort" "Antworten"}
 GetBack: Zurück!
 TitleMisMatch: Tut mir leid, die Eingabe stimmt nicht mit dem Klausurnamen überein.
 DelExam: Klausur löschen
+LoogedIn email@Text: Eingeloggt unter #{email}
 
 
 #QuizCreator.hs
