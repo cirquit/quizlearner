@@ -3,7 +3,8 @@ module Handler.Exam where
 import Assets (zipAnswers, toDouble, roundByTwo, shuffle)
 import Data.List ((!!), unzip, (\\), sortBy, repeat)
 import Import hiding (unzip, (\\), sortBy, repeat)
-import Widgets (titleWidget, iconWidget, leftWidget, postWidget, errorWidget, spacingScript)
+import Widgets (titleWidget, iconWidget, leftWidget, postWidget,
+                errorWidget, spacingScript)
 
 -- | Look up and display exam
 getExamR :: ExamId -> Handler Html
@@ -15,7 +16,9 @@ getExamR examId = do
         return (entityExamList, exam)
     (widget, enctype) <- generateFormPost $ examMForm $ examQuestions exam
     let middleWidget = postWidget enctype widget
-    defaultLayout $(widgetFile "exam")
+    defaultLayout $ do
+        addScript $ StaticR js_nextBackScript_js
+        $(widgetFile "exam")
 
 -- | Evaluates exam and displays results
 postExamR :: ExamId -> Handler Html
@@ -61,10 +64,10 @@ examMForm xs token  = do
                             <input type="radio" name="tabs" id="tab#{fvId view}">
                             <label for="tab#{fvId view}">#{show c}
                             <div id="tab-content#{fvId view}" class="tab-content animated fadeIn">
-                                <p class=boldWhite> #{fvLabel view} </p>
+                                <p class=boldWhite> #{fvLabel view}
                                 ^{fvInput view}
                                 <br>
-                <input class=evalButton type=submit value=_{MsgEvaluate}>
+                <input class="evalButton" id="submitId" type=submit value=_{MsgEvaluate}>
                  |]
     return ((FormSuccess checkResults), widget)
 
@@ -156,7 +159,7 @@ evalQuestWidget exam qIndex maybeAnswers  = let correctResult     = getAnswers e
                                                          <th rowspan="2"> #{show $ compareAnswers correctResult (Just myResults)}
                                                  $nothing
                                                          ^{wid falseL 0} ^{wid falseL 1} ^{wid falseL 2} ^{wid falseL 3}
-                                                         <th rowspan="2"> #{show $ compareAnswers correctResult Nothing}p
+                                                         <th rowspan="2"> #{show $ compareAnswers correctResult Nothing}
                                                <tr style="background-color:#31914E;">
                                                          ^{wid correctResult 0} ^{wid correctResult 1} ^{wid correctResult 2} ^{wid correctResult 3}
                                            |]

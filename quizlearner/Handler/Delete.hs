@@ -2,7 +2,8 @@ module Handler.Delete where
 
 import Assets (checkTextField)
 import Import
-import Widgets (titleWidget, iconWidget, leftWidget, postWidget)
+import Widgets (titleWidget, iconWidget, leftWidget, postWidget,
+                autoFocusById)
 
 
 -- | Checks if the input matches the target exam title
@@ -17,8 +18,7 @@ checkTitle title token = do
                 <br>
                 <span style="margin:10px; color:black;"> ^{fvInput textView}
             <input type=submit value=_{MsgDelExam}>
-                 |] >> [whamlet|
-                  <script> document.getElementById('#{fvId textView}').focus(); |]
+                 |] >> autoFocusById (fvId textView)
     return (textResult, widget)
 
 -- | Checks for login
@@ -49,6 +49,7 @@ postDeleteR examId = do
                 let middleWidget = [whamlet|
                         <span class=simpleWhite> _{MsgSuccessDelete $ examTitle exam}
                         <a href=@{HomeR} style="margin:10px;"> <label class=simpleOrange> _{MsgGetBack} </label>
+                        <meta http-equiv="refresh" content="2;URL='http://localhost:3000/'"/>
                                        |]
                 entityExamList <- runDB $ do
                     delete examId

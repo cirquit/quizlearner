@@ -13,5 +13,5 @@ getHomeR = do
     case null entityExamList of
         True  -> runDB $ exampleDB
         False -> liftIO $ putStrLn "DB was not updated, because DB is not empty"
-    let middleWidget = [whamlet| <p class=boldWhite>_{MsgClickOnExam}|]
+    let middleWidget = [whamlet| <p class=boldWhite>_{MsgClickOnExam} |]
     defaultLayout $(widgetFile "home")

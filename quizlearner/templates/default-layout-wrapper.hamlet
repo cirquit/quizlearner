@@ -45,3 +45,11 @@ $newline never
             <script>
                 window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})
         \<![endif]-->
+            <script>
+                var links = document.getElementsByTagName('a');
+                for (i = 0; i < links.length; i++) {
+                    if (links[i].href == document.URL) {
+                        links[i].style.color = "#FFA500";
+                        return;
+                    }
+                }

@@ -27,7 +27,23 @@ leftWidget exams = [whamlet|
                       <a href=@{XmlR examId}> <img src="@{StaticR images_xml_svg}" title="_{MsgShowXML}" height="20px">
                       <a href=@{DeleteR examId}> <img src="@{StaticR images_trashcan_svg}" title="_{MsgDelExam}" height="25px">
     ^{langWidget}
+    ^{colorLinkWidgets}
+
                             |]
+
+colorLinkWidgets :: Widget
+colorLinkWidgets = toWidgetBody [julius|
+    function test() {
+        var links = document.getElementsByTagName('a');
+        for (i = 1; i < links.length; i++) {
+            if (links[i].href == document.URL) {
+                links[i].style.color = "#FFA500";
+                return;
+            }
+        }
+    }
+    test();
+                                |]
 
 langWidget :: Widget
 langWidget = [whamlet|
@@ -46,13 +62,15 @@ errorWidget text = [whamlet|
                    |]
 
 spacingScript :: Widget
-spacingScript = [whamlet|
-    <script>
+spacingScript = toWidgetBody [julius|
         var divList = document.getElementsByClassName("tab-content");
             for(i=0; i<divList.length; i++){
                 divList[i].style.top = 40*Math.ceil(divList.length/10) + "px";
             }
                 |]
+
+autoFocusById :: Text -> Widget
+autoFocusById targetId = [whamlet|<script> document.getElementById("#{targetId}").focus(); |]
 
 iconWidget :: Widget
 iconWidget = do
@@ -60,8 +78,8 @@ iconWidget = do
     let accountWidget = case memail of
                             (Just email) -> [whamlet|<form action=@{AccountR "logout"} class=icons method=post>
                                                      <input type="image" src=@{StaticR images_Logout_svg} width="80px" height="80px" alt="Logout!" title=_{MsgLoogedIn email}>|]
-                            _             -> [whamlet| <a href="javascript:bidClick();">
-                                                             <img src=@{StaticR images_Login_svg} class=icons id="login" width="80px" height="80px">|]
+                            _            -> [whamlet|<a href="javascript:bidClick();">
+                                                            <img src=@{StaticR images_Login_svg} class=icons id="login" width="80px" height="80px">|]
     toWidget [lucius| .icons {float: right; margin: 20px;}|]
     [whamlet|
      <a href=@{QuizcreatorR}>
