@@ -1,9 +1,9 @@
 module Handler.Exam where
 
-import Assets (zipAnswers, toDouble, floor')
-import Widgets (titleWidget, iconWidget, leftWidget, postWidget, errorWidget, spacingScript)
-import Import hiding (unzip, (\\), sortBy, repeat)
+import Assets (zipAnswers, toDouble, roundByTwo, shuffle)
 import Data.List ((!!), unzip, (\\), sortBy, repeat)
+import Import hiding (unzip, (\\), sortBy, repeat)
+import Widgets (titleWidget, iconWidget, leftWidget, postWidget, errorWidget, spacingScript)
 
 -- | Look up and display exam
 getExamR :: ExamId -> Handler Html
@@ -13,9 +13,9 @@ getExamR examId = do
         entityExamList     <- selectList [] [Asc ExamTitle]
         exam               <- get404 examId
         return (entityExamList, exam)
-    (widget, enctype) <-generateFormPost $ examMForm $ examQuestions exam
+    (widget, enctype) <- generateFormPost $ examMForm $ examQuestions exam
     let middleWidget = postWidget enctype widget
-    defaultLayout $ do $(widgetFile "exam")
+    defaultLayout $(widgetFile "exam")
 
 -- | Evaluates exam and displays results
 postExamR :: ExamId -> Handler Html
@@ -27,24 +27,22 @@ postExamR examId = do
         return (entityExamList, exam)
     ((res,_), _) <- runFormPost $ examMForm $ examQuestions exam
     let middleWidget = case res of
-         (FormSuccess list) -> let newList      = zip ([0..]::[Int]) list
-                                   accPoints    = toDouble (calculateAccPoints newList exam)
+         (FormSuccess list) -> let enumAnswers  = zip ([0..]::[Int]) list
+                                   accPoints    = toDouble (calculateAccPoints enumAnswers exam)
                                    accPercent   = accPoints / toDouble ((4*) $ length $ examQuestions exam)
-                                   roundPercent = (toDouble  $ floor' $ accPercent * 10000) / 100
+                                   roundPercent = roundByTwo accPercent
                                    passed       = accPercent >= examPassPercentage exam in
                                    [whamlet|
-     ^{tableWidget newList exam}
-         <p class=boldWhite> #{show accPoints}p | #{show roundPercent}%
-     $if passed
-         <p class=green> _{MsgPassExam $ examTitle exam}
-     $else
-         <p class=sadred> _{MsgNoPassExam $ examTitle exam}
-     <a href=@{HomeR} style="margin:10px;"> <label class=simpleOrange> _{MsgGetBack} </label>
+            ^{tableWidget enumAnswers exam}
+                <p class=boldWhite> #{show accPoints}p | #{show roundPercent}%
+            $if passed
+                <p class=green> _{MsgPassExam $ examTitle exam}
+            $else
+                <p class=sadred> _{MsgNoPassExam $ examTitle exam}
+            <a href=@{HomeR} style="margin:10px;"> <label class=simpleOrange> _{MsgGetBack} </label>
                                    |]
-         _                  -> [whamlet|
-     ^{errorWidget $ pack "exam evaluation"}
-                               |]
-    defaultLayout $ do $(widgetFile "exam")
+         _                  -> [whamlet| ^{errorWidget $ pack "exam evaluation"}|]
+    defaultLayout $(widgetFile "exam")
 
 -- | Generates tabbed exam input form
 examMForm :: [Question] -> Html -> MForm Handler (FormResult ([FormResult (Maybe [Int])]), Widget)
@@ -53,7 +51,8 @@ examMForm xs token  = do
         questionStr = fromString . unpack
     checkFields <- forM xs (\(Question content list ) -> mopt (checkBoxes list) (questionStr content) Nothing)
     let (checkResults, checkViews) = unzip checkFields
-        numeratedViews = zip ([1..]::[Int]) checkViews
+    shuffledViews <- liftIO $ shuffle checkViews
+    let numeratedViews = zip ([1..]::[Int]) shuffledViews
         widget = [whamlet|
             #{token}
                 <ul class="tabs">
@@ -69,7 +68,7 @@ examMForm xs token  = do
                  |]
     return ((FormSuccess checkResults), widget)
 
--- | Custom stylized checkbox field
+-- | Custom stylized checkbox field with random order
 checkboxesField' :: (Eq a, RenderMessage site FormMessage) =>
                     HandlerT site IO (OptionList a) -> Field (HandlerT site IO) [a]
 checkboxesField' ioptlist = (multiSelectField ioptlist)
@@ -78,9 +77,10 @@ checkboxesField' ioptlist = (multiSelectField ioptlist)
             opts <- fmap olOptions $ handlerToWidget ioptlist
             let optselected (Left _) _ = False
                 optselected (Right vals) opt = (optionInternalValue opt) `elem` vals
+            shuffledOpts <-liftIO $ shuffle opts
             [whamlet|
     <span ##{theId}>
-        $forall opt <- opts
+        $forall opt <- shuffledOpts
             <div>
                 <input type=checkbox name=#{name} value=#{optionExternalValue opt} *{attrs} :optselected val opt:checked>
                 <span class=simpleWhite> #{optionDisplay opt}
@@ -94,18 +94,17 @@ checkboxesField' ioptlist = (multiSelectField ioptlist)
 --   [1,3] -> [False, True, False, True]
 toBoolList :: [Int] -> [Bool]
 toBoolList xs = map snd $ sortBy (comparing fst) $ ts ++ fs
-    where
-        ys = [0..3] \\ xs
-        ts = zip xs (repeat True)
-        fs = zip ys (repeat False)
+    where ys = [0..3] \\ xs
+          ts = zip xs (repeat True)
+          fs = zip ys (repeat False)
 
 -- | Compares solution with user answers for a single question
 --   Score can't drop below 0 points
 compareAnswers :: [Bool] -> Maybe [Bool] -> Int
 compareAnswers xs gs = max 0 $ foldl' (\acc (x,y) -> if x == y then acc + 1 else acc - 1) 0 fs
-  where fs = case gs of 
-              (Just list) -> zip xs list
-              Nothing     -> zip xs $ repeat False
+  where fs = case gs of
+                 (Just list) -> zip xs list
+                 Nothing     -> zip xs $ repeat False
 
 -- | Creates solution list for n-th question
 getAnswers :: Exam -> Int -> [Bool]
@@ -136,7 +135,7 @@ squareWidget myAnswerL aIndex correctAnswerL = let square = if myAnswerL !! aInd
                                                                                    else [whamlet|☐|]
                                                    answer = correctAnswerL !! aIndex in
                                                [whamlet|
-                                                   <th class=tooltips>^{square}
+                                                   <th class=tooltips> ^{square}
                                                        <span> #{answerContent answer}
                                                |]
 

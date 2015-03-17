@@ -1,7 +1,7 @@
 module Handler.Home where
 
-import Import
 import Assets (exampleDB)
+import Import
 import Widgets (titleWidget, iconWidget, leftWidget)
 
 -- | Only for testing purposes
@@ -10,8 +10,8 @@ getHomeR :: Handler Html
 getHomeR = do
     setUltDestCurrent
     entityExamList <- runDB (selectList [] [Asc ExamTitle])
-    case null entityExamList of 
-    	True  -> runDB $ exampleDB
+    case null entityExamList of
+        True  -> runDB $ exampleDB
         False -> liftIO $ putStrLn "DB was not updated, because DB is not empty"
     let middleWidget = [whamlet| <p class=boldWhite>_{MsgClickOnExam}|]
-    defaultLayout $ do $(widgetFile "home")
+    defaultLayout $(widgetFile "home")

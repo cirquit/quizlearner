@@ -12,7 +12,7 @@ getXmlR examId = do
            exam            <- get404 examId
            return (entityExamList, exam)
     let middleWidget = displayXML exam
-    defaultLayout $ do $(widgetFile "xml")
+    defaultLayout $(widgetFile "xml")
 
 -- | Generates XML from an exam to be displayed in browser
 displayXML :: Exam -> Widget

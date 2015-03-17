@@ -1,7 +1,7 @@
 module Handler.ExampleXML where
 
-import Widgets
 import Import
+import Widgets
 
 -- | Displays valid example XML
 getExampleXMLR :: Handler Html
@@ -53,4 +53,4 @@ getExampleXMLR = do
 
                 <a href=@{UploadR} style="font-size: 16px; font-weight: bold; color:white; float:right; margin:10px;"> _{MsgGotIt}
                      |]
-    defaultLayout $ do $(widgetFile "exampleXml")
+    defaultLayout $(widgetFile "exampleXml")

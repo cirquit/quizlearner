@@ -9,10 +9,10 @@ getAccountR assertion = do
     manager <- newManager
     memail  <- checkAssertion "localhost:3000" assertion manager
     case memail of
-        (Just email) -> do setSession "_ID" email
-                           redirectUltDest HomeR
-        _            -> do deleteSession "_ID"
-                           redirectUltDest HomeR
+            (Just email) -> do setSession "_ID" email
+                               redirectUltDest HomeR
+            (_)          -> do deleteSession "_ID"
+                               redirectUltDest HomeR
 
 postAccountR :: Text -> Handler Html
 postAccountR _ = do
