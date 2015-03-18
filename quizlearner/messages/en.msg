@@ -32,7 +32,7 @@ PassExam exam@Text: Congratulations, you passed the test "#{exam}"!
 NoPassExam exam@Text: Sorry, you didn't pass "#{exam}".
 Evaluate: Evaluate
 Points: Points
-  
+
 #Upload.hs
 
 FileRec fInfo@Text: File recieved: #{fInfo}.
@@ -61,6 +61,9 @@ UploadXMLTitle: Click this to upload an xml file
 English: English
 German: German
 Russian: Russian
+PrivExams: Private exams
+NoPrivExams: No private exams added
+
 
 #Home.hs
 
@@ -80,3 +83,7 @@ FourAnswers: every question has to have exactly four answers
 ContentTags: the answer content has to be between the answer tags
 ValidXML: A valid XML file might look like this:
 GotIt: Ok, got it!
+
+#AccManager.hs
+
+HaveToBeLoggedIn: You have to be logged in to delete this exam.

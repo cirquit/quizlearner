@@ -1,13 +1,15 @@
 module Handler.ExampleXML where
 
+import Assets (getAllExams)
 import Import
-import Widgets
+import Widgets (titleWidget, iconWidget, publicExamWidget, privateExamWidget)
 
 -- | Displays valid example XML
 getExampleXMLR :: Handler Html
 getExampleXMLR = do
     setUltDestCurrent
-    entityExamList <- runDB $ selectList [] [Asc ExamTitle]
+    memail <- lookupSession "_ID"
+    (publicExams, privateExams) <- runDB $ getAllExams memail
     let spaces  = [whamlet| &nbsp;&nbsp;&nbsp;&nbsp; |]
         middleWidget = [whamlet|
             <div style="margin:10px;">

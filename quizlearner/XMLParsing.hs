@@ -17,7 +17,7 @@ readPassPercentage s = case reads s of
                         _         -> -1
 
 -- | Functions for construction of exams, questions and answers
-makeE :: [Char] -> Text -> Double -> [Question] -> Exam
+makeE :: [Char] -> Text -> Double -> [Question] -> Maybe Text -> Exam
 makeE "quiz" = Exam
 makeE trans = error $ "Invalid transaction type: " ++ trans
 
@@ -31,7 +31,7 @@ makeA trans = error $ "Invalid transaction type: " ++ trans
 
 
 -- | Extracts exam attributes from "quiz" tag
-getE :: [Question] -> IOSLA (XIOState ()) XmlTree Exam
+getE :: [Question] -> IOSLA (XIOState ()) XmlTree (Maybe Text -> Exam)
 getE qs = proc tag -> do
     quiz           <- getName -< tag
     title          <- getAttrValue "title" -< tag
@@ -54,7 +54,7 @@ getA = proc tag -> do
     returnA -< (makeA answer) (fromMaybe "" content) (elem correct ["true", "True", "TRUE"])
 
 -- | Parses XML string into an exam
-parseXml :: String -> IO (Maybe Exam)
+parseXml :: String -> IO (Maybe (Maybe Text -> Exam))
 parseXml input = do
     let getAnswers   = getChildren >>> getChildren >>> getChildren >>> isElem
         getQuestions = getChildren >>> getChildren >>> isElem
@@ -65,7 +65,7 @@ parseXml input = do
     ex <- runX $ valXml >>> getQuiz >>> getE (fst $ foldl (\(x,y) q -> (x ++ [q!!y], y + 1)) ([],0) qs)
     case ex of
         []    -> return Nothing
-        (a:_) -> return $ case validateParsedExam a of
+        (a:_) -> return $ case validateParsedExam (a Nothing) of
                                True -> Just a
                                _    -> Nothing
 

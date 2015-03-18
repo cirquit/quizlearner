@@ -126,7 +126,7 @@ instance Yesod App where
             addScript $ StaticR js_jQuery_v1_11_2_js
             addScriptRemote browserIdJs
             addScript $ StaticR js_getVerifiedEmail_js
-
+            setTitle "Quizlearner"
             $(widgetFile "default-layout")
         withUrlRenderer $(hamletFile "templates/default-layout-wrapper.hamlet")
 

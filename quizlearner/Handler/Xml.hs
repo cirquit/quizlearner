@@ -1,16 +1,18 @@
 module Handler.Xml where
 
+import Assets (getAllExams)
 import Import
-import Widgets
+import Widgets (titleWidget, iconWidget, publicExamWidget, privateExamWidget)
 
 -- | Displays XML of selected exam in browser
 getXmlR :: ExamId -> Handler Html
 getXmlR examId = do
     setUltDestCurrent
-    (entityExamList, exam) <- runDB $ do
-           entityExamList  <- selectList [] [Asc ExamTitle]
-           exam            <- get404 examId
-           return (entityExamList, exam)
+    memail <- lookupSession "_ID"
+    (publicExams, privateExams, exam) <- runDB $ do
+        (publicExams, privateExams)   <- getAllExams memail
+        exam                          <- get404 examId
+        return (publicExams, privateExams, exam)
     let middleWidget = displayXML exam
     defaultLayout $(widgetFile "xml")
 

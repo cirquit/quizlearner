@@ -11,10 +11,10 @@ makeAnswerLists cursor = zipWith (zipWith makeAnswer) aContents aCorrects
     where
         makeAnswer :: Text -> Text -> Answer
         makeAnswer content correct = Answer {
-                                              answerContent  = content, 
+                                              answerContent  = content,
                                               answerIsCorrect  = if elem correct ["true","True"] then True else False}
         aContents   = getAnswerContents cursor
-        aCorrects   = getAnswerAttributes cursor "correct"    
+        aCorrects   = getAnswerAttributes cursor "correct"
 
 
 
@@ -47,7 +47,7 @@ getQuestionAttributes cursor attr = child cursor
 
 getAnswerAttributes :: Cursor -> Name -> [[Text]]
 getAnswerAttributes cursor attr = S.chunksOf 4 $
-                               child cursor 
+                               child cursor
                                >>= element "question"
                                >>= child
                                >>= element "answer"
@@ -56,11 +56,11 @@ getAnswerAttributes cursor attr = S.chunksOf 4 $
 
 getAnswerContents :: Cursor -> [[Text]]
 getAnswerContents cursor = S.chunksOf 4 $
-                           child cursor 
-                           >>= element "question" 
-                           >>= child 
-                           >>= element "answer" 
-                           >>= descendant 
+                           child cursor
+                           >>= element "question"
+                           >>= child
+                           >>= element "answer"
+                           >>= descendant
                            >>= content
 
 
@@ -70,6 +70,6 @@ main = do
     doc <- readFile def "test2.xml"
     let cursor = fromDocument doc
     putStrLn $ show $ makeExam cursor
-    
+
 
 

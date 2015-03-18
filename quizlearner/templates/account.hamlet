@@ -5,7 +5,8 @@
           ^{iconWidget}
       <!-- Left Div-->
       <div id=left class=front align=center>
-          ^{leftWidget entityExamList}
+          ^{publicExamWidget publicExams}
+          ^{privateExamWidget privateExams}
           ^{accountWidget}
       <!-- Middle Div-->
       <div id=question class=front>

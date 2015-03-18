@@ -1,13 +1,14 @@
 module Handler.Quizcreator where
 
 import Assets (unsignedProcentField, unsignedIntField,  maybeInt,
-               maybeDouble, encodeExamAttributes, titleTextField, noSpacesTextField)
+               maybeDouble, encodeExamAttributes, titleTextField,
+               noSpacesTextField, getAllExams)
 import Data.Text (splitOn)
 import Data.List.Split (chunksOf)
 import Data.List (cycle)
 import Import
-import Widgets (titleWidget, iconWidget, leftWidget, postWidget,
-                errorWidget, spacingScript)
+import Widgets (titleWidget, iconWidget, publicExamWidget, postWidget,
+                errorWidget, spacingScript, privateExamWidget)
 
 -- | Checks if exam attributes have already been submitted
 --   If so, proceed to question input
@@ -15,7 +16,8 @@ import Widgets (titleWidget, iconWidget, leftWidget, postWidget,
 getQuizcreatorR :: Handler Html
 getQuizcreatorR =  do
     setUltDestCurrent
-    entityExamList <- runDB $ selectList [] [Asc ExamTitle]
+    memail <- lookupSession "_ID"
+    (publicExams, privateExams) <- runDB $ getAllExams memail
     mayAttributes  <- lookupSession "examAttributes"
     let generatePost = case mayAttributes of
                            (Just text) -> generateFormPost $ examForm $ toExamAttributes text
@@ -30,15 +32,16 @@ getQuizcreatorR =  do
 postQuizcreatorR :: Handler Html
 postQuizcreatorR = do
     mayAttributes  <- lookupSession "examAttributes"
+    memail <- lookupSession "_ID"
+    (publicExams, privateExams) <- runDB $ getAllExams memail
     case mayAttributes of
         (Just text) -> do ((res, _), _) <- runFormPost $ examForm $ toExamAttributes text
                           case res of
                                   (FormSuccess exam) -> do
                                       deleteSession "examAttributes"
-                                      _ <- runDB $ insert exam
+                                      _ <- runDB $ insert $ exam memail
                                       redirect QuizcreatorR
                                   (_) -> do
-                                      entityExamList <- runDB $ selectList [] [Asc ExamTitle]
                                       let middleWidget = errorWidget "Exam parsing"
                                       defaultLayout $ do $(widgetFile "quizcreator")
         (_)         -> do ((res, _), _) <- runFormPost examAttributesMForm
@@ -51,7 +54,7 @@ postQuizcreatorR = do
                                       redirect QuizcreatorR
 
 -- | Generates enumerated exam form based on previously submitted exam attributes
-examForm :: ExamAttributes -> Html -> MForm Handler ((FormResult Exam), Widget)
+examForm :: ExamAttributes -> Html -> MForm Handler ((FormResult (Maybe Text -> Exam)), Widget)
 examForm (ExamAttributes title passPercentage questCount) token = do
     qTextFields <- replicateM questCount (mreq noSpacesTextField "" Nothing)
     aTextFields <- replicateM (4 * questCount) (mreq noSpacesTextField "" Nothing)

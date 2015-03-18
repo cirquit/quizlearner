@@ -62,6 +62,8 @@ UploadXMLTitle: Klick hier um eine neue xml hochzuladen
 English: Englisch
 German: Deutsch
 Russian: Russisch
+PrivExams: Private Klausuren
+NoPrivExams: Keine privaten Klausuren vorhanden
 
 #Home.hs
 
@@ -81,3 +83,7 @@ FourAnswers: Jede Frage muss genau 4 Antworten enthalten
 ContentTags: Die Antwort muss zwischen den Answertags stehen
 ValidXML: Eine valide XML könnte so aussehen:
 GotIt: Ok, ich habs verstanden!
+
+#AccManager.hs
+
+HaveToBeLoggedIn: Sie müssen eingeloggt sein um diese Klausur zu löschen.

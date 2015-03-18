@@ -1,9 +1,9 @@
 module Handler.Delete where
 
-import Assets (checkTextField)
+import Assets (checkTextField, getAllExams)
 import Import
-import Widgets (titleWidget, iconWidget, leftWidget, postWidget,
-                autoFocusById)
+import Widgets (titleWidget, iconWidget, publicExamWidget, postWidget,
+                autoFocusById, privateExamWidget)
 
 
 -- | Checks if the input matches the target exam title
@@ -30,10 +30,10 @@ getDeleteR examId = do
     memail <- lookupSession "_ID"
     case memail of
        (Just _) -> do
-               (entityExamList, exam) <- runDB $ do
-                   entityExamList     <- selectList [] [Asc ExamTitle]
-                   exam               <- get404 examId
-                   return (entityExamList, exam)
+               (publicExams, privateExams, exam) <- runDB $ do
+                   (publicExams, privateExams)   <- getAllExams memail
+                   exam                          <- get404 examId
+                   return (publicExams, privateExams, exam)
                (widget, enctype) <- generateFormPost $ checkTitle $ examTitle exam
                let middleWidget = postWidget enctype widget
                defaultLayout $(widgetFile "delete")
@@ -44,6 +44,7 @@ postDeleteR :: ExamId -> Handler Html
 postDeleteR examId = do
     exam <- runDB $ get404 examId
     ((res, widget), enctype) <- runFormPost $ checkTitle $ examTitle exam
+    memail <- lookupSession "_ID"
     case res of
         (FormSuccess _) -> do
                 let middleWidget = [whamlet|
@@ -51,13 +52,16 @@ postDeleteR examId = do
                         <a href=@{HomeR} style="margin:10px;"> <label class=simpleOrange> _{MsgGetBack} </label>
                         <meta http-equiv="refresh" content="2;URL='http://localhost:3000/'"/>
                                        |]
-                entityExamList <- runDB $ do
+                (publicExams, privateExams) <- runDB $ do
                     delete examId
-                    entityExamList <- selectList [] [Asc ExamTitle]
-                    return entityExamList
+                    (publicExams, privateExams)   <- getAllExams memail
+                    return (publicExams, privateExams)
                 defaultLayout $(widgetFile "delete")
         (_)             -> do
                 let middleWidget = postWidget enctype widget >> [whamlet| <span class=sadred> _{MsgTitleMisMatch}|]
-                entityExamList <- runDB $ selectList [] [Asc ExamTitle]
+                (publicExams, privateExams) <- runDB $ do
+                    delete examId
+                    (publicExams, privateExams) <- getAllExams memail
+                    return (publicExams, privateExams)
                 defaultLayout $(widgetFile "delete")
 

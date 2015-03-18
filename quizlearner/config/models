@@ -12,6 +12,7 @@ Exam
     title        Text
     passPercentage Double
     questions     [Question]
+    author Text Maybe
     deriving Show
 Question
     content    Text

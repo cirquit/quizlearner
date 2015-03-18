@@ -14,8 +14,8 @@ titleWidget = [whamlet|
         <span style="color:#FAA500;">Quiz</span>Learner<br>
               |]
 
-leftWidget :: [Entity Exam] -> Widget
-leftWidget exams = [whamlet|
+publicExamWidget :: [Entity Exam] -> Widget
+publicExamWidget exams = [whamlet|
     <p class=orangeTitle> [_{MsgExams}]
     <ul class=examList style="padding-left: 0px;">
           $if null exams
@@ -26,10 +26,26 @@ leftWidget exams = [whamlet|
                       <a href=@{ExamR examId}> #{examTitle exam}
                       <a href=@{XmlR examId}> <img src="@{StaticR images_xml_svg}" title="_{MsgShowXML}" height="20px">
                       <a href=@{DeleteR examId}> <img src="@{StaticR images_trashcan_svg}" title="_{MsgDelExam}" height="25px">
-    ^{langWidget}
     ^{colorLinkWidgets}
 
                             |]
+
+privateExamWidget :: [Entity Exam] -> Widget
+privateExamWidget exams = [whamlet|
+    <p class=orangeTitle> [_{MsgPrivExams}]
+    <ul class=examList style="padding-left: 0px;">
+          $if null exams
+              <p class=smallWhite style="text-align:center"> _{MsgNoPrivExams}
+          $else
+              $forall (Entity examId exam) <- exams
+                  <li class=examList>
+                      <a href=@{ExamR examId}> #{examTitle exam}
+                      <a href=@{XmlR examId}> <img src="@{StaticR images_xml_svg}" title="_{MsgShowXML}" height="20px">
+                      <a href=@{DeleteR examId}> <img src="@{StaticR images_trashcan_svg}" title="_{MsgDelExam}" height="25px">
+    ^{colorLinkWidgets}
+    ^{langWidget}
+                    |]
+
 
 colorLinkWidgets :: Widget
 colorLinkWidgets = toWidgetBody [julius|

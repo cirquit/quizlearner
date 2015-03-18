@@ -1,19 +1,20 @@
 module Handler.Exam where
 
-import Assets (zipAnswers, toDouble, roundByTwo, shuffle)
+import Assets (zipAnswers, toDouble, roundByTwo, shuffle, getAllExams)
 import Data.List ((!!), unzip, (\\), sortBy, repeat)
 import Import hiding (unzip, (\\), sortBy, repeat)
-import Widgets (titleWidget, iconWidget, leftWidget, postWidget,
-                errorWidget, spacingScript)
+import Widgets (titleWidget, iconWidget, publicExamWidget, postWidget,
+                errorWidget, spacingScript, privateExamWidget)
 
 -- | Look up and display exam
 getExamR :: ExamId -> Handler Html
 getExamR examId = do
     setUltDestCurrent
-    (entityExamList, exam) <- runDB $ do
-        entityExamList     <- selectList [] [Asc ExamTitle]
-        exam               <- get404 examId
-        return (entityExamList, exam)
+    memail <- lookupSession "_ID"
+    (publicExams, privateExams, exam) <- runDB $ do
+        (publicExams, privateExams)   <- getAllExams memail
+        exam                          <- get404 examId
+        return (publicExams, privateExams, exam)
     (widget, enctype) <- generateFormPost $ examMForm $ examQuestions exam
     let middleWidget = postWidget enctype widget
     defaultLayout $ do
@@ -24,10 +25,11 @@ getExamR examId = do
 postExamR :: ExamId -> Handler Html
 postExamR examId = do
     setUltDestCurrent
-    (entityExamList, exam) <- runDB $ do
-        entityExamList <- selectList [] [Asc ExamTitle]
-        exam           <- get404 examId
-        return (entityExamList, exam)
+    memail <- lookupSession "_ID"
+    (publicExams, privateExams, exam) <- runDB $ do
+        (publicExams, privateExams)   <- getAllExams memail
+        exam                          <- get404 examId
+        return (publicExams, privateExams, exam)
     ((res,_), _) <- runFormPost $ examMForm $ examQuestions exam
     let middleWidget = case res of
          (FormSuccess list) -> let enumAnswers  = zip ([0..]::[Int]) list
