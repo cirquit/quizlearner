@@ -30,6 +30,8 @@ library
                      Handler.SessionMaster
                      Handler.Account
                      Handler.AccManager
+                     Handler.SetPublic
+                     Handler.CustomError
                      Assets
                      Widgets
                      XMLParsing

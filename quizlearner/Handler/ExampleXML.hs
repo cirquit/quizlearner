@@ -30,7 +30,7 @@ getExampleXMLR = do
                 <span class=plainWhite style="margin-top:10px; font-weight: bold;"> _{MsgValidXML}
                 <div class=xml>
                     &lt;<span class=xmlRed>!DOCTYPE</span> quiz SYSTEM <span class=xmlRed>"http://localhost:3000/static/dtd/examValidation.dtd"</span>&gt;<br>
-                    &lt;<span class=xmlRed>quiz</span> title="My Exam" passpercentage="0.4"&gt;<br>
+                    &lt;<span class=xmlRed>quiz</span> title="My Exam" passpercentage="77.44"&gt;<br>
                         ^{spaces}&lt;<span class=xmlRed>question</span> content="Which one of these is not an animal?"&gt; <br>
                             ^{spaces}^{spaces}&lt;<span class=xmlRed>answer</span>
                             correct="false"&gt;Dog&lt;<span class=xmlRed>/answer</span>&gt;<br>

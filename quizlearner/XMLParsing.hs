@@ -73,7 +73,7 @@ parseXml input = do
 validateParsedExam :: Exam -> Bool
 validateParsedExam exam = ((examTitle exam) /= (""::Text))
                        && (percentage >= 0)
-                       && (percentage <= 1)
+                       && (percentage <= 100)
                        && (and $ map checkQuestion $ examQuestions exam)
   where
     percentage = examPassPercentage exam

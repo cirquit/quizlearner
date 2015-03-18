@@ -4,6 +4,7 @@ import Import
 import Prelude (reads)
 import System.Random
 import Data.Array.IO
+import Widgets (autoFocusById)
 
 -- | Custom textfield that doesn't allow "spaces-only"-input or inputs longer than 200 characters
 titleTextField ::( RenderMessage (HandlerSite m) FormMessage
@@ -41,6 +42,18 @@ noSpacesTextField = Field
             |]
     , fieldEnctype = UrlEncoded
     }
+
+-- | Checks if the input matches the target exam title
+checkTitleField :: Text ->  Html -> MForm Handler (FormResult Text, Widget)
+checkTitleField title token = do
+    (textResult, textView) <- mreq (checkTextField title MsgTitleMisMatch) "" Nothing
+    let widget = [whamlet|
+        #{token}
+                <span style="margin:10px; color:black;"> ^{fvInput textView}
+            <input type=submit value=_{MsgConfirmExam}>
+                 |] >> autoFocusById (fvId textView)
+    return (textResult, widget)
+
 
 -- | Loads default exams
 exampleDB :: MonadIO m => ReaderT SqlBackend m ()

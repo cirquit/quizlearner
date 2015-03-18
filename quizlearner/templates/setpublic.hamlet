@@ -1,0 +1,14 @@
+  <div id=wrapper>
+      <!-- Upper Div-->
+      <div id=top class=front>
+          ^{titleWidget}
+          ^{iconWidget}
+      <!-- Left Div-->
+      <div id=left class=front align=center>
+          ^{publicExamWidget publicExams}
+          ^{privateExamWidget privateExams}
+      <!-- Middle Div-->
+      <div id=question class=front>
+          ^{middleWidget}
+      <!-- Lower Div-->
+      <div id=buttons class=front>

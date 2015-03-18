@@ -6,6 +6,8 @@ GetBack: Zurück!
 TitleMisMatch: Tut mir leid, die Eingabe stimmt nicht mit dem Klausurnamen überein.
 DelExam: Klausur löschen
 LoogedIn email@Text: Eingeloggt unter #{email}
+ConfirmExam: Bestätigen
+Get404: Tut uns leid, die angeforderte Seite konnte leider nicht gefunden werden :(
 
 
 #QuizCreator.hs
@@ -47,7 +49,7 @@ Doctype: Muss in der ersten Zeile der xml stehen, siehe Beispiel
 #Delete.hs
 
 ConfirmDelExam: Wollen sie wirklich diese Klausur löschen?
-ConfirmDelExam2: Tippen sie bitte den Klausurnamen ein und drücken sie auf Löschen.
+ConfirmDelExam2: Tippen sie bitte den Klausurnamen ein und drücken sie auf Bestätigen.
 SuccessDelete title@Text: Sie haben erfolgreich #{title} gelöscht.
 
 
@@ -77,7 +79,7 @@ ObeyRules: Ihre Datei sollte folgende Regeln einhalten:
 WithAttribute count@Int: mit #{plural count "dem Attribut" "den Attributen"}
 ContainsChars: kann Zahlen und Buchstaben enthalten
 ContainsBool: kann "true" oder "false" enthalten
-ContainsNumber: kann eine Zahl zwischen 0 und 1 enthalten
+ContainsNumber: kann eine Zahl zwischen 0 und 100 enthalten
 OneQuestion: Ihre Klausur muss mindestens eine Frage enthalten
 FourAnswers: Jede Frage muss genau 4 Antworten enthalten
 ContentTags: Die Antwort muss zwischen den Answertags stehen
@@ -86,4 +88,11 @@ GotIt: Ok, ich habs verstanden!
 
 #AccManager.hs
 
-HaveToBeLoggedIn: Sie müssen eingeloggt sein um diese Klausur zu löschen.
+HaveToBeLoggedIn: Sie müssen eingeloggt sein um diese Aktion durchzuführen.
+
+#SetPublic.hs
+
+SetExamPublic examtitle@Text: Sie haben #{examtitle} publik gemacht!
+ExamAlreadyPublic: Diese Klausur ist bereits öffentlich verfügbar.
+ConfirmPublic: Wollen sie die Klausur wirklich öffentlich machen?
+ConfirmPublic2: Bitte tippen sie den Klausurnamen ein und drücken sie auf Bestätigen.

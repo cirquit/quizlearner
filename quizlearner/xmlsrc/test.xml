@@ -1,0 +1,9 @@
+<!DOCTYPE quiz SYSTEM "http://localhost:3000/static/dtd/examValidation.dtd">
+<quiz title="dasd" passpercentage="50.0">
+     <question content="dasd">
+          <answer correct="False">dsd</answer>
+          <answer correct="False">dds</answer>
+          <answer correct="False">d</answer>
+          <answer correct="True">dd</answer>
+     </question>
+</quiz>

@@ -6,7 +6,8 @@ GetBack: Get back!
 TitleMisMatch: Sorry, the input does not match the title.
 DelExam: Delete exam
 LoogedIn email@Text: Logged in as #{email}
-
+ConfirmExam: Confirm
+Get404: Sorry, the requested site couldn't be found :(
 
 #QuizCreator.hs
 
@@ -77,7 +78,7 @@ ObeyRules: Your file should obey the following rules:
 WithAttribute count@Int: with the #{plural count "attribute" "attributes"}
 ContainsChars: contain alphanumerical characters
 ContainsBool: contains either "true" or "false"
-ContainsNumber: contains a number between 0 and 1
+ContainsNumber: contains a number between 0 and 100
 OneQuestion: your exam has to have at least one question
 FourAnswers: every question has to have exactly four answers
 ContentTags: the answer content has to be between the answer tags
@@ -86,4 +87,11 @@ GotIt: Ok, got it!
 
 #AccManager.hs
 
-HaveToBeLoggedIn: You have to be logged in to delete this exam.
+HaveToBeLoggedIn: You have to be logged in to perform this action.
+
+#SetPublic.hs
+
+SetExamPublic examtitle@Text: You made #{examtitle} public!
+ExamAlreadyPublic: This exam is already public!
+ConfirmPublic: Do you really want to make this exam public?
+ConfirmPublic2: Please type the examtitle correctly and click confirm.

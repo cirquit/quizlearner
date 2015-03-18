@@ -14,6 +14,8 @@ import Yesod.Default.Util   (addStaticContentExternal)
 import Web.Cookie                         (SetCookie (..))
 import qualified Data.Text as T
 import Web.Authenticate.BrowserId
+--import Widgets (titleWidget, iconWidget, publicExamWidget,
+--                postWidget, privateExamWidget)
 
 -- | The foundation datatype for your application. This can be a good place to
 -- keep settings and values requiring initialization before your application
@@ -167,6 +169,10 @@ instance Yesod App where
             || level == LevelError
 
     makeLogger = return . appLogger
+
+    -- custom 404
+    errorHandler NotFound = redirect CustomErrorR
+    errorHandler other = defaultErrorHandler other
 
 -- How to run database actions.
 instance YesodPersist App where

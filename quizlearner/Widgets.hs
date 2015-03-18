@@ -24,10 +24,8 @@ publicExamWidget exams = [whamlet|
               $forall (Entity examId exam) <- exams
                   <li class=examList>
                       <a href=@{ExamR examId}> #{examTitle exam}
-                      <a href=@{XmlR examId}> <img src="@{StaticR images_xml_svg}" title="_{MsgShowXML}" height="20px">
-                      <a href=@{DeleteR examId}> <img src="@{StaticR images_trashcan_svg}" title="_{MsgDelExam}" height="25px">
-    ^{colorLinkWidgets}
-
+                      <a href=@{XmlR examId}> <img src="@{StaticR images_xml_svg}" title="_{MsgShowXML}" height="15px">
+                      <a href=@{DeleteR examId}> <img src="@{StaticR images_trashcan_svg}" title="_{MsgDelExam}" height="15px">
                             |]
 
 privateExamWidget :: [Entity Exam] -> Widget
@@ -40,8 +38,9 @@ privateExamWidget exams = [whamlet|
               $forall (Entity examId exam) <- exams
                   <li class=examList>
                       <a href=@{ExamR examId}> #{examTitle exam}
-                      <a href=@{XmlR examId}> <img src="@{StaticR images_xml_svg}" title="_{MsgShowXML}" height="20px">
-                      <a href=@{DeleteR examId}> <img src="@{StaticR images_trashcan_svg}" title="_{MsgDelExam}" height="25px">
+                      <a href=@{XmlR examId}> <img src="@{StaticR images_xml_svg}" title="_{MsgShowXML}" height="15px">
+                      <a href=@{DeleteR examId}> <img src="@{StaticR images_trashcan_svg}" title="_{MsgDelExam}" height="15px">
+                      <a href=@{SetPublicR examId}> <img src="@{StaticR images_publicize_svg}" title="Set public!" height="15px">
     ^{colorLinkWidgets}
     ^{langWidget}
                     |]
