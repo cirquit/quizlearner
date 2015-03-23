@@ -4,6 +4,7 @@ import Import
 import Widgets (titleWidget, iconWidget, publicExamWidget, privateExamWidget)
 import Assets (getAllExams)
 
+-- | Tell the user to log in to perform certain actions
 getAccManagerR :: Handler Html
 getAccManagerR = do
     memail <- lookupSession "_ID"

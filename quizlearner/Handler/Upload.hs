@@ -40,8 +40,8 @@ postUploadR = do
                     Nothing      -> do
                             (publicExams, privateExams) <- runDB $ getAllExams memail
                             let middleWidget = [whamlet|<div style="margin: 20px;">
-                                                         <span class=simpleWhite> _{MsgErrInXML_P1}
-                                                             <a href=@{ExampleXMLR} style="font-weight:bold; color:#FFA500;"> _{MsgErrInXML_P2}
+                                                            <span class=simpleWhite> _{MsgErrInXML_P1}
+                                                                <a href=@{ExampleXMLR} style="font-weight:bold; color:#FFA500;"> _{MsgErrInXML_P2}
                                                |] >> postWidget enctype widget
                             defaultLayout $(widgetFile "upload")
         (_)                     -> do

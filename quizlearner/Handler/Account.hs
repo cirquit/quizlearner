@@ -3,7 +3,7 @@ module Handler.Account where
 import Import
 import Web.Authenticate.BrowserId
 
-
+-- | Try to validate user by BrowserID with a Google account
 getAccountR :: Text -> Handler Html
 getAccountR assertion = do
     manager <- newManager

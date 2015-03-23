@@ -40,7 +40,7 @@ postQuizcreatorR = do
                                   (FormSuccess exam) -> do
                                       deleteSession "examAttributes"
                                       _ <- runDB $ insert $ exam memail
-                                      redirect QuizcreatorR
+                                      redirect HomeR
                                   (_) -> do
                                       let middleWidget = errorWidget "Exam parsing"
                                       defaultLayout $ do $(widgetFile "quizcreator")

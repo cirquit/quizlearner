@@ -8,6 +8,7 @@ DelExam: Delete exam
 LoogedIn email@Text: Logged in as #{email}
 ConfirmExam: Confirm
 Get404: Sorry, the requested site couldn't be found :(
+MakePublic: Make it public!
 
 #QuizCreator.hs
 

@@ -5,6 +5,9 @@ import Import
 import Widgets (titleWidget, iconWidget, publicExamWidget,
                 postWidget, privateExamWidget, errorWidget)
 
+-- | If you want to set an exam public you need to be the author
+--   If this is not the case you get the appropriate message
+--   By typing the title you can confirm your decision
 getSetPublicR :: ExamId -> Handler Html
 getSetPublicR examId = do
     memail <- lookupSession "_ID"
@@ -27,6 +30,7 @@ getSetPublicR examId = do
                                defaultLayout $(widgetFile "setpublic")
        (_, _)      -> redirect AccManagerR
 
+
 postSetPublicR :: ExamId -> Handler Html
 postSetPublicR examId = do
     exam <- runDB $ get404 examId
@@ -39,17 +43,19 @@ postSetPublicR examId = do
                         <a href=@{HomeR} style="margin:10px;"> <label class=simpleOrange> _{MsgGetBack} </label>
                         <meta http-equiv="refresh" content="2;URL='http://localhost:3000/'"/>
                                        |]
-                (publicExams, privateExams) <- runDB $ do
-                    delete examId
-                    _ <- insert $ exam {examAuthor=Nothing}
-                    (publicExams, privateExams)   <- getAllExams memail
-                    return (publicExams, privateExams)
+                (publicExams, privateExams) <- runDB $ delete examId >> insert (exam {examAuthor=Nothing}) >> getAllExams memail
                 defaultLayout $(widgetFile "setpublic")
         (FormSuccess _, Nothing)             -> do
                 let middleWidget = [whamlet| <span class=sadred> _{MsgExamAlreadyPublic}|]
                 (publicExams, privateExams) <- runDB $ getAllExams memail
                 defaultLayout $(widgetFile "setpublic")
         (_, _)             -> do
-                let middleWidget = postWidget enctype widget >> [whamlet| <span class=sadred> _{MsgTitleMisMatch}|]
+                let middleWidget = [whamlet|
+                                   <span class=simpleWhite> _{MsgConfirmPublic}
+                                   <br>
+                                   <span class=simpleWhite> _{MsgConfirmPublic2}
+                                   <br>
+                                   |] >> postWidget enctype widget
+                                      >> [whamlet| <span class=sadred> _{MsgTitleMisMatch}|]
                 (publicExams, privateExams) <- runDB $ getAllExams memail
                 defaultLayout $(widgetFile "setpublic")

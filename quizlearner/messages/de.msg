@@ -8,6 +8,7 @@ DelExam: Klausur löschen
 LoogedIn email@Text: Eingeloggt unter #{email}
 ConfirmExam: Bestätigen
 Get404: Tut uns leid, die angeforderte Seite konnte leider nicht gefunden werden :(
+MakePublic: Mach sie für alle verfügbar!
 
 
 #QuizCreator.hs
@@ -39,8 +40,8 @@ Points: Punkte
 
 FileRec fInfo@Text: File erhalten: #{fInfo}.
 ErrInXML_P1: Ein Fehler ist aufgetreten, bitte schauen sie nach ob es ein
-ErrInXML_P2: valides xml file ist.
-ChooseXML: Wählen sie bitte ein xml file zu Hochladen aus.
+ErrInXML_P2: valides xml File ist.
+ChooseXML: Wählen sie bitte ein xml File zu Hochladen aus.
 Upload: Hochladen
 ExampleXML: Muster für eine xml Datei
 Doctype: Muss in der ersten Zeile der xml stehen, siehe Beispiel

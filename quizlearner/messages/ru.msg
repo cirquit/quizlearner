@@ -8,6 +8,7 @@ DelExam: Удалить экзамен
 LoogedIn email@Text:  Вошёл как #{email}
 ConfirmExam: Подтвердить
 Get404: Извините пожалуйста, этот сайт не существует :(
+MakePublic: Сделать публичным
 
 #QuizCreator.hs
 

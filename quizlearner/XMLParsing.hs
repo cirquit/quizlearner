@@ -13,8 +13,8 @@ import Data.Attoparsec.Text (inClass)
 -- | Custom "read" for pass percentage
 readPassPercentage :: String -> Double
 readPassPercentage s = case reads s of
-                        [(x, "")] -> x
-                        _         -> -1
+                          [(x, "")] -> x
+                          (_)       -> -1
 
 -- | Functions for construction of exams, questions and answers
 makeE :: [Char] -> Text -> Double -> [Question] -> Maybe Text -> Exam
@@ -28,7 +28,6 @@ makeQ trans = error $ "Invalid transaction type: " ++ trans
 makeA :: [Char] -> Text -> Bool -> Answer
 makeA "answer" = Answer
 makeA trans = error $ "Invalid transaction type: " ++ trans
-
 
 -- | Extracts exam attributes from "quiz" tag
 getE :: [Question] -> IOSLA (XIOState ()) XmlTree (Maybe Text -> Exam)
@@ -67,7 +66,7 @@ parseXml input = do
         []    -> return Nothing
         (a:_) -> return $ case validateParsedExam (a Nothing) of
                                True -> Just a
-                               _    -> Nothing
+                               (_)  -> Nothing
 
 -- | Checks if generated exam is valid
 validateParsedExam :: Exam -> Bool
@@ -84,7 +83,6 @@ validateParsedExam exam = ((examTitle exam) /= (""::Text))
     checkQuestion :: Question -> Bool
     checkQuestion q = ((questionContent q) /= (""::Text)) && (and $ map checkAnswer $ questionAnswerList q)
 
-
 -- | Checks if DTD validation is embeded in submitted file
 checkDtd :: (LazySequence b s, Element s ~ Char) => b -> Either String b
 checkDtd input = case parse dtdValidation "" (unpack $ toStrict $ input) of
@@ -96,14 +94,14 @@ spaceSkip = many $ satisfy $ inClass [ ' ' , '\t' ]
 
 dtdValidation :: Parser ()
 dtdValidation = do
-      _ <-  spaceSkip
-      _ <-  string "<!DOCTYPE"
-      _ <-  spaceSkip
-      _ <-  string "quiz"
-      _ <-  spaceSkip
-      _ <-  string "SYSTEM"
-      _ <-  spaceSkip
-      _ <-  string "\"http://localhost:3000/static/dtd/examValidation.dtd\""
-      _ <-  spaceSkip
-      _ <-  char '>'
+      (_) <-  spaceSkip
+      (_) <-  string "<!DOCTYPE"
+      (_) <-  spaceSkip
+      (_) <-  string "quiz"
+      (_) <-  spaceSkip
+      (_) <-  string "SYSTEM"
+      (_) <-  spaceSkip
+      (_) <-  string "\"http://localhost:3000/static/dtd/examValidation.dtd\""
+      (_) <-  spaceSkip
+      (_) <-  char '>'
       return ()

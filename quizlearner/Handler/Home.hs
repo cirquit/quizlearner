@@ -13,6 +13,6 @@ getHomeR = do
     (publicExams, privateExams) <- runDB $ getAllExams memail
     case null publicExams of
         True  -> runDB $ exampleDB
-        False -> liftIO $ putStrLn "DB was not updated, because DB is not empty"
+        False -> return ()
     let middleWidget = [whamlet| <p class=boldWhite>_{MsgClickOnExam} |]
     defaultLayout $(widgetFile "home")

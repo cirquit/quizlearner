@@ -40,11 +40,10 @@ privateExamWidget exams = [whamlet|
                       <a href=@{ExamR examId}> #{examTitle exam}
                       <a href=@{XmlR examId}> <img src="@{StaticR images_xml_svg}" title="_{MsgShowXML}" height="15px">
                       <a href=@{DeleteR examId}> <img src="@{StaticR images_trashcan_svg}" title="_{MsgDelExam}" height="15px">
-                      <a href=@{SetPublicR examId}> <img src="@{StaticR images_publicize_svg}" title="Set public!" height="15px">
+                      <a href=@{SetPublicR examId}> <img src="@{StaticR images_publicize_svg}" title="_{MsgMakePublic}" height="15px">
     ^{colorLinkWidgets}
     ^{langWidget}
                     |]
-
 
 colorLinkWidgets :: Widget
 colorLinkWidgets = toWidgetBody [julius|

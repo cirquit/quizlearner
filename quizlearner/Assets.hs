@@ -2,7 +2,7 @@ module Assets where
 
 import Import
 import Prelude (reads)
-import System.Random
+import System.Random (randomR, getStdRandom)
 import Data.Array.IO
 import Widgets (autoFocusById)
 
@@ -23,13 +23,13 @@ checkTextField text msg = checkBool (==text) msg textField
 unsignedIntField :: ( RenderMessage (HandlerSite m) FormMessage
                    , RenderMessage (HandlerSite m) msg, Monad m )
                => msg -> Field m Int
-unsignedIntField msg = checkBool (>0) msg intField
+unsignedIntField msg = checkBool (>=0) msg intField
 
 -- | Custom Int field that only allows numbers between 0 and 100 (inclusive)
 unsignedProcentField :: ( RenderMessage (HandlerSite m) FormMessage
                        , RenderMessage (HandlerSite m) msg, Monad m )
                => msg -> Field m Double
-unsignedProcentField msg = checkBool (\x -> x > 0 && x <= 100) msg doubleField
+unsignedProcentField msg = checkBool (\x -> x >= 0 && x <= 100) msg doubleField
 
 -- | Creates a input with javascript that trims spaces from both ends
 noSpacesTextField :: Monad m => RenderMessage (HandlerSite m) FormMessage => Field m Text
@@ -54,13 +54,12 @@ checkTitleField title token = do
                  |] >> autoFocusById (fvId textView)
     return (textResult, widget)
 
-
 -- | Loads default exams
 exampleDB :: MonadIO m => ReaderT SqlBackend m ()
 exampleDB = do
     _ <- insert $ exam_1
     _ <- insert $ exam_2
-    liftIO $ putStrLn "exampleDB was called"
+    return ()
 
 -- | Returns all public and private exams based on if your email
 getAllExams :: MonadIO m => Maybe Text -> ReaderT SqlBackend m (([Entity Exam], [Entity Exam]))
@@ -99,7 +98,6 @@ encodeExamAttributes a b c = intercalate "($)" xs
 roundByTwo :: Double -> Double
 roundByTwo n = (toDouble $ floor' $ n * 10000) / 100
 
-
 -- | http://stackoverflow.com/questions/14692059/how-to-shuffle-a-list-in-haskell#14693289
 -- Shuffles a list in place with Fisher-Yates-Shuffle
 swapElements_ :: (MArray a e m, Ix i) => a i e -> i -> i -> m ()
@@ -118,7 +116,6 @@ shuffle xs = do let upperBound = length xs
                                 swapElements_ arr i j
 
 -- | Example Exams
-
 exam_1, exam_2 :: Exam
 exam_1 = Exam {examTitle="32 Questions", examPassPercentage=0.45, examQuestions= (take 32 $ repeat q1), examAuthor = Nothing}
 exam_2 = Exam {examTitle = "Intermediate Haskell", examPassPercentage = 0.8, examQuestions = [Question {questionContent = "Was ist der allgemeinste Typ von (compare . fst)?", questionAnswerList = [Answer {answerContent = "Eq b => (a, b) -> b -> Ordering", answerIsCorrect = False},Answer {answerContent = "Ord b => (b, b1) -> b -> Ordering", answerIsCorrect = True},Answer {answerContent = "Ord a => (a,b) -> b -> Ordering", answerIsCorrect = False},Answer {answerContent = "a -> b -> Ordering ", answerIsCorrect = False}]},Question {questionContent = "Zu was ist zipWith (++) [['h','a','l','l','o']] ['w':'e':'l':'t':[]] \228quivalent?", questionAnswerList = [Answer {answerContent = "[\"hallo\", \"welt\"]", answerIsCorrect = False},Answer {answerContent = "\"hallowelt\"", answerIsCorrect = False},Answer {answerContent = "(\"hallo\" ++ \"welt\"):[]", answerIsCorrect = True},Answer {answerContent = "[\"hallowelt\"]", answerIsCorrect = True}]},Question {questionContent = "Welchen Typ hat foldl compare?", questionAnswerList = [Answer {answerContent = "Ordering -> [Ordering] -> Ordering", answerIsCorrect = True},Answer {answerContent = "Ord a => a -> [a] -> a", answerIsCorrect = False},Answer {answerContent = "[Ordering] -> Ordering -> Ordering", answerIsCorrect = False},Answer {answerContent = "Ord a => a -> [a] -> Ordering", answerIsCorrect = False}]},Question {questionContent = "Was ist der allgemeinste Typ von Just $ Just Nothing?", questionAnswerList = [Answer {answerContent = "a", answerIsCorrect = False},Answer {answerContent = "Maybe a", answerIsCorrect = False},Answer {answerContent = "Maybe (Maybe a)", answerIsCorrect = False},Answer {answerContent = "Maybe (Maybe (Maybe a))", answerIsCorrect = True}]},Question {questionContent = "Zu was ist scanl (+) 0 [1..10] \228quivalent?", questionAnswerList = [Answer {answerContent = "foldl (\\x y -> x++[sum y]) [] (inits [1..10])", answerIsCorrect = True},Answer {answerContent = "take 11 $ unfoldr (\\(x,y) -> Just (x,(x+y,y+1))) (0,1)", answerIsCorrect = True},Answer {answerContent = "[0,1,3,6,10,15,21,28,36,45,55]", answerIsCorrect = True},Answer {answerContent = "map sum $ inits [1..10]", answerIsCorrect = True}]},Question {questionContent = "Welchen allgemeinen Typ hat (*) 1.6 ?", questionAnswerList = [Answer {answerContent = "Num b => b -> b", answerIsCorrect = False},Answer {answerContent = "Integral a => a -> a", answerIsCorrect = False},Answer {answerContent = "Fractional a => a -> a", answerIsCorrect = True},Answer {answerContent = "Double -> Double", answerIsCorrect = False}]}], examAuthor = Nothing}

@@ -4,6 +4,7 @@ import Assets (getAllExams)
 import Import
 import Widgets (titleWidget, iconWidget, publicExamWidget, privateExamWidget)
 
+-- | Custom 404 page
 getCustomErrorR :: Handler Html
 getCustomErrorR = do
     setUltDestCurrent

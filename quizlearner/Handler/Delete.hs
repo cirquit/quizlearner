@@ -40,15 +40,15 @@ postDeleteR examId = do
                         <a href=@{HomeR} style="margin:10px;"> <label class=simpleOrange> _{MsgGetBack} </label>
                         <meta http-equiv="refresh" content="2;URL='http://localhost:3000/'"/>
                                        |]
-                (publicExams, privateExams) <- runDB $ do
-                    delete examId
-                    (publicExams, privateExams)   <- getAllExams memail
-                    return (publicExams, privateExams)
+                (publicExams, privateExams) <- runDB $ delete examId >> getAllExams memail
                 defaultLayout $(widgetFile "delete")
         (_)             -> do
-                let middleWidget = postWidget enctype widget >> [whamlet| <span class=sadred> _{MsgTitleMisMatch}|]
-                (publicExams, privateExams) <- runDB $ do
-                    (publicExams, privateExams) <- getAllExams memail
-                    return (publicExams, privateExams)
+                let middleWidget = [whamlet|
+                              <span class=simpleWhite> _{MsgConfirmDelExam}
+                              <br>
+                              <span class=simpleWhite> _{MsgConfirmDelExam2}
+                              <br>|] >> postWidget enctype widget
+                                     >> [whamlet| <span class=sadred> _{MsgTitleMisMatch}|]
+                (publicExams, privateExams) <- runDB $ getAllExams memail
                 defaultLayout $(widgetFile "delete")
 

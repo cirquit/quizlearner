@@ -46,7 +46,7 @@ postExamR examId = do
                 <p class=sadred> _{MsgNoPassExam $ examTitle exam}
             <a href=@{HomeR} style="margin:10px;"> <label class=simpleOrange> _{MsgGetBack} </label>
                                    |]
-         _                  -> [whamlet| ^{errorWidget $ pack "exam evaluation"}|]
+         (_)                -> [whamlet| ^{errorWidget $ pack "exam evaluation"}|]
     defaultLayout $(widgetFile "exam")
 
 -- | Generates tabbed exam input form
@@ -54,9 +54,9 @@ examMForm :: [Question] -> Html -> MForm Handler (FormResult ([FormResult (Maybe
 examMForm xs token  = do
     let checkBoxes  = checkboxesField' . optionsPairs . zipAnswers
         questionStr = fromString . unpack
-    checkFields <- forM xs (\(Question content list ) -> mopt (checkBoxes list) (questionStr content) Nothing)
-    let (checkResults, checkViews) = unzip checkFields
-    shuffledViews <- liftIO $ shuffle checkViews
+    questionFields <- forM xs (\(Question content list ) -> mopt (checkBoxes list) (questionStr content) Nothing)
+    let (questResults, questViews) = unzip questionFields
+    shuffledViews <- liftIO $ shuffle questViews
     let numeratedViews = zip ([1..]::[Int]) shuffledViews
         widget = [whamlet|
             #{token}
@@ -71,7 +71,7 @@ examMForm xs token  = do
                                 <br>
                 <input class="evalButton" id="submitId" type=submit value=_{MsgEvaluate}>
                  |]
-    return ((FormSuccess checkResults), widget)
+    return ((FormSuccess questResults), widget)
 
 -- | Custom stylized checkbox field with random order
 checkboxesField' :: (Eq a, RenderMessage site FormMessage) =>
