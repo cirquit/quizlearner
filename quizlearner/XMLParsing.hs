@@ -6,7 +6,7 @@ import Text.XML.HXT.Core
 import Text.XML.HXT.HTTP
 import Data.List.Split (chunksOf)
 import Import
-import Prelude (reads, foldl, (!!))
+import Prelude (reads)
 import Text.ParserCombinators.Parsec hiding (spaces)
 import Data.Attoparsec.Text (inClass)
 
@@ -38,11 +38,17 @@ getE qs = proc tag -> do
     returnA        -< (makeE quiz) (pack title) (readPassPercentage passpercentage) qs
 
 -- | Extracts question attributes from "question" tag
-getQ :: [Answer] -> IOSLA (XIOState ()) XmlTree Question
-getQ as = proc tag -> do
-    question <- getName -< tag
-    content  <- getAttrValue "content" -< tag
-    returnA  -< (makeQ question) (pack content) as
+--getQ :: [Answer] -> IOSLA (XIOState ()) XmlTree Question
+--getQ as = proc tag -> do
+--    question <- getName -< tag
+--    content  <- getAttrValue "content" -< tag
+--    returnA  -< (makeQ question) (pack content) as
+
+getQ :: IOSLA (XIOState ()) XmlTree ([Answer] -> Question)
+getQ = proc el -> do
+  question <- getName -< el
+  content  <- getAttrValue "content" -< el
+  returnA  -< (makeQ question) (pack content) 
 
 -- | Extracts answer attributes from "answer" tag
 getA :: IOSLA (XIOState ()) XmlTree Answer
@@ -53,20 +59,38 @@ getA = proc tag -> do
     returnA -< (makeA answer) (fromMaybe "" content) (elem correct ["true", "True", "TRUE"])
 
 -- | Parses XML string into an exam
+--parseXml :: String -> IO (Maybe (Maybe Text -> Exam))
+--parseXml input = do
+--    let getAnswers   = getChildren >>> getChildren >>> getChildren >>> isElem
+--        getQuestions = getChildren >>> getChildren >>> isElem
+--        getQuiz      = getChildren >>> isElem
+--        valXml       = readString [withValidate yes, withHTTP []] input
+--    as <- runX $ valXml >>> getAnswers >>> getA
+--    qs <- mapM (\x -> runX $ valXml >>> getQuestions >>> getQ x) $ chunksOf 4 as
+--    ex <- runX $ valXml >>> getQuiz >>> getE (fst $ foldl (\(x,y) q -> (x ++ [q!!y], y + 1)) ([],0) qs)
+--    case ex of
+--        []    -> return Nothing
+--        (a:_) -> return $ case validateParsedExam (a Nothing) of
+--                               True -> Just a
+--                               (_)  -> Nothing
+
+
 parseXml :: String -> IO (Maybe (Maybe Text -> Exam))
 parseXml input = do
-    let getAnswers   = getChildren >>> getChildren >>> getChildren >>> isElem
-        getQuestions = getChildren >>> getChildren >>> isElem
-        getQuiz      = getChildren >>> isElem
-        valXml       = readString [withValidate yes, withHTTP []] input
-    as <- runX $ valXml >>> getAnswers >>> getA
-    qs <- mapM (\x -> runX $ valXml >>> getQuestions >>> getQ x) $ chunksOf 4 as
-    ex <- runX $ valXml >>> getQuiz >>> getE (fst $ foldl (\(x,y) q -> (x ++ [q!!y], y + 1)) ([],0) qs)
-    case ex of
-        []    -> return Nothing
-        (a:_) -> return $ case validateParsedExam (a Nothing) of
-                               True -> Just a
-                               (_)  -> Nothing
+  let getAnswers   = getChildren >>> getChildren >>> getChildren >>> isElem
+      getQuestions = getChildren >>> getChildren >>> isElem
+      getQuiz      = getChildren >>> isElem
+      valXml       = readString [withValidate yes, withHTTP []] input
+  as <- runX $ valXml >>> getAnswers >>> getA
+  partQs <- runX $ valXml >>> getQuestions >>> getQ
+  let qs = zipWith ($) partQs (chunksOf 4 as)
+  ex <- runX $ valXml >>> getQuiz >>> getE qs
+  case ex of
+    []    -> return Nothing
+    (a:_) -> return $ case validateParsedExam (a Nothing) of
+                           True -> Just a
+                           _    -> Nothing
+
 
 -- | Checks if generated exam is valid
 validateParsedExam :: Exam -> Bool

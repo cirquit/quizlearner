@@ -1,6 +1,6 @@
 module Handler.Exam where
 
-import Assets (zipAnswers, toDouble, roundByTwo, shuffle, getAllExams)
+import Assets (zipAnswers, toDouble, roundByTwo, shuffle, getAllExams, isAuthor)
 import Data.List ((!!), unzip, (\\), sortBy, repeat)
 import Import hiding (unzip, (\\), sortBy, repeat)
 import Widgets (titleWidget, iconWidget, publicExamWidget, postWidget,
@@ -16,10 +16,17 @@ getExamR examId = do
         exam                          <- get404 examId
         return (publicExams, privateExams, exam)
     (widget, enctype) <- generateFormPost $ examMForm $ examQuestions exam
-    let middleWidget = postWidget enctype widget
-    defaultLayout $ do
-        addScript $ StaticR js_nextBackScript_js
-        $(widgetFile "exam")
+
+    case (examAuthor exam, memail) of
+        (Nothing, _)        -> do let middleWidget = postWidget enctype widget
+                                  defaultLayout $ do
+                                      addScript $ StaticR js_nextBackScript_js
+                                      $(widgetFile "exam")
+        (isAuthor -> True) ->  do let middleWidget = postWidget enctype widget
+                                  defaultLayout $ do
+                                      addScript $ StaticR js_nextBackScript_js
+                                      $(widgetFile "exam")
+        (_,_)             -> redirect AccManagerR
 
 -- | Evaluates exam and displays results
 postExamR :: ExamId -> Handler Html

@@ -98,6 +98,11 @@ encodeExamAttributes a b c = intercalate "($)" xs
 roundByTwo :: Double -> Double
 roundByTwo n = (toDouble $ floor' $ n * 10000) / 100
 
+isAuthor :: (Maybe Text, Maybe Text) -> Bool
+isAuthor (Just x, Just y) = x == y
+isAuthor (_,_)            = False
+
+
 -- | http://stackoverflow.com/questions/14692059/how-to-shuffle-a-list-in-haskell#14693289
 -- Shuffles a list in place with Fisher-Yates-Shuffle
 swapElements_ :: (MArray a e m, Ix i) => a i e -> i -> i -> m ()
