@@ -1,0 +1,15 @@
+<!DOCTYPE quiz SYSTEM "http://localhost:3000/static/dtd/examValidation.dtd">
+<quiz title="Test Exam 2" passpercentage="50.0">
+     <question content="11">
+          <answer correct="False">1</answer>
+          <answer correct="False">1</answer>
+          <answer correct="False">1dkajsdgkasj</answer>
+          <answer correct="False">1</answer>
+     </question>
+     <question content="1">
+          <answer correct="False">1</answer>
+          <answer correct="False">1</answer>
+          <answer correct="False">1</answer>
+          <answer correct="False">1</answer>
+     </question>
+</quiz>
