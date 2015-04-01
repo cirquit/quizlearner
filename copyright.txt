@@ -1,3 +1,6 @@
 Hiermit stimmen Mujo Alic und Alexander Isenko der Veröffentlichung des Projektes "Quizlearner" auf
 der Seite "http://www.tcs.ifi.lmu.de/lehre/ws-2014-15/fun/fun" zu.
 
+Die akutelle Version des Projektes findet sich unter "http://github.com/cirquit/quizlearner"
+
+Alexander Isenko: alex.isenko@googlemail.com
