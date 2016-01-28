@@ -1,3 +1,4 @@
+
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE OverloadedStrings     #-}
 {-# LANGUAGE QuasiQuotes           #-}
@@ -39,8 +40,8 @@ passwordConfirmField = Field
 
 getHomeR :: Handler Html
 getHomeR = do
-    ((res, widget), enctype) <- runFormGet $ renderDivs
-        $ areq passwordConfirmField "Password" Nothing
+    ((res, widget), enctype) <- runFormGet $ renderDivs $
+        areq passwordConfirmField "Password" Nothing
     defaultLayout
         [whamlet|
             <p>Result: #{show res}

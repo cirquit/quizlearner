@@ -1,0 +1,24 @@
+Configuring hxt-relaxng-9.1.5.5...
+Building hxt-relaxng-9.1.5.5...
+Preprocessing library hxt-relaxng-9.1.5.5...
+[ 1 of 17] Compiling Text.XML.HXT.RelaxNG.SchemaGrammar ( src/Text/XML/HXT/RelaxNG/SchemaGrammar.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.4.0/build/Text/XML/HXT/RelaxNG/SchemaGrammar.o )
+[ 2 of 17] Compiling Text.XML.HXT.RelaxNG.Schema ( src/Text/XML/HXT/RelaxNG/Schema.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.4.0/build/Text/XML/HXT/RelaxNG/Schema.o )
+[ 3 of 17] Compiling Text.XML.HXT.RelaxNG.Utils ( src/Text/XML/HXT/RelaxNG/Utils.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.4.0/build/Text/XML/HXT/RelaxNG/Utils.o )
+[ 4 of 17] Compiling Text.XML.HXT.RelaxNG.DataTypes ( src/Text/XML/HXT/RelaxNG/DataTypes.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.4.0/build/Text/XML/HXT/RelaxNG/DataTypes.o )
+[ 5 of 17] Compiling Text.XML.HXT.RelaxNG.BasicArrows ( src/Text/XML/HXT/RelaxNG/BasicArrows.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.4.0/build/Text/XML/HXT/RelaxNG/BasicArrows.o )
+[ 6 of 17] Compiling Text.XML.HXT.RelaxNG.PatternFunctions ( src/Text/XML/HXT/RelaxNG/PatternFunctions.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.4.0/build/Text/XML/HXT/RelaxNG/PatternFunctions.o )
+[ 7 of 17] Compiling Text.XML.HXT.RelaxNG.CreatePattern ( src/Text/XML/HXT/RelaxNG/CreatePattern.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.4.0/build/Text/XML/HXT/RelaxNG/CreatePattern.o )
+[ 8 of 17] Compiling Text.XML.HXT.RelaxNG.DataTypeLibUtils ( src/Text/XML/HXT/RelaxNG/DataTypeLibUtils.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.4.0/build/Text/XML/HXT/RelaxNG/DataTypeLibUtils.o )
+[ 9 of 17] Compiling Text.XML.HXT.RelaxNG.DataTypeLibMysql ( src/Text/XML/HXT/RelaxNG/DataTypeLibMysql.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.4.0/build/Text/XML/HXT/RelaxNG/DataTypeLibMysql.o )
+[10 of 17] Compiling Text.XML.HXT.RelaxNG.XMLSchema.DataTypeLibW3C ( src/Text/XML/HXT/RelaxNG/XMLSchema/DataTypeLibW3C.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.4.0/build/Text/XML/HXT/RelaxNG/XMLSchema/DataTypeLibW3C.o )
+[11 of 17] Compiling Text.XML.HXT.RelaxNG.DataTypeLibraries ( src/Text/XML/HXT/RelaxNG/DataTypeLibraries.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.4.0/build/Text/XML/HXT/RelaxNG/DataTypeLibraries.o )
+[12 of 17] Compiling Text.XML.HXT.RelaxNG.PatternToString ( src/Text/XML/HXT/RelaxNG/PatternToString.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.4.0/build/Text/XML/HXT/RelaxNG/PatternToString.o )
+[13 of 17] Compiling Text.XML.HXT.RelaxNG.Validation ( src/Text/XML/HXT/RelaxNG/Validation.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.4.0/build/Text/XML/HXT/RelaxNG/Validation.o )
+[14 of 17] Compiling Text.XML.HXT.RelaxNG.Simplification ( src/Text/XML/HXT/RelaxNG/Simplification.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.4.0/build/Text/XML/HXT/RelaxNG/Simplification.o )
+[15 of 17] Compiling Text.XML.HXT.RelaxNG.Validator ( src/Text/XML/HXT/RelaxNG/Validator.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.4.0/build/Text/XML/HXT/RelaxNG/Validator.o )
+[16 of 17] Compiling Text.XML.HXT.RelaxNG.SystemConfig ( src/Text/XML/HXT/RelaxNG/SystemConfig.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.4.0/build/Text/XML/HXT/RelaxNG/SystemConfig.o )
+[17 of 17] Compiling Text.XML.HXT.RelaxNG ( src/Text/XML/HXT/RelaxNG.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.4.0/build/Text/XML/HXT/RelaxNG.o )
+In-place registering hxt-relaxng-9.1.5.5...
+Installing library in
+/home/rewrite/.stack/snapshots/x86_64-linux/lts-3.14/7.10.2/lib/x86_64-linux-ghc-7.10.2/hxt-relaxng-9.1.5.5-DEyEi08bjlILOEjLSsTZpj
+Registering hxt-relaxng-9.1.5.5...

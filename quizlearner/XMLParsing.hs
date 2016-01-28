@@ -5,7 +5,7 @@ module XMLParsing where
 import Text.XML.HXT.Core
 import Text.XML.HXT.HTTP
 import Data.List.Split (chunksOf)
-import Import
+import Import hiding (many)
 import Prelude (reads)
 import Text.ParserCombinators.Parsec hiding (spaces)
 import Data.Attoparsec.Text (inClass)
