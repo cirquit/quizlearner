@@ -11,8 +11,8 @@ import Yesod.Auth
 import Yesod.Auth.BrowserId (authBrowserId)
 import Yesod.Core.Types     (Logger)
 import Yesod.Default.Util   (addStaticContentExternal)
-import Web.Cookie                         (SetCookie (..))
-import qualified Data.Text as T
+-- import Web.Cookie                         (SetCookie (..))
+-- import qualified Data.Text as T
 import Web.Authenticate.BrowserId
 --import Widgets (titleWidget, iconWidget, publicExamWidget,
 --                postWidget, privateExamWidget)

@@ -2,7 +2,7 @@ module Handler.Exam where
 
 import Assets (zipAnswers, toDouble, roundByTwo, shuffle, getAllExams, isAuthor)
 import Data.List ((!!), unzip, (\\), sortBy, repeat)
-import Import hiding (unzip, (\\), sortBy, repeat)
+import Import hiding (unzip, (\\), sortBy, repeat, index)
 import Widgets (titleWidget, iconWidget, publicExamWidget, postWidget,
                 errorWidget, spacingScript, privateExamWidget)
 
