@@ -5,7 +5,7 @@ A tool to test yourself in multiple choice exams.
 
 Based on the Yesod framework and written entirely in Haskell.
 
-[!Alt text](https://www.tcs.ifi.lmu.de/lehre/ws-2014-15/fun/projekte/galerie/quizlearner/image "Screenshot")
+![Alt text](https://www.tcs.ifi.lmu.de/lehre/ws-2014-15/fun/projekte/galerie/quizlearner/image "Screenshot")
 
 ===========
 
